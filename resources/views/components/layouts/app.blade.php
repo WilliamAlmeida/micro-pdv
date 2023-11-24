@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    x-cloak
+    x-data="{ theme: localStorage.getItem('theme') || localStorage.setItem('theme', 'system') }"
+    x-init="$watch('theme', val => localStorage.setItem('theme', val))"
+    x-bind:class="{'dark': theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)}"
+>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +18,6 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @livewireStyles
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -37,7 +41,6 @@
         <x-notifications />
         <x-dialog />
 
-        @livewireScripts
         @wireUiScripts
     </body>
 </html>

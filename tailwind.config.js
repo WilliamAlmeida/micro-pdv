@@ -31,5 +31,7 @@ export default {
           }),
         aspectRatio,
         typography
-    ]
+    ],
+
+    darkMode: 'class',
 };

@@ -21,10 +21,16 @@
                 </div>
             </div>
 
-            
-
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <div class="flex mr-3 space-x-3">
+                    <x-icon name="sun" class="w-5 h-5" />
+                    <div x-data="{ checked: localStorage.theme === 'dark' }">
+                        <x-toggle lg x-on:click="toggleTheme()" x-bind:checked="checked" />
+                    </div>
+                    <x-icon name="moon" class="w-5 h-5" />
+                </div>
+
                 <x-dropdown>
                     <x-slot name="trigger">
                         <x-button label="{{ Auth::user()->name }}" dark rightIcon="dots-vertical" />

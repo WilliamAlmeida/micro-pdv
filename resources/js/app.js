@@ -16,3 +16,26 @@ import './../../vendor/power-components/livewire-powergrid/dist/tailwind.css'
 // import './../../vendor/power-components/livewire-powergrid/dist/bootstrap5.css'
 
 // Alpine.start();
+
+// On page load or when changing themes, best to add inline in `head` to avoid FOUC
+window.refreshTheme = () => {
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+}
+
+// window.refreshTheme();
+
+window.toggleTheme = (value = null) => {
+    if(value) {
+        if(value == 'light' || value == 'dark') {
+            localStorage.theme = value;
+        }else{
+            localStorage.removeItem('theme')
+        }
+    }else{
+        localStorage.theme = localStorage.theme == 'light' ? 'dark' : 'light';
+    }
+}
