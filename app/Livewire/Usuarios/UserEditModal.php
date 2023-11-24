@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Livewire\Usuarios;
+
+use App\Models\User;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
+use WireUi\Traits\Actions;
+
+class UserEditModal extends Component
+{
+    use Actions;
+
+    public $userEditModal = false;
+ 
+    public User $user;
+
+    #[Validate('required|min:3', as:'nome')]
+    public $name;
+
+    #[Validate('required|email')]
+    public $email;
+
+    #[\Livewire\Attributes\On('edit')]
+    public function edit($rowId): void
+    {
+        $this->resetValidation();
+
+        $user = User::find($rowId);
+
+        $this->fill($user);
+
+        $this->js('$openModal("userEditModal")');
+    }
+
+    public function save($params=null)
+    {
+        $this->validate();
+
+        if($params == null) {
+            $this->dialog()->confirm([
+                'title'       => 'Você tem certeza?',
+                'description' => 'Atualizar as informações deste usuário?',
+                'acceptLabel' => 'Sim, atualize',
+                'method'      => 'save',
+                'params'      => 'Saved',
+            ]);
+            return;
+        }
+
+        $this->reset('userEditModal');
+
+        $this->notification([
+            'title'       => 'Usuário atualizado!',
+            'description' => 'Usuário foi atualizado com sucesso',
+            'icon'        => 'success'
+        ]);
+    }
+
+    public function delete($params=null)
+    {
+        if($params == null) {
+            $this->dialog()->confirm([
+                'icon'        => 'trash',
+                'title'       => 'Você tem certeza?',
+                'description' => 'Deletar este usuário?',
+                'acceptLabel' => 'Sim, delete',
+                'method'      => 'delete',
+                'params'      => 'Deleted',
+            ]);
+            return;
+        }
+
+        $this->reset('userEditModal');
+
+        $this->notification([
+            'title'       => 'Usuário deletado!',
+            'description' => 'Usuário foi deletado com sucesso',
+            'icon'        => 'success'
+        ]);
+    }
+
+    public function render()
+    {
+        return view('livewire.usuarios.user-edit-modal');
+    }
+}

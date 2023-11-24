@@ -18,17 +18,21 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class UserTable extends PowerGridComponent
 {
-    use WithExport;
+    // use WithExport;
 
     public function setUp(): array
     {
-        $this->showCheckBox();
+        // $this->showCheckBox();
+
+        // $this->persist(['columns', 'filters']); 
 
         return [
             // Exportable::make('export')
             //     ->striped()
             //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
+            Header::make()
+                ->showSearchInput()
+                ->showToggleColumns(),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -86,18 +90,17 @@ final class UserTable extends PowerGridComponent
         ];
     }
 
-    #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
-    {
-        // $this->redirect('dashboard', true);
-        $this->js('alert('.$rowId.')');
-    }
+    // #[\Livewire\Attributes\On('edit')]
+    // public function edit($rowId): void
+    // {
+    //     $this->js('$openModal("userEditModal")');
+    // }
 
     public function actions(\App\Models\User $row): array
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
+                ->slot('Editar')
                 ->id()
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->dispatch('edit', ['rowId' => $row->id])

@@ -31,5 +31,5 @@ export default {
           }),
         aspectRatio,
         typography
-    ],
+    ]
 };

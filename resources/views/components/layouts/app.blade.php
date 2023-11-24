@@ -33,6 +33,10 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <x-notifications />
+        <x-dialog />
+
         @livewireScripts
         @wireUiScripts
     </body>
