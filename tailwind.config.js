@@ -26,7 +26,9 @@ export default {
     },
 
     plugins: [
-        forms,
+        forms({
+            strategy: 'class',
+          }),
         aspectRatio,
         typography
     ],
