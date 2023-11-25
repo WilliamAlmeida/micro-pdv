@@ -24,11 +24,11 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <div class="flex mr-3 space-x-3">
-                    <x-icon name="sun" class="w-5 h-5" />
+                    <x-icon name="sun" class="w-5 h-5 dark:text-white" />
                     <div x-data="{ checked: localStorage.theme === 'dark' }">
-                        <x-toggle lg x-on:click="toggleTheme()" x-bind:checked="checked" />
+                        <x-toggle lg x-on:click="theme = (theme == 'dark' ? 'light' : 'dark')" x-bind:checked="checked" />
                     </div>
-                    <x-icon name="moon" class="w-5 h-5" />
+                    <x-icon name="moon" class="w-5 h-5 dark:text-white" />
                 </div>
 
                 <x-dropdown>
