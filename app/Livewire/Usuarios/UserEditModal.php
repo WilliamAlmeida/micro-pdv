@@ -21,6 +21,15 @@ class UserEditModal extends Component
     #[Validate('required|email')]
     public $email;
 
+    #[Validate('nullable|min:4')]
+    public $password;
+
+    #[Validate('nullable|min:4|same:password')]
+    public $password_confirmation;
+
+    #[Validate('min:0|max:1|numeric')]
+    public $tipo;
+
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
@@ -29,6 +38,8 @@ class UserEditModal extends Component
         $this->user = User::find($rowId);
 
         $this->fill($this->user);
+
+        $this->tipo = $this->user->is_admin;
 
         $this->js('$openModal("userEditModal")');
     }
@@ -41,6 +52,8 @@ class UserEditModal extends Component
             "name" => "unique:users,name,{$this->user->id}",
             "email" => "unique:users,email,{$this->user->id}",
         ]);
+
+        $validated['is_admin'] = $this->tipo;
 
         if($params == null) {
             $this->dialog()->confirm([
@@ -63,6 +76,8 @@ class UserEditModal extends Component
                 'description' => 'Usuário foi atualizado com sucesso.',
                 'icon'        => 'success'
             ]);
+
+            $this->dispatch('pg:eventRefresh-default');
         } catch (\Throwable $th) {
             // throw $th;
     

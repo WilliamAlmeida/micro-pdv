@@ -21,6 +21,7 @@ class UserCreateModal extends Component
 
     #[Validate('min:4')]
     public $password;
+
     #[Validate('min:4|same:password')]
     public $password_confirmation;
 
