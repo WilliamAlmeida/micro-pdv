@@ -43,4 +43,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    static public function listTypeUser(): array
+    {
+        $USER  = 0;
+        $ADMIN = 1;
+
+        return [
+            ['type' => $USER, 'label' => 'Usuário'],
+            ['type' => $ADMIN, 'label' => 'Admin'],
+        ];
+    }
+
+    public function getTypeUser(): string
+    {
+        $USER  = 0;
+        $ADMIN = 1;
+
+        return match ($this->is_admin) {
+            $USER  => "Usuário",
+            $ADMIN => "Admin",
+        };
+    }
 }

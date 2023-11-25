@@ -16,6 +16,20 @@ use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
+enum TypeUser: int
+{
+    case USER  = 0;
+    case ADMIN = 1;
+    
+    public function labels(): string
+    {
+        return match ($this) {
+            self::USER  => "Usuário",
+            self::ADMIN => "Admin",
+        };
+    }
+}
+
 final class UserTable extends PowerGridComponent
 {
     // use WithExport;
@@ -54,6 +68,9 @@ final class UserTable extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('name')
+            ->addColumn('is_admin', function (User $user) {
+                return $user->getTypeUser();
+            })
 
            /** Example of custom column using a closure **/
             ->addColumn('name_lower', fn (User $model) => strtolower(e($model->name)))
@@ -66,6 +83,10 @@ final class UserTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+            
+            Column::make('Tipo', 'is_admin')
+            ->sortable(),
+
             Column::make('Nome', 'name')
                 ->sortable()
                 ->searchable(),
@@ -87,6 +108,19 @@ final class UserTable extends PowerGridComponent
             Filter::inputText('name')->operators(['contains']),
             Filter::inputText('email')->operators(['contains']),
             Filter::datetimepicker('created_at'),
+
+            /* Mais lento */
+            // Filter::select('is_admin')
+            // ->dataSource(User::listTypeUser())
+            // ->optionValue('type')
+            // ->optionLabel('label'),
+
+            /* Mais rapido */
+            Filter::boolean('is_admin')
+            ->label('Admin', 'Usuário'),
+            // ->builder(function (Builder $query, string $value) {
+            //     return $query->where('is_admin', $value === 'true' ? 1 : 0);
+            // }),
         ];
     }
 
