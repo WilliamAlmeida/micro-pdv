@@ -26,9 +26,9 @@ class UserEditModal extends Component
     {
         $this->resetValidation();
 
-        $user = User::find($rowId);
+        $this->user = User::find($rowId);
 
-        $this->fill($user);
+        $this->fill($this->user);
 
         $this->js('$openModal("userEditModal")');
     }
@@ -36,6 +36,11 @@ class UserEditModal extends Component
     public function save($params=null)
     {
         $this->validate();
+
+        $validated = $this->validate([
+            "name" => "unique:users,name,{$this->user->id}",
+            "email" => "unique:users,email,{$this->user->id}",
+        ]);
 
         if($params == null) {
             $this->dialog()->confirm([
@@ -48,13 +53,25 @@ class UserEditModal extends Component
             return;
         }
 
-        $this->reset('userEditModal');
+        try {
+            $this->user->update($validated);
 
-        $this->notification([
-            'title'       => 'Usuário atualizado!',
-            'description' => 'Usuário foi atualizado com sucesso',
-            'icon'        => 'success'
-        ]);
+            $this->reset('userEditModal');
+    
+            $this->notification([
+                'title'       => 'Usuário atualizado!',
+                'description' => 'Usuário foi atualizado com sucesso.',
+                'icon'        => 'success'
+            ]);
+        } catch (\Throwable $th) {
+            // throw $th;
+    
+            $this->notification([
+                'title'       => 'Falha na atualização!',
+                'description' => 'Não foi possivel atualizar o Usuário.',
+                'icon'        => 'error'
+            ]);
+        }
     }
 
     public function delete($params=null)
@@ -71,13 +88,27 @@ class UserEditModal extends Component
             return;
         }
 
-        $this->reset('userEditModal');
+        try {
+            $this->user->delete();
 
-        $this->notification([
-            'title'       => 'Usuário deletado!',
-            'description' => 'Usuário foi deletado com sucesso',
-            'icon'        => 'success'
-        ]);
+            $this->reset('userEditModal');
+
+            $this->notification([
+                'title'       => 'Usuário deletado!',
+                'description' => 'Usuário foi deletado com sucesso',
+                'icon'        => 'success'
+            ]);
+
+            $this->dispatch('pg:eventRefresh-default');
+        } catch (\Throwable $th) {
+            //throw $th;
+    
+            $this->notification([
+                'title'       => 'Falha ao deletar!',
+                'description' => 'Não foi possivel deletar o Usuário.',
+                'icon'        => 'error'
+            ]);
+        }
     }
 
     public function render()
