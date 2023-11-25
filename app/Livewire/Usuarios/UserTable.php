@@ -16,20 +16,6 @@ use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-enum TypeUser: int
-{
-    case USER  = 0;
-    case ADMIN = 1;
-    
-    public function labels(): string
-    {
-        return match ($this) {
-            self::USER  => "Usuário",
-            self::ADMIN => "Admin",
-        };
-    }
-}
-
 final class UserTable extends PowerGridComponent
 {
     // use WithExport;
