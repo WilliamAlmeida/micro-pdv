@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -75,21 +75,21 @@ class Clientes extends Model
 
     public function pais()
     {
-        return $this->hasOne('App\Model\Pais', 'id', 'pais_id');
+        return $this->hasOne('App\Models\Pais', 'id', 'pais_id');
     }
 
     public function estado()
     {
-        return $this->hasOne('App\Model\Estado', 'id', 'idestado');
+        return $this->hasOne('App\Models\Estado', 'id', 'idestado');
     }
 
     public function cidade()
     {
-        return $this->hasOne('App\Model\Cidade', 'id', 'idcidade');
+        return $this->hasOne('App\Models\Cidade', 'id', 'idcidade');
     }
 
     public function convenio()
     {
-        return $this->hasOne('App\Model\Convenios', 'id', 'id_convenio');
+        return $this->hasOne('App\Models\Convenios', 'id', 'id_convenio');
     }
 }

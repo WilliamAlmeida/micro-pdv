@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,11 +45,11 @@ class CaixaSangriaEntrada extends Model
 
     public function caixa()
     {
-        return $this->hasOne('App\Model\Caixa','id','caixa_id');
+        return $this->hasOne('App\Models\Caixa','id','caixa_id');
     }
 
     public function impressoes()
     {
-        return $this->hasMany('App\Model\Impressoes','rel_id','id')->where('rel_table','=','sangrias');
+        return $this->hasMany('App\Models\Impressoes','rel_id','id')->where('rel_table','=','sangrias');
     }
 }

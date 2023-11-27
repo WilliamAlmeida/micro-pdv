@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -46,6 +46,6 @@ class Horarios extends Model
 
     public function empresas()
     {
-        return $this->hasOne('App\Model\Empresas','id','empresas_id');
+        return $this->hasOne('App\Models\Empresas','id','empresas_id');
     }
 }

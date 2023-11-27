@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,21 +47,21 @@ class VendasHead extends Model
 
     public function caixa()
     {
-        return $this->hasOne('App\Model\Caixa','id','caixa_id');
+        return $this->hasOne('App\Models\Caixa','id','caixa_id');
     }
 
     public function itens()
     {
-        return $this->hasMany('App\Model\VendasItens','vendas_head_id','id');
+        return $this->hasMany('App\Models\VendasItens','vendas_head_id','id');
     }
 
     public function pagamentos()
     {
-        return $this->hasMany('App\Model\VendasPagamentos','vendas_head_id','id');
+        return $this->hasMany('App\Models\VendasPagamentos','vendas_head_id','id');
     }
 
     public function impressoes()
     {
-        return $this->hasMany('App\Model\Impressoes','rel_id','id')->where('rel_table','=','vendas');
+        return $this->hasMany('App\Models\Impressoes','rel_id','id')->where('rel_table','=','vendas');
     }
 }

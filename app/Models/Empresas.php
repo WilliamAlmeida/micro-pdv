@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -117,46 +117,51 @@ class Empresas extends Model
         // 'id',
     ];
 
+    public function users()
+    {
+        return $this->belongsTo('App\User', 'empresas_id', 'id');
+    }
+
     public function logo()
     {
-        return $this->hasOne('App\Model\Files', 'id', 'file_logo');
+        return $this->hasOne('App\Models\Files', 'id', 'file_logo');
     }
 
     public function pais()
     {
-        return $this->hasOne('App\Model\Pais', 'id', 'pais_id');
+        return $this->hasOne('App\Models\Pais', 'id', 'pais_id');
     }
 
     public function estado()
     {
-        return $this->hasOne('App\Model\Estado', 'id', 'idestado');
+        return $this->hasOne('App\Models\Estado', 'id', 'idestado');
     }
 
     public function cidade()
     {
-        return $this->hasOne('App\Model\Cidade', 'id', 'idcidade');
+        return $this->hasOne('App\Models\Cidade', 'id', 'idcidade');
     }
 
     public function categorias()
     {
-        return $this->hasMany('App\Model\Categorias','empresas_id','id');
+        return $this->hasMany('App\Models\Categorias','empresas_id','id');
     }
 
     public function produtos()
     {
-        return $this->hasMany('App\Model\Produtos','empresas_id','id');
+        return $this->hasMany('App\Models\Produtos','empresas_id','id');
     }
 
     public function horarios()
     {
-        return $this->hasMany('App\Model\Horarios','empresas_id','id');
+        return $this->hasMany('App\Models\Horarios','empresas_id','id');
     }
 
     /*
 
     public function background()
     {
-        return $this->hasOne('App\Model\File', 'id', 'file_background');
+        return $this->hasOne('App\Models\File', 'id', 'file_background');
     }
     */
 }

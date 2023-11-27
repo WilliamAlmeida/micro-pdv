@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -52,46 +52,46 @@ class Caixa extends Model
 
     public function vendas()
     {
-        return $this->hasMany('App\Model\VendasHead','caixa_id','id');
+        return $this->hasMany('App\Models\VendasHead','caixa_id','id');
     }
 
     public function vendas_encerradas()
     {
-        return $this->hasMany('App\Model\VendasHead','caixa_id','id')->where('status', '=', '1');
+        return $this->hasMany('App\Models\VendasHead','caixa_id','id')->where('status', '=', '1');
     }
 
     public function vendas_canceladas()
     {
-        return $this->hasMany('App\Model\VendasHead','caixa_id','id')->where('status', '=', '8');
+        return $this->hasMany('App\Models\VendasHead','caixa_id','id')->where('status', '=', '8');
     }
 
     public function venda()
     {
-        return $this->hasOne('App\Model\VendasHead','caixa_id','id')->whereIn('status', [0])->latest();
+        return $this->hasOne('App\Models\VendasHead','caixa_id','id')->whereIn('status', [0])->latest();
     }
 
     public function ultima_venda()
     {
-        return $this->hasOne('App\Model\VendasHead','caixa_id','id')->whereIn('status', [1])->latest();
+        return $this->hasOne('App\Models\VendasHead','caixa_id','id')->whereIn('status', [1])->latest();
     }
 
     public function itens()
     {
-        return $this->hasMany('App\Model\VendasItens','caixa_id','id');
+        return $this->hasMany('App\Models\VendasItens','caixa_id','id');
     }
 
     public function pagamentos()
     {
-        return $this->hasMany('App\Model\VendasPagamentos','caixa_id','id');
+        return $this->hasMany('App\Models\VendasPagamentos','caixa_id','id');
     }
 
     public function sangrias()
     {
-        return $this->hasMany('App\Model\CaixaSangriaEntrada','caixa_id','id')->where('tipo', '=', 's');
+        return $this->hasMany('App\Models\CaixaSangriaEntrada','caixa_id','id')->where('tipo', '=', 's');
     }
 
     public function entradas()
     {
-        return $this->hasMany('App\Model\CaixaSangriaEntrada','caixa_id','id')->where('tipo', '=', 'e');
+        return $this->hasMany('App\Models\CaixaSangriaEntrada','caixa_id','id')->where('tipo', '=', 'e');
     }
 }

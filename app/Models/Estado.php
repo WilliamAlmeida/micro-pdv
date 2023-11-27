@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,17 +49,17 @@ class Estado extends Model
 
     public function pais()
     {
-    	return $this->hasOne('App\Model\Pais', 'id', 'pais_id');
+    	return $this->hasOne('App\Models\Pais', 'id', 'pais_id');
     }
 
     public function cidades()
     {
-      return $this->hasMany('App\Model\Cidade', 'estado_id', 'id');
+      return $this->hasMany('App\Models\Cidade', 'estado_id', 'id');
     }
 
     public function empresas()
     {
-      return $this->hasMany('App\Model\Empresas', 'idestado', 'id');
+      return $this->hasMany('App\Models\Empresas', 'idestado', 'id');
     }
 
     public function user()

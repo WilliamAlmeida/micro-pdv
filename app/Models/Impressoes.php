@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -49,13 +49,13 @@ class Impressoes extends Model
     {
         switch ($this->rel_table) {
             case 'vendas':
-            return $this->hasOne('App\Model\VendasHead','id','rel_id')->where('rel_table','=','vendas');
+            return $this->hasOne('App\Models\VendasHead','id','rel_id')->where('rel_table','=','vendas');
                 break;
             case 'sangria':
-                return $this->hasOne('App\Model\CaixaSangriaEntrada','id','rel_id')->where('rel_table','=','sangrias');
+                return $this->hasOne('App\Models\CaixaSangriaEntrada','id','rel_id')->where('rel_table','=','sangrias');
                 break;
             default:
-                return $this->hasOne('App\Model\VendasHead','id','rel_id')->where('rel_table','=','');
+                return $this->hasOne('App\Models\VendasHead','id','rel_id')->where('rel_table','=','');
                 break;
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -57,16 +57,16 @@ class Categorias extends Model
 
     public function empresas()
     {
-        return $this->hasOne('App\Model\Empresas','id','empresas_id');
+        return $this->hasOne('App\Models\Empresas','id','empresas_id');
     }
 
     public function produtos()
     {
-        return $this->belongsToMany('App\Model\Produtos','produtos_has_categorias','categorias_id','produtos_id')->withTimestamps();
+        return $this->belongsToMany('App\Models\Produtos','produtos_has_categorias','categorias_id','produtos_id')->withTimestamps();
     }
 
     public function imagem()
     {
-        return $this->hasOne('App\Model\Files', 'id', 'file_imagem');
+        return $this->hasOne('App\Models\Files', 'id', 'file_imagem');
     }
 }

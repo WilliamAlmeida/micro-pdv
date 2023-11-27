@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -50,16 +50,16 @@ class Files extends Model
 
     public function logo()
     {
-        return $this->hasOne('App\Model\Base\Empresas', 'file_logo', 'id');
+        return $this->hasOne('App\Models\Base\Empresas', 'file_logo', 'id');
     }
 
     public function background()
     {
-        return $this->hasOne('App\Model\Base\Empresas', 'file_background', 'id');
+        return $this->hasOne('App\Models\Base\Empresas', 'file_background', 'id');
     }
 
     public function grupo()
     {
-        return $this->hasOne('App\Model\Base\Grupos', 'file_imagem', 'id');
+        return $this->hasOne('App\Models\Base\Grupos', 'file_imagem', 'id');
     }
 }

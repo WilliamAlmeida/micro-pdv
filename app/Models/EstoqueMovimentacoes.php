@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,11 +49,11 @@ class EstoqueMovimentacoes extends Model
 
     public function produtos()
     {
-        return $this->hasOne('App\Model\Produtos','id','produtos_id');
+        return $this->hasOne('App\Models\Produtos','id','produtos_id');
     }
 
     public function fornecedores()
     {
-        return $this->hasOne('App\Model\Fornecedores','id','fornecedores_id');
+        return $this->hasOne('App\Models\Fornecedores','id','fornecedores_id');
     }
 }

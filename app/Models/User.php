@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'empresas_id',
     ];
 
     /**
@@ -64,5 +65,10 @@ class User extends Authenticatable
             $USER  => "Usuário",
             $ADMIN => "Admin",
         };
+    }
+
+    public function empresa()
+    {
+        return $this->hasOne('App\Models\Empresas', 'id', 'empresas_id');
     }
 }

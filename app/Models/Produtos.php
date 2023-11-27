@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -95,46 +95,46 @@ class Produtos extends Model
 
     public function empresas()
     {
-        return $this->hasOne('App\Model\Empresas','id','empresas_id');
+        return $this->hasOne('App\Models\Empresas','id','empresas_id');
     }
 
     public function categorias()
     {
-        return $this->belongsToMany('App\Model\Categorias','produtos_has_categorias','produtos_id','categorias_id')->withTimestamps();
+        return $this->belongsToMany('App\Models\Categorias','produtos_has_categorias','produtos_id','categorias_id')->withTimestamps();
     }
 
     public function imagem()
     {
-        return $this->hasOne('App\Model\Files', 'rel_id', 'id')->where('files.rel_table', '=', $this->table)->orderBy('files.id', 'asc');
+        return $this->hasOne('App\Models\Files', 'rel_id', 'id')->where('files.rel_table', '=', $this->table)->orderBy('files.id', 'asc');
     }
 
     public function Imagens()
     {
-        return $this->hasMany('App\Model\Files', 'rel_id', 'id')->where('files.rel_table', '=', $this->table)->where('files.full_name', '=', '600w')->orderBy('files.id', 'asc');
+        return $this->hasMany('App\Models\Files', 'rel_id', 'id')->where('files.rel_table', '=', $this->table)->where('files.full_name', '=', '600w')->orderBy('files.id', 'asc');
     }
 
     public function allimage()
     {
-        return $this->hasMany('App\Model\Files', 'rel_id', 'id')->where('files.rel_table', '=', $this->table)->orderBy('files.id', 'asc');
+        return $this->hasMany('App\Models\Files', 'rel_id', 'id')->where('files.rel_table', '=', $this->table)->orderBy('files.id', 'asc');
     }
 
     public function ncm()
     {
-        return $this->HasOne('App\Model\Tributacoes\Ncm', 'id', 'trib_ncm');
+        return $this->HasOne('App\Models\Tributacoes\Ncm', 'id', 'trib_ncm');
     }
 
     public function cest()
     {
-        return $this->HasOne('App\Model\Tributacoes\Cest', 'id', 'trib_cest');
+        return $this->HasOne('App\Models\Tributacoes\Cest', 'id', 'trib_cest');
     }
 
     public function cfop_de()
     {
-        return $this->HasOne('App\Model\Tributacoes\Cfop', 'id', 'trib_cfop_de');
+        return $this->HasOne('App\Models\Tributacoes\Cfop', 'id', 'trib_cfop_de');
     }
 
     public function cfop_fe()
     {
-        return $this->HasOne('App\Model\Tributacoes\Cfop', 'id', 'trib_cfop_fe');
+        return $this->HasOne('App\Models\Tributacoes\Cfop', 'id', 'trib_cfop_fe');
     }
 }

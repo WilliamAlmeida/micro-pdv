@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,11 +45,11 @@ class VendasPagamentos extends Model
 
     public function caixa()
     {
-        return $this->hasOne('App\Model\Caixa','id','caixa_id');
+        return $this->hasOne('App\Models\Caixa','id','caixa_id');
     }
 
     public function venda()
     {
-        return $this->hasOne('App\Model\VendasHead','id','vendas_head_id');
+        return $this->hasOne('App\Models\VendasHead','id','vendas_head_id');
     }
 }
