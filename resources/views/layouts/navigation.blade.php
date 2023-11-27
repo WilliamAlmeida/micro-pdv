@@ -18,6 +18,15 @@
                     <x-nav-link wire:navigate :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Users') }}
                     </x-nav-link>
+
+                    <x-nav-dropdown :active="request()->routeIs('ncms.index')">
+                        <x-dropdown align="left">
+                            <x-slot name="trigger">Tributações</x-slot>
+                            <x-dropdown.item wire:navigate :href="route('ncms.index')" :active="request()->routeIs('ncms.index')" label="{{ __('Ncm') }}" />
+                            <x-dropdown.item wire:navigate :href="route('cests.index')" :active="request()->routeIs('cests.index')" label="{{ __('Cest') }}" />
+                            <x-dropdown.item wire:navigate :href="route('cfops.index')" :active="request()->routeIs('cfops.index')" label="{{ __('Cfop') }}" />
+                        </x-dropdown>
+                    </x-nav-dropdown>
                 </div>
             </div>
 

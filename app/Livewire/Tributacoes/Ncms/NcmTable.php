@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Livewire\Usuarios;
+namespace App\Livewire\Tributacoes\Ncms;
 
-use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use App\Models\Tributacoes\Ncm;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
-use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-final class UserTable extends PowerGridComponent
+final class NcmTable extends PowerGridComponent
 {
     // use WithExport;
 
@@ -24,22 +25,20 @@ final class UserTable extends PowerGridComponent
     {
         // $this->showCheckBox();
 
-        // $this->persist(['columns', 'filters']); 
-
         return [
             // Exportable::make('export')
             //     ->striped()
             //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput()->showToggleColumns(),
             Footer::make()
-                ->showPerPage()
+                ->showPerPage($perPage = 10, $perPageValues = [10, 25, 50, 100])
                 ->showRecordCount(),
         ];
     }
 
     public function datasource(): Builder
     {
-        return User::query();
+        return Ncm::query();
     }
 
     public function relationSearch(): array
@@ -51,36 +50,30 @@ final class UserTable extends PowerGridComponent
     {
         return PowerGrid::columns()
             ->addColumn('id')
-            ->addColumn('name')
-            ->addColumn('is_admin', function (User $user) {
-                return $user->getTypeUser();
-            })
+            ->addColumn('ncm')
 
            /** Example of custom column using a closure **/
-            ->addColumn('name_lower', fn (User $model) => strtolower(e($model->name)))
+            ->addColumn('ncm_lower', fn (Ncm $model) => strtolower(e($model->ncm)))
 
-            ->addColumn('email')
-            ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('descricao', fn (Ncm $model) => Str::limit($model->descricao, 50))
+            ->addColumn('aliq_ipi');
     }
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
-            
-            Column::make('Tipo', 'is_admin')
-            ->sortable(),
-
-            Column::make('Nome', 'name')
+            Column::make('Ncm', 'ncm')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('E-mail', 'email')
+            Column::make('Descrição', 'descricao')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Registrado em', 'created_at_formatted', 'created_at')
-                ->sortable(),
+            Column::make('Aliq. IPI', 'aliq_ipi')
+                ->sortable()
+                ->searchable(),
 
             Column::action('Ações')
         ];
@@ -89,32 +82,19 @@ final class UserTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::inputText('name')->operators(['contains']),
-            Filter::inputText('email')->operators(['contains']),
-            Filter::datetimepicker('created_at'),
-
-            /* Mais lento */
-            // Filter::select('is_admin')
-            // ->dataSource(User::listTypeUser())
-            // ->optionValue('type')
-            // ->optionLabel('label'),
-
-            /* Mais rapido */
-            Filter::boolean('is_admin')
-            ->label('Admin', 'Usuário'),
-            // ->builder(function (Builder $query, string $value) {
-            //     return $query->where('is_admin', $value === 'true' ? 1 : 0);
-            // }),
+            Filter::inputText('ncm')->operators(['contains']),
+            Filter::inputText('descricao')->operators(['contains']),
+            Filter::inputText('aliq_ipi')->operators(['contains']),
         ];
     }
 
     // #[\Livewire\Attributes\On('edit')]
     // public function edit($rowId): void
     // {
-    //     $this->js('$openModal("userEditModal")');
+    //     $this->js('alert('.$rowId.')');
     // }
 
-    public function actions(\App\Models\User $row): array
+    public function actions(\App\Models\Tributacoes\Ncm $row): array
     {
         return [
             Button::add('edit')
