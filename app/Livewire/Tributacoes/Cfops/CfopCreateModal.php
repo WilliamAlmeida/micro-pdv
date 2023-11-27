@@ -1,29 +1,26 @@
 <?php
 
-namespace App\Livewire\Usuarios;
+namespace App\Livewire\Tributacoes\Cfops;
 
-use App\Models\User;
+use App\Models\Tributacoes\Cfop;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\Validate;
 
-class UserCreateModal extends Component
+class CfopCreateModal extends Component
 {
     use Actions;
 
-    public $userCreateModal = false;
+    public $cfopCreateModal = false;
  
-    #[Validate('required|min:3|unique:users,name', as:'nome')]
-    public $name;
+    #[Validate('required|min:3', as:'descrição')]
+    public $descricao;
 
-    #[Validate('required|email|unique:users,email')]
-    public $email;
+    #[Validate('required|min:5|max:5|unique:trib_cfop,cfop', as:'cfop')]
+    public $cfop_label;
 
-    #[Validate('min:4')]
-    public $password;
-
-    #[Validate('min:4|same:password')]
-    public $password_confirmation;
+    #[Validate('min:3', as:'aplicação')]
+    public $aplicacao;
 
     #[\Livewire\Attributes\On('create')]
     public function create(): void
@@ -32,17 +29,19 @@ class UserCreateModal extends Component
 
         $this->reset();
 
-        $this->js('$openModal("userCreateModal")');
+        $this->js('$openModal("cfopCreateModal")');
     }
 
     public function save($params=null)
     {
         $validated = $this->validate();
 
+        $validated['cfop'] = $this->cfop_label;
+
         if($params == null) {
             $this->dialog()->confirm([
                 'title'       => 'Você tem certeza?',
-                'description' => 'Registrar este novo usuário?',
+                'description' => 'Registrar este novo cfop?',
                 'acceptLabel' => 'Sim, registre',
                 'method'      => 'save',
                 'params'      => 'Saved',
@@ -51,13 +50,13 @@ class UserCreateModal extends Component
         }
 
         try {
-            $user = User::create($validated);
+            $cfop = Cfop::create($validated);
 
-            $this->reset('userCreateModal');
+            $this->reset('cfopCreateModal');
     
             $this->notification([
-                'title'       => 'Usuário registrado!',
-                'description' => 'Usuário foi registrado com sucesso.',
+                'title'       => 'Cfop registrado!',
+                'description' => 'Cfop foi registrado com sucesso.',
                 'icon'        => 'success'
             ]);
 
@@ -68,7 +67,7 @@ class UserCreateModal extends Component
     
             $this->notification([
                 'title'       => 'Falha no cadastro!',
-                'description' => 'Não foi possivel registrar o Usuário.',
+                'description' => 'Não foi possivel registrar o Cfop.',
                 'icon'        => 'error'
             ]);
         }
@@ -76,6 +75,6 @@ class UserCreateModal extends Component
 
     public function render()
     {
-        return view('livewire.usuarios.user-create-modal');
+        return view('livewire.tributacoes.cfops.cfop-create-modal');
     }
 }

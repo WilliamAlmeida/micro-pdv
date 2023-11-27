@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Tributacoes\Cest;
+namespace App\Livewire\Tributacoes\Cests;
 
 use App\Models\Tributacoes\Cest;
 use Illuminate\Support\Carbon;
@@ -18,16 +18,16 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class CestTable extends PowerGridComponent
 {
-    use WithExport;
+    // use WithExport;
 
     public function setUp(): array
     {
-        $this->showCheckBox();
+        // $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // Exportable::make('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
@@ -37,7 +37,11 @@ final class CestTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Cest::query();
+        return Cest::query()
+        ->leftJoin('trib_ncm_tipi', function($model) {
+            $model->on('trib_cest.ncm_id', '=', 'trib_ncm_tipi.id');
+        })
+        ->select('trib_cest.*', 'trib_ncm_tipi.ncm as ncm');
     }
 
     public function relationSearch(): array
@@ -55,7 +59,8 @@ final class CestTable extends PowerGridComponent
             ->addColumn('cest_lower', fn (Cest $model) => strtolower(e($model->cest)))
 
             ->addColumn('descricao')
-            ->addColumn('ncm_id');
+            ->addColumn('ncm')
+            ;
     }
 
     public function columns(): array
@@ -66,12 +71,15 @@ final class CestTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Descricao', 'descricao')
+            Column::make('Descrição', 'descricao')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Ncm id', 'ncm_id'),
-            Column::action('Action')
+            Column::make('Ncm', 'ncm')
+                ->sortable('ncm')
+                ->searchable(),
+
+            Column::action('Ações')
         ];
     }
 
@@ -79,20 +87,21 @@ final class CestTable extends PowerGridComponent
     {
         return [
             Filter::inputText('cest')->operators(['contains']),
+            Filter::inputText('ncm')->operators(['contains']),
         ];
     }
 
-    #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
-    {
-        $this->js('alert('.$rowId.')');
-    }
+    // #[\Livewire\Attributes\On('edit')]
+    // public function edit($rowId): void
+    // {
+    //     $this->js('alert('.$rowId.')');
+    // }
 
     public function actions(\App\Models\Tributacoes\Cest $row): array
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
+                ->slot('Editar')
                 ->id()
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->dispatch('edit', ['rowId' => $row->id])

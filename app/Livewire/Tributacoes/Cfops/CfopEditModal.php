@@ -1,64 +1,56 @@
 <?php
 
-namespace App\Livewire\Usuarios;
+namespace App\Livewire\Tributacoes\Cfops;
 
-use App\Models\User;
+use App\Models\Tributacoes\Cfop;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 
-class UserEditModal extends Component
+class CfopEditModal extends Component
 {
     use Actions;
 
-    public $userEditModal = false;
+    public $cfopEditModal = false;
  
-    public User $user;
+    public Cfop $cfop;
 
-    #[Validate('required|min:3', as:'nome')]
-    public $name;
+    #[Validate('required|min:3', as:'descrição')]
+    public $descricao;
 
-    #[Validate('required|email')]
-    public $email;
+    #[Validate('required|min:5|max:5', as:'cfop')]
+    public $cfop_label;
 
-    #[Validate('nullable|min:4')]
-    public $password;
-
-    #[Validate('nullable|min:4|same:password')]
-    public $password_confirmation;
-
-    #[Validate('min:0|max:1|numeric')]
-    public $tipo;
+    #[Validate('min:3', as:'aplicação')]
+    public $aplicacao;
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
         $this->resetValidation();
 
-        $this->user = User::find($rowId);
+        $this->cfop = Cfop::find($rowId);
 
-        $this->fill($this->user);
+        $this->cfop_label = $this->cfop->cfop;
+        $this->fill($this->cfop->only(['descricao', 'aplicacao']));
 
-        $this->tipo = $this->user->is_admin;
-
-        $this->js('$openModal("userEditModal")');
+        $this->js('$openModal("cfopEditModal")');
     }
 
     public function save($params=null)
     {
-        $this->validate();
+        $validated = $this->validate();
 
-        $validated = $this->validate([
-            "name" => "unique:users,name,{$this->user->id}",
-            "email" => "unique:users,email,{$this->user->id}",
+        $this->validate([
+            "cfop_label" => "unique:trib_cfop,cfop,{$this->cfop->id}",
         ]);
 
-        $validated['is_admin'] = $this->tipo;
+        $validated['cfop'] = $this->cfop_label;
 
         if($params == null) {
             $this->dialog()->confirm([
                 'title'       => 'Você tem certeza?',
-                'description' => 'Atualizar as informações deste usuário?',
+                'description' => 'Atualizar as informações deste cfop?',
                 'acceptLabel' => 'Sim, atualize',
                 'method'      => 'save',
                 'params'      => 'Saved',
@@ -67,13 +59,13 @@ class UserEditModal extends Component
         }
 
         try {
-            $this->user->update($validated);
+            $this->cfop->update($validated);
 
-            $this->reset('userEditModal');
+            $this->reset('cfopEditModal');
     
             $this->notification([
-                'title'       => 'Usuário atualizado!',
-                'description' => 'Usuário foi atualizado com sucesso.',
+                'title'       => 'Cfop atualizado!',
+                'description' => 'Cfop foi atualizado com sucesso.',
                 'icon'        => 'success'
             ]);
 
@@ -83,7 +75,7 @@ class UserEditModal extends Component
     
             $this->notification([
                 'title'       => 'Falha na atualização!',
-                'description' => 'Não foi possivel atualizar o Usuário.',
+                'description' => 'Não foi possivel atualizar o Cfop.',
                 'icon'        => 'error'
             ]);
         }
@@ -95,7 +87,7 @@ class UserEditModal extends Component
             $this->dialog()->confirm([
                 'icon'        => 'trash',
                 'title'       => 'Você tem certeza?',
-                'description' => 'Deletar este usuário?',
+                'description' => 'Deletar este cfop?',
                 'acceptLabel' => 'Sim, delete',
                 'method'      => 'delete',
                 'params'      => 'Deleted',
@@ -104,13 +96,13 @@ class UserEditModal extends Component
         }
 
         try {
-            $this->user->delete();
+            $this->cfop->delete();
 
-            $this->reset('userEditModal');
+            $this->reset('cfopEditModal');
 
             $this->notification([
-                'title'       => 'Usuário deletado!',
-                'description' => 'Usuário foi deletado com sucesso',
+                'title'       => 'Cfop deletado!',
+                'description' => 'Cfop foi deletado com sucesso',
                 'icon'        => 'success'
             ]);
 
@@ -120,7 +112,7 @@ class UserEditModal extends Component
     
             $this->notification([
                 'title'       => 'Falha ao deletar!',
-                'description' => 'Não foi possivel deletar o Usuário.',
+                'description' => 'Não foi possivel deletar o Cfop.',
                 'icon'        => 'error'
             ]);
         }
@@ -128,6 +120,6 @@ class UserEditModal extends Component
 
     public function render()
     {
-        return view('livewire.usuarios.user-edit-modal');
+        return view('livewire.tributacoes.cfops.cfop-edit-modal');
     }
 }

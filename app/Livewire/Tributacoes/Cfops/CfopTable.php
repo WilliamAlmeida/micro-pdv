@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Tributacoes\Cfop;
+namespace App\Livewire\Tributacoes\Cfops;
 
 use App\Models\Tributacoes\Cfop;
 use Illuminate\Support\Carbon;
@@ -18,17 +18,17 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class CfopTable extends PowerGridComponent
 {
-    use WithExport;
+    // use WithExport;
 
     public function setUp(): array
     {
-        $this->showCheckBox();
+        // $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
+            // Exportable::make('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            Header::make()->showSearchInput()->showToggleColumns(),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -66,15 +66,16 @@ final class CfopTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Descricao', 'descricao')
+            Column::make('Descrição', 'descricao')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Aplicacao', 'aplicacao')
+            Column::make('Aplicação', 'aplicacao')
+                ->hidden(isHidden:true, isForceHidden: false)
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Action')
+            Column::action('Ações')
         ];
     }
 
@@ -85,17 +86,17 @@ final class CfopTable extends PowerGridComponent
         ];
     }
 
-    #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
-    {
-        $this->js('alert('.$rowId.')');
-    }
+    // #[\Livewire\Attributes\On('edit')]
+    // public function edit($rowId): void
+    // {
+    //     $this->js('alert('.$rowId.')');
+    // }
 
     public function actions(\App\Models\Tributacoes\Cfop $row): array
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
+                ->slot('Editar')
                 ->id()
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->dispatch('edit', ['rowId' => $row->id])

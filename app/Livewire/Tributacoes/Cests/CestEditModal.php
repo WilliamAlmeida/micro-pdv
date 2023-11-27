@@ -1,64 +1,56 @@
 <?php
 
-namespace App\Livewire\Usuarios;
+namespace App\Livewire\Tributacoes\Cests;
 
-use App\Models\User;
+use App\Models\Tributacoes\Cest;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 
-class UserEditModal extends Component
+class CestEditModal extends Component
 {
     use Actions;
 
-    public $userEditModal = false;
+    public $cestEditModal = false;
  
-    public User $user;
+    public Cest $cest;
+ 
+    #[Validate('required|min:3', as:'descrição')]
+    public $descricao;
 
-    #[Validate('required|min:3', as:'nome')]
-    public $name;
+    #[Validate('required|min:9|max:9', as:'cest')]
+    public $cest_label;
 
-    #[Validate('required|email')]
-    public $email;
-
-    #[Validate('nullable|min:4')]
-    public $password;
-
-    #[Validate('nullable|min:4|same:password')]
-    public $password_confirmation;
-
-    #[Validate('min:0|max:1|numeric')]
-    public $tipo;
+    #[Validate('min:0', as:'ncm')]
+    public $ncm_id;
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
         $this->resetValidation();
 
-        $this->user = User::find($rowId);
+        $this->cest = Cest::find($rowId);
 
-        $this->fill($this->user);
+        $this->cest_label = $this->cest->cest;
+        $this->fill($this->cest->only(['descricao', 'ncm_id']));
 
-        $this->tipo = $this->user->is_admin;
-
-        $this->js('$openModal("userEditModal")');
+        $this->js('$openModal("cestEditModal")');
     }
 
     public function save($params=null)
     {
-        $this->validate();
+        $validated = $this->validate();
 
-        $validated = $this->validate([
-            "name" => "unique:users,name,{$this->user->id}",
-            "email" => "unique:users,email,{$this->user->id}",
+        $this->validate([
+            "cest_label" => "unique:trib_cest,cest,{$this->cest->id}",
         ]);
 
-        $validated['is_admin'] = $this->tipo;
+        $validated['cest'] = $this->cest_label;
 
         if($params == null) {
             $this->dialog()->confirm([
                 'title'       => 'Você tem certeza?',
-                'description' => 'Atualizar as informações deste usuário?',
+                'description' => 'Atualizar as informações deste cest?',
                 'acceptLabel' => 'Sim, atualize',
                 'method'      => 'save',
                 'params'      => 'Saved',
@@ -67,13 +59,13 @@ class UserEditModal extends Component
         }
 
         try {
-            $this->user->update($validated);
+            $this->cest->update($validated);
 
-            $this->reset('userEditModal');
+            $this->reset('cestEditModal');
     
             $this->notification([
-                'title'       => 'Usuário atualizado!',
-                'description' => 'Usuário foi atualizado com sucesso.',
+                'title'       => 'Cest atualizado!',
+                'description' => 'Cest foi atualizado com sucesso.',
                 'icon'        => 'success'
             ]);
 
@@ -83,7 +75,7 @@ class UserEditModal extends Component
     
             $this->notification([
                 'title'       => 'Falha na atualização!',
-                'description' => 'Não foi possivel atualizar o Usuário.',
+                'description' => 'Não foi possivel atualizar o Cest.',
                 'icon'        => 'error'
             ]);
         }
@@ -95,7 +87,7 @@ class UserEditModal extends Component
             $this->dialog()->confirm([
                 'icon'        => 'trash',
                 'title'       => 'Você tem certeza?',
-                'description' => 'Deletar este usuário?',
+                'description' => 'Deletar este cest?',
                 'acceptLabel' => 'Sim, delete',
                 'method'      => 'delete',
                 'params'      => 'Deleted',
@@ -104,13 +96,13 @@ class UserEditModal extends Component
         }
 
         try {
-            $this->user->delete();
+            $this->cest->delete();
 
-            $this->reset('userEditModal');
+            $this->reset('cestEditModal');
 
             $this->notification([
-                'title'       => 'Usuário deletado!',
-                'description' => 'Usuário foi deletado com sucesso',
+                'title'       => 'Cest deletado!',
+                'description' => 'Cest foi deletado com sucesso',
                 'icon'        => 'success'
             ]);
 
@@ -120,7 +112,7 @@ class UserEditModal extends Component
     
             $this->notification([
                 'title'       => 'Falha ao deletar!',
-                'description' => 'Não foi possivel deletar o Usuário.',
+                'description' => 'Não foi possivel deletar o Cest.',
                 'icon'        => 'error'
             ]);
         }
@@ -128,6 +120,6 @@ class UserEditModal extends Component
 
     public function render()
     {
-        return view('livewire.usuarios.user-edit-modal');
+        return view('livewire.tributacoes.cests.cest-edit-modal');
     }
 }

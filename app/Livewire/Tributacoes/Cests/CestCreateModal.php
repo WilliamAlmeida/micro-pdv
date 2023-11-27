@@ -1,29 +1,26 @@
 <?php
 
-namespace App\Livewire\Usuarios;
+namespace App\Livewire\Tributacoes\Cests;
 
-use App\Models\User;
+use App\Models\Tributacoes\Cest;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\Validate;
 
-class UserCreateModal extends Component
+class CestCreateModal extends Component
 {
     use Actions;
 
-    public $userCreateModal = false;
+    public $cestCreateModal = false;
  
-    #[Validate('required|min:3|unique:users,name', as:'nome')]
-    public $name;
+    #[Validate('required|min:3', as:'descrição')]
+    public $descricao;
 
-    #[Validate('required|email|unique:users,email')]
-    public $email;
+    #[Validate('required|min:9|max:9|unique:trib_cest,cest', as:'cest')]
+    public $cest_label;
 
-    #[Validate('min:4')]
-    public $password;
-
-    #[Validate('min:4|same:password')]
-    public $password_confirmation;
+    #[Validate('min:0', as:'ncm')]
+    public $ncm_id;
 
     #[\Livewire\Attributes\On('create')]
     public function create(): void
@@ -32,17 +29,19 @@ class UserCreateModal extends Component
 
         $this->reset();
 
-        $this->js('$openModal("userCreateModal")');
+        $this->js('$openModal("cestCreateModal")');
     }
 
     public function save($params=null)
     {
         $validated = $this->validate();
 
+        $validated['cest'] = $this->cest_label;
+
         if($params == null) {
             $this->dialog()->confirm([
                 'title'       => 'Você tem certeza?',
-                'description' => 'Registrar este novo usuário?',
+                'description' => 'Registrar este novo cest?',
                 'acceptLabel' => 'Sim, registre',
                 'method'      => 'save',
                 'params'      => 'Saved',
@@ -51,13 +50,13 @@ class UserCreateModal extends Component
         }
 
         try {
-            $user = User::create($validated);
+            $cest = Cest::create($validated);
 
-            $this->reset('userCreateModal');
+            $this->reset('cestCreateModal');
     
             $this->notification([
-                'title'       => 'Usuário registrado!',
-                'description' => 'Usuário foi registrado com sucesso.',
+                'title'       => 'Cest registrado!',
+                'description' => 'Cest foi registrado com sucesso.',
                 'icon'        => 'success'
             ]);
 
@@ -68,7 +67,7 @@ class UserCreateModal extends Component
     
             $this->notification([
                 'title'       => 'Falha no cadastro!',
-                'description' => 'Não foi possivel registrar o Usuário.',
+                'description' => 'Não foi possivel registrar o Cest.',
                 'icon'        => 'error'
             ]);
         }
@@ -76,6 +75,6 @@ class UserCreateModal extends Component
 
     public function render()
     {
-        return view('livewire.usuarios.user-create-modal');
+        return view('livewire.tributacoes.cests.cest-create-modal');
     }
 }

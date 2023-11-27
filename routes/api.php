@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\NcmController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('tributacoes/ncms', [NcmController::class, 'index'])->name('api.ncms');
+Route::get('tributacoes/ncms/{id}', [NcmController::class, 'show'])->name('api.ncms.show');
