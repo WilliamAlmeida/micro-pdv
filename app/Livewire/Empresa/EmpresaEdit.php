@@ -11,6 +11,7 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Locked;
 use App\Livewire\Forms\EmpresaForm;
 use App\Http\Controllers\Api\CepController;
+use App\Rules\ArrayValidacao;
 
 class EmpresaEdit extends Component
 {
@@ -96,15 +97,15 @@ class EmpresaEdit extends Component
                 "razao_social" => "unique:empresas,razao_social",
                 "nome_fantasia" => "unique:empresas,nome_fantasia",
             ]);
-
-            $empresa = new Empresas($this->form->all());
         }else{
-            // $this->form->validate([
-            //     "cnpj" => "unique:empresas,cnpj,{$this->empresa->id}",
-            //     "razao_social" => "unique:empresas,razao_social,{$this->empresa->id}",
-            //     "nome_fantasia" => "unique:empresas,nome_fantasia,{$this->empresa->id}",
-            // ]);
+            $this->form->validate([
+                "cnpj" => "unique:empresas,cnpj,{$this->empresa->id}",
+                "razao_social" => "unique:empresas,razao_social,{$this->empresa->id}",
+                "nome_fantasia" => "unique:empresas,nome_fantasia,{$this->empresa->id}",
+            ]);
         }
+
+        if($this->form->validateHours($this)) return;
 
         if($params == null) {
             $this->dialog()->confirm([
@@ -123,7 +124,11 @@ class EmpresaEdit extends Component
                 $this->empresa->save();
             }else{
                 $this->empresa->update($this->form->all());
+                $this->empresa->horarios()->delete();
             }
+
+            $horarios = $this->form->getHours();
+            if($horarios) $this->empresa->horarios()->createMany($horarios);
 
             $this->notification([
                 'title'       => 'Empresa atualizada!',
@@ -131,7 +136,7 @@ class EmpresaEdit extends Component
                 'icon'        => 'success'
             ]);
 
-            $this->reset('readMode');
+            $this->cancel();
         } catch (\Throwable $th) {
             // throw $th;
     

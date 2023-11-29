@@ -89,7 +89,8 @@
                                     </div>
                                     @forelse($values as $key => $value)
                                         @if(empty($value)) @continue @endif
-                                        <div class="grid grid-cols-2 gap-4 py-3 sm:grid-cols-3 content-center" wire:key='{{ $dia_semana.$key }}'>
+
+                                        <div class="grid grid-cols-2 gap-4 py-3 sm:grid-cols-3 content-center">
                                             <x-time-picker label="Início" placeholder="00:00" format="24" wire:model.live="form.horarios.{{$dia_semana}}.{{$key}}.inicio" :disabled="$readMode" />
                                             <x-time-picker label="Término" placeholder="00:00" format="24" wire:model.live="form.horarios.{{$dia_semana}}.{{$key}}.fim" :disabled="$readMode" />
                                             @if(!$readMode)
@@ -101,7 +102,7 @@
                                         @empty
                                             @if($readMode)
                                                 <div class="grid grid-cols-2 gap-4 py-3 sm:grid-cols-3 content-center">
-                                                <x-input label="Início" value="00:00" disabled="true" />
+                                                    <x-input label="Início" value="00:00" disabled="true" />
                                                     <x-input label="Término" value="00:00" disabled="true" />
                                                 </div>
                                             @endif
@@ -115,7 +116,9 @@
                                 @else
                                     <x-input wire:model="form.keywords" label="Palavras Chave" hint="Digite as palavras chaves separando por , (Virgula)" :disabled="$readMode" />
                                 @endif
-                                <x-textarea wire:model="form.description" label="Descrição" placeholder="Descrição" :disabled="$readMode" />
+                                <div class="mt-3">
+                                    <x-textarea wire:model="form.description" label="Descrição" placeholder="Descrição" :disabled="$readMode" />
+                                </div>
                             </div>
 
                             <div class="flex justify-center mt-3 gap-x-3">

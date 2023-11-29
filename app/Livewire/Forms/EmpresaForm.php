@@ -177,4 +177,45 @@ class EmpresaForm extends Form
         unset($this->horarios[$day_of_week][$index]);
         // $this->horarios[$day_of_week] = array_values($this->horarios[$day_of_week]);
     }
+
+    public function validateHours($component)
+    {
+        $response = false;
+
+        foreach ($this->horarios as $day => $subArrays) {
+            foreach ($subArrays as $key => $subArray) {
+                if(!empty($subArray)) {
+                    if(!isset($subArray['inicio'])) {
+                        $component->addError("form.horarios.{$day}.{$key}.inicio", __('validation.required', ['attribute' => 'início']));
+                        $response = true;
+                    }
+                    if(!isset($subArray['fim'])) {
+                        $component->addError("form.horarios.{$day}.{$key}.fim", __('validation.required', ['attribute' => 'término']));
+                        $response = true;
+                    }
+                }
+            }
+        }
+
+        return $response;
+    }
+
+    public function getHours()
+    {
+        $hours = [];
+
+        if(count($this->horarios)) {
+            $hours = collect($this->horarios)->map(function($dias, $index) {
+                if(!empty($dias)) {
+                    return collect($dias)->map(function($hours) use ($index) {
+                        if(!empty($hours)) return ['dia' => $index, 'inicio' => $hours['inicio'], 'fim' => $hours['fim']];
+                    })->all();
+                }
+            })->flatten(1)->filter(function($item) {
+                return (!empty($item));
+            });
+        }
+
+        return $hours;
+    }
 }
