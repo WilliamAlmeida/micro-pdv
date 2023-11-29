@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Empresa\EmpresaEdit;
 use App\Livewire\Tributacoes\Cests\CestIndex;
 use App\Livewire\Tributacoes\Cfops\CfopIndex;
 use App\Livewire\Tributacoes\Ncms\NcmIndex;
@@ -35,7 +36,9 @@ Route::prefix('painel')->group(function () {
         })->name('dashboard');
     
         Route::get('/users', UserIndex::class)->name('users.index');
-        
+
+        Route::get('/empresa', EmpresaEdit::class)->name('empresa.edit');
+
         Route::prefix('tributacoes')->group(function () {
             Route::get('/ncms', NcmIndex::class)->name('ncms.index');
             Route::get('/cests', CestIndex::class)->name('cests.index');

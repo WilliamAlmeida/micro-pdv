@@ -27,6 +27,16 @@
                             <x-dropdown.item wire:navigate :href="route('cfops.index')" :active="request()->routeIs('cfops.index')" label="{{ __('Cfop') }}" />
                         </x-dropdown>
                     </x-nav-dropdown>
+
+                    @if(auth()->user()->empresa)
+                        <x-nav-link wire:navigate :href="route('empresa.edit')" :active="request()->routeIs('empresa.edit')">
+                            {{ __('Empresa') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link wire:navigate :href="route('empresa.create')" :active="request()->routeIs('empresa.create')">
+                            {{ __('Empresa') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

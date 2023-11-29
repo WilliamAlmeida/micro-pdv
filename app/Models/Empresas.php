@@ -99,6 +99,36 @@ class Empresas extends Model
         's_mesa' => array('min:0'),
     );
 
+    public static $tipos_empresas = [
+        [
+            'name' => 'Restaurante', 'id' => 1, 'desc' => 'Restaurantes, Hamburguerias, Sorveterias, Marmitarias, Lanchonetes, etc.'
+        ],
+        [
+            'name' => 'Mercado', 'id' => 2, 'desc' => 'Supermercados, Hortifrutis, Mercearias, etc.'
+        ],
+        [
+            'name' => 'Bebidas', 'id' => 3, 'desc' => 'Distribuidoras, Adegas, Choperias, Casas de Cervejas, etc.'
+        ],
+        [
+            'name' => 'Farmácia', 'id' => 4, 'desc' => 'Farmácias, Drogarias, Medicamentos Naturais, Perfumaria, etc.'
+        ],
+        [
+            'name' => 'Pet Shop', 'id' => 5, 'desc' => 'Pets Shops, Casas de Ração, Venterinárias, etc.'
+        ],
+        [
+            'name' => 'Vestuário', 'id' => 6, 'desc' => 'Loja de Roupa, Sapatos, etc.'
+        ],
+        [
+            'name' => 'Eletrônicos', 'id' => 7, 'desc' => 'Loja de Celular, TV, Videogames, etc.'
+        ],
+        [
+            'name' => 'Sorveteria', 'id' => 8, 'desc' => 'Açai, Sorvetes, etc.'
+        ],
+        [
+            'name' => 'Outros', 'id' => 999, 'desc' => 'Outros.'
+        ]
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
