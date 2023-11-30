@@ -8,7 +8,7 @@
     <div class="pt-6 pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-end">
-                <x-button white class="mb-3" label="Novo Categoria" wire:click="$dispatch('create')" />
+                <x-button white class="mb-3" label="Nova Categoria" wire:click="$dispatch('create')" />
             </div>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
