@@ -19,7 +19,15 @@
                         {{ __('Users') }}
                     </x-nav-link>
 
-                    <x-nav-dropdown :active="request()->routeIs('ncms.index')">
+                    <x-nav-dropdown :active="request()->routeIs(['categorias.index', 'produtos.index'])">
+                        <x-dropdown align="left">
+                            <x-slot name="trigger">Cadastros</x-slot>
+                            <x-dropdown.item wire:navigate :href="route('categorias.index')" :active="request()->routeIs('categorias.index')" label="{{ __('Categorias') }}" />
+                            <x-dropdown.item wire:navigate :href="route('produtos.index')" :active="request()->routeIs('produtos.index')" label="{{ __('Produtos') }}" />
+                        </x-dropdown>
+                    </x-nav-dropdown>
+
+                    <x-nav-dropdown :active="request()->routeIs(['ncms.index', 'cests.index', 'cfops.index'])">
                         <x-dropdown align="left">
                             <x-slot name="trigger">Tributações</x-slot>
                             <x-dropdown.item wire:navigate :href="route('ncms.index')" :active="request()->routeIs('ncms.index')" label="{{ __('Ncm') }}" />
