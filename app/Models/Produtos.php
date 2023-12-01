@@ -84,6 +84,15 @@ class Produtos extends Model
         'empresas_id', 'titulo', 'slug', 'descricao', 'codigo_barras_1', 'codigo_barras_2', 'codigo_barras_3', 'preco_varejo', 'preco_atacado', 'valor_garcom', 'preco_promocao', 'promocao_inicio', 'promocao_fim', 'trib_icms', 'trib_csosn', 'trib_cst', 'trib_origem_produto', 'trib_cfop_de', 'trib_cfop_fe', 'trib_ncm', 'trib_cest', 'estoque_atual', 'unidade_medida', 'codigo_externo', 'destaque', 'deleted_at', 'views', 'somente_mesa', 'ordem'
     ];
 
+    protected $casts = [
+        'promocao_inicio' => 'date',
+        'promocao_fim' => 'date',
+        'preco_varejo' => 'float',
+        'preco_atacado' => 'float',
+        'valor_garcom' => 'float',
+        'preco_promocao' => 'float',
+    ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
