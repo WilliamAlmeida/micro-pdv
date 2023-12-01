@@ -186,6 +186,12 @@ class Empresas extends Model
     {
         return $this->hasMany('App\Models\Horarios','empresas_id','id');
     }
+    
+    public function getTipoEmpresa(): array
+    {
+        $index = collect(Empresas::$tipos_empresas)->firstWhere('id', $this->id_tipo_empresa);
+        return ($index) ? $index : [];
+    }
 
     /*
 

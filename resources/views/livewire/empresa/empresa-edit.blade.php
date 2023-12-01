@@ -30,7 +30,7 @@
                             <div x-show="activeTab === 'dados'" class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dados" role="tabpanel" aria-labelledby="dados-tab">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     @if($readMode)
-                                        <x-input label="Tipo de Empresa" value="{{ $array_tipos_empresas[$form->id_tipo_empresa-1]['name'] }}" disabled="true" />
+                                        <x-input label="Tipo de Empresa" value="{{ $empresa->getTipoEmpresa()['name'] ?: null }}" disabled="true" />
                                     @endif
                                     <x-select label="Tipo de Empresa" placeholder="Selecione um Tipo" :options="$array_tipos_empresas" option-label="name" option-value="id" wire:model.defer="form.id_tipo_empresa" :class="$readMode ? 'hidden' : null" />
 
