@@ -32,7 +32,7 @@
                                     @if($readMode)
                                         <x-input label="Tipo de Empresa" value="{{ $array_tipos_empresas[$form->id_tipo_empresa-1]['name'] }}" disabled="true" />
                                     @endif
-                                    <x-select label="Tipo de Empresa" :options="$array_tipos_empresas" option-label="name" option-value="id" wire:model.defer="form.id_tipo_empresa" :class="$readMode ? 'hidden' : null" />
+                                    <x-select label="Tipo de Empresa" placeholder="Selecione um Tipo" :options="$array_tipos_empresas" option-label="name" option-value="id" wire:model.defer="form.id_tipo_empresa" :class="$readMode ? 'hidden' : null" />
 
                                     @if($form->cnpj)
                                         <x-input label="Inscrição Estadual" placeholder="Informe a Inscrição Estadual" wire:model="form.inscricao_estadual" :disabled="$readMode" />
@@ -61,7 +61,7 @@
                                             @if($readMode)
                                                 <x-input label="Estado" value="{{ $empresa->estado->uf }}" disabled="true" />
                                             @endif
-                                            <x-select label="Estado" :options="$array_estados" option-label="uf" option-value="id" wire:model.defer="form.idestado" :class="$readMode ? 'hidden' : null" />
+                                            <x-select label="Estado" placeholder="Selecione um Estado" :options="$array_estados" option-label="uf" option-value="id" wire:model.defer="form.idestado" :class="$readMode ? 'hidden' : null" />
 
                                             <x-input label="Município" placeholder="Informe a Município" wire:model="form.end_cidade" :disabled="$readMode" />
                                         </div>
