@@ -17,10 +17,10 @@ class EmpresaForm extends Form
     #[Validate('required|min:0|max:255')]
     public $slug;
 
-    #[Validate('required|min:0|max:255')]
+    #[Validate('required|min:0|max:255', as: 'razão social')]
     public $razao_social;
 
-    #[Validate('min:0')]
+    #[Validate('min:0', as: 'país')]
     public $idpais;
 
     #[Validate('required', as: 'estado')]
