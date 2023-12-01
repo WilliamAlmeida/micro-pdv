@@ -302,15 +302,22 @@ final class ProdutoTable extends PowerGridComponent
     public function actions(\App\Models\Produtos $row): array
     {
         return [
+            // Button::add('edit')
+            //     ->slot('Editar')
+            //     ->id()
+            //     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+            //     ->dispatch('edit', ['rowId' => $row->id]),
             Button::add('edit')
                 ->slot('Editar')
-                ->id()
+                ->bladeComponent('button', ['icon' => 'pencil'])
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->id()
                 ->dispatch('edit', ['rowId' => $row->id]),
             Button::add('restore')
-                ->slot('Restaurar')
-                ->id()
+                ->slot('Editar')
+                ->bladeComponent('button', ['icon' => 'refresh'])
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->id()
                 ->dispatch('restore', ['rowId' => $row->id])
                 ->can($row->trashed()),
         ];

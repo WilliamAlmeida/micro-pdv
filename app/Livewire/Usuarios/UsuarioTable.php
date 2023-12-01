@@ -117,11 +117,17 @@ final class UsuarioTable extends PowerGridComponent
     public function actions(\App\Models\User $row): array
     {
         return [
+            // Button::add('edit')
+            //     ->slot('Editar')
+            //     ->id()
+            //     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+            //     ->dispatch('edit', ['rowId' => $row->id]),
             Button::add('edit')
                 ->slot('Editar')
-                ->id()
+                ->bladeComponent('button', ['icon' => 'pencil'])
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->id()
+                ->dispatch('edit', ['rowId' => $row->id]),
         ];
     }
 
