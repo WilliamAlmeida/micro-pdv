@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Categorias\CategoriaIndex;
 use App\Livewire\Empresa\EmpresaEdit;
+use App\Livewire\Fornecedores\FornecedorIndex;
 use App\Livewire\Produtos\ProdutoIndex;
 use App\Livewire\Tributacoes\Cests\CestIndex;
 use App\Livewire\Tributacoes\Cfops\CfopIndex;
@@ -42,6 +43,7 @@ Route::prefix('painel')->group(function () {
         Route::get('/empresa', EmpresaEdit::class)->name('empresa.edit');
         Route::get('/categorias', CategoriaIndex::class)->name('categorias.index');
         Route::get('/produtos', ProdutoIndex::class)->name('produtos.index');
+        Route::get('/fornecedores', FornecedorIndex::class)->name('fornecedores.index');
 
         Route::prefix('tributacoes')->group(function () {
             Route::get('/ncms', NcmIndex::class)->name('ncms.index');

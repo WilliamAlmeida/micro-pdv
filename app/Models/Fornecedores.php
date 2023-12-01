@@ -73,6 +73,36 @@ class Fornecedores extends Model
         // 'id',
     ];
 
+    public static $tipos_empresas = [
+        [
+            'name' => 'Restaurante', 'id' => 1, 'desc' => 'Restaurantes, Hamburguerias, Sorveterias, Marmitarias, Lanchonetes, etc.'
+        ],
+        [
+            'name' => 'Mercado', 'id' => 2, 'desc' => 'Supermercados, Hortifrutis, Mercearias, etc.'
+        ],
+        [
+            'name' => 'Bebidas', 'id' => 3, 'desc' => 'Distribuidoras, Adegas, Choperias, Casas de Cervejas, etc.'
+        ],
+        [
+            'name' => 'Farmácia', 'id' => 4, 'desc' => 'Farmácias, Drogarias, Medicamentos Naturais, Perfumaria, etc.'
+        ],
+        [
+            'name' => 'Pet Shop', 'id' => 5, 'desc' => 'Pets Shops, Casas de Ração, Venterinárias, etc.'
+        ],
+        [
+            'name' => 'Vestuário', 'id' => 6, 'desc' => 'Loja de Roupa, Sapatos, etc.'
+        ],
+        [
+            'name' => 'Eletrônicos', 'id' => 7, 'desc' => 'Loja de Celular, TV, Videogames, etc.'
+        ],
+        [
+            'name' => 'Sorveteria', 'id' => 8, 'desc' => 'Açai, Sorvetes, etc.'
+        ],
+        [
+            'name' => 'Outros', 'id' => 999, 'desc' => 'Outros.'
+        ]
+    ];
+
     public function pais()
     {
         return $this->hasOne('App\Models\Pais', 'id', 'pais_id');
@@ -86,5 +116,17 @@ class Fornecedores extends Model
     public function cidade()
     {
         return $this->hasOne('App\Models\Cidade', 'id', 'idcidade');
+    }
+
+    public function endereco($withCep=false): string
+    {
+        $endereco = '';
+        $endereco .= $this->end_logradouro;
+        $endereco .= ', '.$this->end_numero;
+        $endereco .= ', '.$this->end_bairro;
+        $endereco .= ', '.$this->end_cidade;
+        if($this->estado) $endereco .= ' - '.$this->estado->uf;
+        if($withCep && $this->end_cep) $endereco .= $this->end_cep;
+        return $endereco;
     }
 }

@@ -50,4 +50,9 @@ class Cidade extends Model
     {
     	return $this->hasMany('App\User', 'end_idcidade', 'id');
     }
+
+    public function fornecedores()
+    {
+    	return $this->belongsTo('App\Models\Fornecedores', 'id', 'idcidade');
+    }
 }
