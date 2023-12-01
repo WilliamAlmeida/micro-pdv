@@ -27,7 +27,7 @@ class CategoriaEditModal extends Component
     {
         $this->resetValidation();
 
-        $this->categoria = Categorias::withTrashed()->withCount('produtos')->find($rowId);
+        $this->categoria = Categorias::withTrashed()->find($rowId);
 
         $this->fill($this->categoria);
 
@@ -81,41 +81,53 @@ class CategoriaEditModal extends Component
     public function delete($params=null)
     {
         if($params == null) {
-            $this->dialog()->confirm([
-                'icon'        => 'trash',
-                'title'       => 'Você tem certeza?',
-                'description' => 'Deletar esta categoria?',
-                'acceptLabel' => 'Sim, delete',
-                'method'      => 'delete',
-                'params'      => 'Deleted',
-            ]);
+            if($this->categoria->trashed()) {
+                $this->dialog()->confirm([
+                    'icon'        => 'trash',
+                    'title'       => 'Você tem certeza?',
+                    'description' => 'Deletar esta categoria?',
+                    'acceptLabel' => 'Sim, delete',
+                    'method'      => 'delete',
+                    'params'      => 'Deleted',
+                ]);
+            }else{
+                $this->dialog()->confirm([
+                    'icon'        => 'trash',
+                    'title'       => 'Você tem certeza?',
+                    'description' => 'Desativar esta categoria?',
+                    'acceptLabel' => 'Sim, desative',
+                    'method'      => 'delete',
+                    'params'      => 'Deactivate',
+                ]);
+            }
             return;
         }
 
         try {
-            if($this->categoria->produtos) {
-
-                if($this->categoria->trashed()) {
+            if($this->categoria->trashed()) {
+                $produtos_count = $this->categoria->produtos()->withTrashed()->count();
+                if($produtos_count) {
                     $this->notification([
                         'title'       => 'Falha ao deletar!',
-                        'description' => 'Esta Categoria já esta desativada.',
+                        'description' => "Esta Categoria está vinculada a {$produtos_count} produtos.",
                         'icon'        => 'error'
                     ]);
+                    return;
                 }else{
-                    $this->categoria->delete();
+                    // $this->categoria->forceDelete();
 
                     $this->notification([
-                        'title'       => 'Categoria desativada!',
-                        'description' => 'Categoria foi desativada com sucesso',
+                        'title'       => 'Categoria deletada!',
+                        'description' => 'Categoria foi deletada com sucesso',
                         'icon'        => 'success'
                     ]);
                 }
             }else{
-                $this->categoria->forceDelete();
+                $this->categoria->delete();
 
                 $this->notification([
-                    'title'       => 'Categoria deletada!',
-                    'description' => 'Categoria foi deletada com sucesso',
+                    'title'       => 'Categoria desativada!',
+                    'description' => 'Categoria foi desativada com sucesso',
                     'icon'        => 'success'
                 ]);
             }
@@ -126,11 +138,19 @@ class CategoriaEditModal extends Component
         } catch (\Throwable $th) {
             //throw $th;
     
-            $this->notification([
-                'title'       => 'Falha ao deletar!',
-                'description' => 'Não foi possivel deletar a Categoria.',
-                'icon'        => 'error'
-            ]);
+            if($this->categoria->trashed()) {
+                $this->notification([
+                    'title'       => 'Falha ao deletar!',
+                    'description' => 'Não foi possivel deletar a Categoria.',
+                    'icon'        => 'error'
+                ]);
+            }else{
+                $this->notification([
+                    'title'       => 'Falha ao desativar!',
+                    'description' => 'Não foi possivel desativar a Categoria.',
+                    'icon'        => 'error'
+                ]);
+            }
         }
     }
 
