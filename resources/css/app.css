@@ -23,3 +23,7 @@
 	border-radius: 20px;
 	border: 0px solid #ffffff;
 }
+
+div.absolute.inset-y-0.left-0.pl-2\.5.flex.items-center.pointer-events-none {
+	padding-left: 0.5rem !important;
+}
