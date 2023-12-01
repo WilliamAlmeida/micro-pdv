@@ -1,5 +1,5 @@
 <div>
-    <x-modal.card title="Edição do Usuário" blur wire:model.defer="userEditModal">
+    <x-modal.card title="Edição do Usuário" blur wire:model.defer="usuarioEditModal">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <x-input label="Nome" placeholder="Nome" wire:model="name" id="edit_name" />
 

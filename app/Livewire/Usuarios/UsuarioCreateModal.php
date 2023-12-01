@@ -7,11 +7,11 @@ use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\Validate;
 
-class UserCreateModal extends Component
+class UsuarioCreateModal extends Component
 {
     use Actions;
 
-    public $userCreateModal = false;
+    public $usuarioCreateModal = false;
  
     #[Validate('required|min:3|unique:users,name', as:'nome')]
     public $name;
@@ -32,7 +32,7 @@ class UserCreateModal extends Component
 
         $this->reset();
 
-        $this->js('$openModal("userCreateModal")');
+        $this->js('$openModal("usuarioCreateModal")');
     }
 
     public function save($params=null)
@@ -53,7 +53,7 @@ class UserCreateModal extends Component
         try {
             $user = User::create($validated);
 
-            $this->reset('userCreateModal');
+            $this->reset('usuarioCreateModal');
     
             $this->notification([
                 'title'       => 'Usuário registrado!',
@@ -76,6 +76,6 @@ class UserCreateModal extends Component
 
     public function render()
     {
-        return view('livewire.usuarios.user-create-modal');
+        return view('livewire.usuarios.usuario-create-modal');
     }
 }

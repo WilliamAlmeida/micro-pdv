@@ -7,11 +7,11 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 
-class UserEditModal extends Component
+class UsuarioEditModal extends Component
 {
     use Actions;
 
-    public $userEditModal = false;
+    public $usuarioEditModal = false;
  
     public User $user;
 
@@ -41,7 +41,7 @@ class UserEditModal extends Component
 
         $this->tipo = $this->user->is_admin;
 
-        $this->js('$openModal("userEditModal")');
+        $this->js('$openModal("usuarioEditModal")');
     }
 
     public function save($params=null)
@@ -69,7 +69,7 @@ class UserEditModal extends Component
         try {
             $this->user->update($validated);
 
-            $this->reset('userEditModal');
+            $this->reset('usuarioEditModal');
     
             $this->notification([
                 'title'       => 'Usuário atualizado!',
@@ -106,7 +106,7 @@ class UserEditModal extends Component
         try {
             $this->user->delete();
 
-            $this->reset('userEditModal');
+            $this->reset('usuarioEditModal');
 
             $this->notification([
                 'title'       => 'Usuário deletado!',
@@ -128,6 +128,6 @@ class UserEditModal extends Component
 
     public function render()
     {
-        return view('livewire.usuarios.user-edit-modal');
+        return view('livewire.usuarios.usuario-edit-modal');
     }
 }

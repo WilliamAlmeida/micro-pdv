@@ -1,5 +1,5 @@
 <div>
-    <x-modal.card title="Criação de Usuário" blur wire:model.defer="userCreateModal">
+    <x-modal.card title="Criação de Usuário" blur wire:model.defer="usuarioCreateModal">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <x-input label="Nome" placeholder="Nome" wire:model.live="name" />
      

@@ -7,7 +7,7 @@ use App\Livewire\Produtos\ProdutoIndex;
 use App\Livewire\Tributacoes\Cests\CestIndex;
 use App\Livewire\Tributacoes\Cfops\CfopIndex;
 use App\Livewire\Tributacoes\Ncms\NcmIndex;
-use App\Livewire\Usuarios\UserIndex;
+use App\Livewire\Usuarios\UsuarioIndex;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,7 +37,7 @@ Route::prefix('painel')->group(function () {
             return view('dashboard');
         })->name('dashboard');
     
-        Route::get('/users', UserIndex::class)->name('users.index');
+        Route::get('/usuarios', UsuarioIndex::class)->name('usuarios.index');
 
         Route::get('/empresa', EmpresaEdit::class)->name('empresa.edit');
         Route::get('/categorias', CategoriaIndex::class)->name('categorias.index');
