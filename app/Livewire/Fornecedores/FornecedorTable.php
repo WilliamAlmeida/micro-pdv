@@ -58,11 +58,11 @@ final class FornecedorTable extends PowerGridComponent
     {
         return PowerGrid::columns()
             ->addColumn('id')
-            ->addColumn('tipo', fn(Fornecedores $model) => Empresas::$tipos_empresas[$model->id_tipo_fornecedor]['name'] ?? 'Desconhecido')
+            ->addColumn('tipo', fn(Fornecedores $model) => $model->getTipoFornecedor()['name'] ?: 'Desconhecido')
             ->addColumn('nome_fantasia_capitalize', fn (Fornecedores $model) => ucwords(strtolower(e($model->nome_fantasia))))
             ->addColumn('razao_social_capitalize', fn (Fornecedores $model) => ucwords(strtolower(e($model->razao_social))))
             ->addColumn('endereco', function (Fornecedores $model) {
-                $endereco = ucwords(strtolower($model->end_logradouro)).', '.$model->end_numero.', '.ucwords(strtolower($model->end_bairro)).'<br>'.ucwords(strtolower($model->end_cidade));
+                $endereco = ucwords(strtolower($model->end_logradouro)).', '.$model->end_numero.'<br>'.ucwords(strtolower($model->end_bairro)).', '.ucwords(strtolower($model->end_cidade));
                 if($model->estado) $endereco .= ' - '.$model->estado->uf;
                 return $endereco;
             })
@@ -125,11 +125,51 @@ final class FornecedorTable extends PowerGridComponent
         ];
     }
 
-    // #[\Livewire\Attributes\On('edit')]
-    // public function edit($rowId): void
-    // {
-    //     $this->js('alert('.$rowId.')');
-    // }
+    #[\Livewire\Attributes\On('restore')]
+    public function restore($rowId, $params=null): void
+    {
+        $fornecedor = Fornecedores::withTrashed()->findOrFail($rowId);
+
+        if($params == null) {
+            $this->dialog()->confirm([
+                'icon'        => 'trash',
+                'title'       => 'Você tem certeza?',
+                'description' => 'Restaurar este fornecedor?',
+                'acceptLabel' => 'Sim, restaure',
+                'method'      => 'restore',
+                'params'      => [$rowId, 'Restored'],
+            ]);
+            return;
+        }
+
+        try {
+            if(!$fornecedor->trashed()) {
+                $this->notification([
+                    'title'       => 'Falha ao restaurar!',
+                    'description' => 'Este Fornecedor já esta ativo.',
+                    'icon'        => 'error'
+                ]);
+            }else{
+                $fornecedor->restore();
+
+                $this->notification([
+                    'title'       => 'Fornecedor restaurado!',
+                    'description' => 'Fornecedor foi restaurado com sucesso',
+                    'icon'        => 'success'
+                ]);
+            }
+
+            $this->dispatch('pg:eventRefresh-default');
+        } catch (\Throwable $th) {
+            //throw $th;
+    
+            $this->notification([
+                'title'       => 'Falha ao restaurar!',
+                'description' => 'Não foi possivel restaura o Fornecedor.',
+                'icon'        => 'error'
+            ]);
+        }
+    }
 
     public function actions(\App\Models\Fornecedores $row): array
     {

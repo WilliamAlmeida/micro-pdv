@@ -54,9 +54,3 @@
         </x-slot>
     </x-modal.card>
 </div>
-    
-{{-- <script defer>
-    setTimeout(() => {
-        $openModal('produtoCreateModal');
-    }, 500);
-</script> --}}

@@ -20,5 +20,5 @@
     </div>
 
     <livewire:fornecedores.fornecedor-create-modal />
-    {{-- <livewire:fornecedores.fornecedor-edit-modal /> --}}
+    <livewire:fornecedores.fornecedor-edit-modal />
 </div>

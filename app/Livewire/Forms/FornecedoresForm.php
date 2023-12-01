@@ -79,4 +79,15 @@ class FornecedoresForm extends Form
         // $this->end_idcidade  = $values->idcidade ?: null;
         $this->idestado         = $values->idestado ?: null;
     }
+    
+    public function validateCpfCnpj()
+    {
+        if(empty($this->cnpj) && empty($this->cpf)) {
+            $this->addError('cnpj', 'Preencha o CPF ou CNPJ.');
+            $this->addError('cpf', 'Preencha o CPF ou CNPJ.');
+            return true;
+        }
+        
+        return false;
+    }
 }

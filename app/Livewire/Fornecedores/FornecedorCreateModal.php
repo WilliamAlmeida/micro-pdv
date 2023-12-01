@@ -25,7 +25,7 @@ class FornecedorCreateModal extends Component
 
     public function mount()
     {
-        $this->array_tipos_fornecedores = Fornecedores::$tipos_empresas;
+        $this->array_tipos_fornecedores = Fornecedores::$tipos_fornecedores;
         $this->array_estados = Estado::select('id','uf')->get()->toArray();
     }
 
@@ -66,11 +66,7 @@ class FornecedorCreateModal extends Component
 
     public function save($params=null)
     {
-        if(empty($this->form->cnpj) && empty($this->form->cpf)) {
-            $this->addError('form.cnpj', 'Preencha o CPF ou CNPJ.');
-            $this->addError('form.cpf', 'Preencha o CPF ou CNPJ.');
-            return;
-        }
+        if($this->form->validateCpfCnpj()) return;
 
         $this->form->validate([
             "cnpj" => "unique:fornecedores,cnpj",

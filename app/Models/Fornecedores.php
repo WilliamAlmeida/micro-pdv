@@ -73,7 +73,7 @@ class Fornecedores extends Model
         // 'id',
     ];
 
-    public static $tipos_empresas = [
+    public static $tipos_fornecedores = [
         [
             'name' => 'Restaurante', 'id' => 1, 'desc' => 'Restaurantes, Hamburguerias, Sorveterias, Marmitarias, Lanchonetes, etc.'
         ],
@@ -116,6 +116,12 @@ class Fornecedores extends Model
     public function cidade()
     {
         return $this->hasOne('App\Models\Cidade', 'id', 'idcidade');
+    }
+    
+    public function getTipoFornecedor(): array
+    {
+        $index = collect(Fornecedores::$tipos_fornecedores)->firstWhere('id', $this->id_tipo_fornecedor);
+        return ($index) ? $index : [];
     }
 
     public function endereco($withCep=false): string
