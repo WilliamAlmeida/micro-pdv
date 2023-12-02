@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Categorias\CategoriaIndex;
+use App\Livewire\Convenios\ConvenioIndex;
 use App\Livewire\Empresa\EmpresaEdit;
 use App\Livewire\Fornecedores\FornecedorIndex;
 use App\Livewire\Produtos\ProdutoIndex;
@@ -44,6 +45,7 @@ Route::prefix('painel')->group(function () {
         Route::get('/categorias', CategoriaIndex::class)->name('categorias.index');
         Route::get('/produtos', ProdutoIndex::class)->name('produtos.index');
         Route::get('/fornecedores', FornecedorIndex::class)->name('fornecedores.index');
+        Route::get('/convenios', ConvenioIndex::class)->name('convenios.index');
 
         Route::prefix('tributacoes')->group(function () {
             Route::get('/ncms', NcmIndex::class)->name('ncms.index');

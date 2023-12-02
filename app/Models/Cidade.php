@@ -55,4 +55,9 @@ class Cidade extends Model
     {
     	return $this->belongsTo('App\Models\Fornecedores', 'id', 'idcidade');
     }
+
+    public function convenios()
+    {
+    	return $this->belongsTo('App\Models\Convenios', 'id', 'idcidade');
+    }
 }
