@@ -69,7 +69,8 @@ class FornecedorCreateModal extends Component
         if($this->form->validateCpfCnpj()) return;
 
         $this->form->validate([
-            "cnpj" => "unique:fornecedores,cnpj",
+            "cnpj" => "nullable|unique:fornecedores,cnpj",
+            "cpf" => "nullable|unique:fornecedores,cpf",
             "razao_social" => "unique:fornecedores,razao_social",
             "nome_fantasia" => "unique:fornecedores,nome_fantasia",
         ]);

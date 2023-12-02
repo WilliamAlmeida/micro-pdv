@@ -75,7 +75,8 @@ class FornecedorEditModal extends Component
         if($this->form->validateCpfCnpj()) return;
 
         $this->form->validate([
-            "cnpj" => "unique:fornecedores,cnpj,{$this->fornecedor->id}",
+            "cnpj" => "nullable|unique:fornecedores,cnpj,{$this->fornecedor->id}",
+            "cpf" => "nullable|unique:fornecedores,cpf,{$this->fornecedor->id}",
             "razao_social" => "unique:fornecedores,razao_social,{$this->fornecedor->id}",
             "nome_fantasia" => "unique:fornecedores,nome_fantasia,{$this->fornecedor->id}",
         ]);
