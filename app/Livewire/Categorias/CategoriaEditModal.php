@@ -114,7 +114,7 @@ class CategoriaEditModal extends Component
                     ]);
                     return;
                 }else{
-                    // $this->categoria->forceDelete();
+                    $this->categoria->forceDelete();
 
                     $this->notification([
                         'title'       => 'Categoria deletada!',
