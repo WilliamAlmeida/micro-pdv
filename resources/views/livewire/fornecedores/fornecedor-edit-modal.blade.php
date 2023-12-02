@@ -1,6 +1,6 @@
 <div>
-    <x-modal.card title="Edição de Fornecedor" blur wire:model.defer="fornecedorEditModal">
-        <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
+    <x-modal.card title="Edição de Fornecedor" blur wire:model.defer="fornecedorEditModal" max-width="3xl">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <x-select label="Tipo de Fornecedor" placeholder="Selecione um Tipo" :options="$array_tipos_fornecedores" option-label="name" option-value="id" wire:model.defer="form.id_tipo_fornecedor" />
             
             @if($form->cnpj)
@@ -16,9 +16,9 @@
             
             <x-input wire:model.blur="form.nome_fantasia" label="Nome Fantasia" placeholder="Nome Fantasia" hint="{{ $form->slug }}" />
             <x-input wire:model="form.razao_social" label="Razão Social" placeholder="Razão Social" />
-                
+
             <div class="col-span-1 sm:col-span-2">
-                <div class="grid grid-cols-3 sm:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                     <x-input label="CEP" placeholder="00.000-000" wire:model="form.end_cep" emitFormatted="true">
                         <x-slot name="append">
                             <div class="absolute inset-y-0 right-0 flex items-center p-0.5">
@@ -29,14 +29,14 @@
 
                     <x-select label="Estado" placeholder="Selecione um Estado" :options="$array_estados" option-label="uf" option-value="id" wire:model.defer="form.idestado" />
                     
-                    <x-input label="Município" placeholder="Informe a Município" wire:model="form.end_cidade" />
+                    <div class="col-span-2"><x-input label="Município" placeholder="Informe a Município" wire:model="form.end_cidade" /></div>
                 </div>
             </div>
                 
             <div class="col-span-1 sm:col-span-2">
-                <div class="grid grid-cols-3 sm:grid-cols-3 gap-4">
-                    <x-input label="Bairro" placeholder="Informe o Bairro" wire:model="form.end_bairro" />
-                    <x-input label="Logradouro" placeholder="Informe o Logradouro" wire:model="form.end_logradouro" />
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+                    <div class="col-span-2"><x-input label="Bairro" placeholder="Informe o Bairro" wire:model="form.end_bairro" /></div>
+                    <div class="col-span-2"><x-input label="Logradouro" placeholder="Informe o Logradouro" wire:model="form.end_logradouro" /></div>
                     <x-input label="Número" placeholder="Informe o Número" wire:model="form.end_numero" />
                 </div>
             </div>
