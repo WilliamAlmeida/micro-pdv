@@ -6,6 +6,7 @@ use App\Models\Categorias;
 use App\Models\Produtos;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\Url;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
@@ -22,12 +23,15 @@ final class ProdutoTable extends PowerGridComponent
 {
     // use WithExport;
     use Actions;
+    
+    #[Url('search')]
+    public string $search = '';
 
     public function setUp(): array
     {
         // $this->showCheckBox();
         $this->softDeletes('withTrashed');
-
+        
         return [
             // Exportable::make('export')
             //     ->striped()
