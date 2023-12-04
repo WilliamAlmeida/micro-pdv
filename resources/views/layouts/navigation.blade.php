@@ -19,12 +19,14 @@
                         {{ __('Usuários') }}
                     </x-nav-link>
 
-                    <x-nav-dropdown :active="request()->routeIs(['categorias.index', 'produtos.index', 'fornecedores.index'])">
+                    <x-nav-dropdown :active="request()->routeIs(['categorias.index', 'produtos.index', 'fornecedores.index', 'convenios.index'])">
                         <x-dropdown align="left">
                             <x-slot name="trigger">Cadastros</x-slot>
                             <x-dropdown.item wire:navigate :href="route('categorias.index')" :active="request()->routeIs('categorias.index')" label="{{ __('Categorias') }}" />
                             <x-dropdown.item wire:navigate :href="route('produtos.index')" :active="request()->routeIs('produtos.index')" label="{{ __('Produtos') }}" />
                             <x-dropdown.item wire:navigate :href="route('fornecedores.index')" :active="request()->routeIs('fornecedores.index')" label="{{ __('Fornecedores') }}" />
+                            <x-dropdown.item wire:navigate :href="route('convenios.index')" :active="request()->routeIs('convenios.index')" label="{{ __('Convênios') }}" />
+                            <x-dropdown.item wire:navigate :href="route('clientes.index')" :active="request()->routeIs('clientes.index')" label="{{ __('Clientes') }}" />
                         </x-dropdown>
                     </x-nav-dropdown>
 
