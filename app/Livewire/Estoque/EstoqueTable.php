@@ -57,7 +57,7 @@ final class EstoqueTable extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('produtos_titulo', function (EstoqueMovimentacoes $model) {
-                return '<a href="'. route('produtos.index', ['search' => e($model->produtos_titulo)]) . '">'. e($model->produtos_titulo) .'</a>'; 
+                return '<a wire:navigate href="'. route('produtos.index', ['search' => e($model->produtos_titulo)]) . '">'. e($model->produtos_titulo) .'</a>'; 
             })
             ->addColumn('tipo')
             ->addColumn('quantidade')
