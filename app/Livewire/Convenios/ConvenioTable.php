@@ -42,8 +42,8 @@ final class ConvenioTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Convenios::query()->with('pais', 'estado', 'cidade')->withCount('clientes')
-        ->select('convenios.*')
+        return Convenios::query()->with('pais', 'estado', 'cidade')
+        ->select('convenios.*')->withCount('clientes')
         ->selectRaw('CONCAT(cnpj, cpf) as cnpj_cpf');
     }
 
@@ -64,6 +64,7 @@ final class ConvenioTable extends PowerGridComponent
                 if($model->estado) $endereco .= ' - '.$model->estado->uf;
                 return strlen($endereco) < 10 ? null : $endereco;
             })
+            ->addColumn('clientes_count', fn(Convenios $model) => $model->clientes_count)
             ->addColumn('created_at_formatted', fn (Convenios $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
@@ -84,6 +85,9 @@ final class ConvenioTable extends PowerGridComponent
             ->sortable(),
             Column::make('Endereço', 'endereco')
             ->searchable(),
+
+            Column::make('Clientes', 'clientes_count')
+            ->sortable(),
 
             Column::make('CNPJ', 'cnpj')->searchable()->hidden(),
             Column::make('CPF', 'cpf')->searchable()->hidden(),
