@@ -30,6 +30,13 @@
                         </x-dropdown>
                     </x-nav-dropdown>
 
+                    <x-nav-dropdown :active="request()->routeIs(['estoque.index'])">
+                        <x-dropdown align="left">
+                            <x-slot name="trigger">Estoque</x-slot>
+                            <x-dropdown.item wire:navigate :href="route('estoque.index')" :active="request()->routeIs('estoque.index')" label="{{ __('Movimentações') }}" />
+                        </x-dropdown>
+                    </x-nav-dropdown>
+
                     <x-nav-dropdown :active="request()->routeIs(['ncms.index', 'cests.index', 'cfops.index'])">
                         <x-dropdown align="left">
                             <x-slot name="trigger">Tributações</x-slot>

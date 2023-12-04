@@ -5,6 +5,7 @@ use App\Livewire\Categorias\CategoriaIndex;
 use App\Livewire\Clientes\ClienteIndex;
 use App\Livewire\Convenios\ConvenioIndex;
 use App\Livewire\Empresa\EmpresaEdit;
+use App\Livewire\Estoque\EstoqueIndex;
 use App\Livewire\Fornecedores\FornecedorIndex;
 use App\Livewire\Produtos\ProdutoIndex;
 use App\Livewire\Tributacoes\Cests\CestIndex;
@@ -44,7 +45,10 @@ Route::prefix('painel')->group(function () {
 
         Route::get('/empresa', EmpresaEdit::class)->name('empresa.edit');
         Route::get('/categorias', CategoriaIndex::class)->name('categorias.index');
+        
+        Route::get('/estoque', EstoqueIndex::class)->name('estoque.index');
         Route::get('/produtos', ProdutoIndex::class)->name('produtos.index');
+
         Route::get('/fornecedores', FornecedorIndex::class)->name('fornecedores.index');
         Route::get('/convenios', ConvenioIndex::class)->name('convenios.index');
         Route::get('/clientes', ClienteIndex::class)->name('clientes.index');
