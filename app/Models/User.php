@@ -71,4 +71,14 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Empresas', 'id', 'empresas_id');
     }
+
+    public function caixas()
+    {
+        return $this->hasMany('App\Models\Caixa', 'user_id', 'id');
+    }
+
+    public function caixa()
+    {
+        return $this->hasOne('App\Models\Caixa', 'user_id', 'id')->whereIn('status', [0])->latest();
+    }
 }

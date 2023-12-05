@@ -15,6 +15,9 @@
                     <x-nav-link wire:navigate :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Painel de Controle') }}
                     </x-nav-link>
+                    <x-nav-link wire:navigate :href="route('pdv.index')" :active="request()->routeIs('pdv.index')">
+                        {{ __('PDV') }}
+                    </x-nav-link>
                     <x-nav-link wire:navigate :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">
                         {{ __('Usuários') }}
                     </x-nav-link>

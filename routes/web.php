@@ -7,6 +7,7 @@ use App\Livewire\Convenios\ConvenioIndex;
 use App\Livewire\Empresa\EmpresaEdit;
 use App\Livewire\Estoque\EstoqueIndex;
 use App\Livewire\Fornecedores\FornecedorIndex;
+use App\Livewire\Pdv\Caixa\CaixaIndex;
 use App\Livewire\Produtos\ProdutoIndex;
 use App\Livewire\Tributacoes\Cests\CestIndex;
 use App\Livewire\Tributacoes\Cfops\CfopIndex;
@@ -57,6 +58,10 @@ Route::prefix('painel')->group(function () {
             Route::get('/ncms', NcmIndex::class)->name('ncms.index');
             Route::get('/cests', CestIndex::class)->name('cests.index');
             Route::get('/cfops', CfopIndex::class)->name('cfops.index');
+        });
+
+        Route::prefix('pdv')->group(function () {
+            Route::get('/', CaixaIndex::class)->name('pdv.index');
         });
     });
 });
