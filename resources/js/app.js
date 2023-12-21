@@ -39,3 +39,37 @@ window.toggleTheme = (value = null) => {
         localStorage.theme = localStorage.theme == 'light' ? 'dark' : 'light';
     }
 }
+
+document.addEventListener('livewire:init', () => {
+    console.log('livewire:init');
+    window.addEventListener('setFocus', function(e){
+        if(!e.detail.length) return;
+
+        setTimeout(function () {
+            let detail = e.detail[0];
+            let element;
+
+            if(detail.query != undefined)   element = document.querySelector(detail.query);
+            else if(detail.id != undefined) element = document.getElementById(detail.id);
+
+            if(element) {
+                if(detail.select != undefined && detail.select == true) element.select();
+
+                let time = (detail.time != undefined) ? detail.time : 0;
+                setTimeout(function () { element.focus() }, time);
+            }
+        }, 150);
+    });
+});
+
+document.addEventListener('livewire:initialized', () => {
+    console.log('livewire:initialized');
+});
+
+// window.setFocus = (value = null) => {
+//     let element = document.getElementById(value);
+//     if(element) {
+//         console.log(value, element);
+//         document.getElementById(value).focus();
+//     }
+// }
