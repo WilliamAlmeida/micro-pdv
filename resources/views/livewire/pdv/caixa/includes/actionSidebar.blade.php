@@ -4,8 +4,8 @@
     <div class="flex flex-wrap justify-center sm:justify-normal sm:flex-nowrap sm:flex-col gap-y-2 gap-x-1 flex-grow">
         <x-button primary label="Encerrar" :disabled="!count($caixa->vendas) || !$caixa->vendas->firstWhere('status', 0) ? true : false" />
         <x-button warning label="Orçamento" disabled="true" />
-        <x-button negative label="Sangria" />
-        <x-button positive label="Entrada" />
+        <x-button negative label="Sangria" wire:click="realizar_sangria" />
+        <x-button positive label="Entrada" wire:click="realizar_entrada" />
         <x-button sky label="Registros" :disabled="!count($caixa->vendas) || $caixa->vendas->firstWhere('status', 1) ? true : false" />
         <x-button purple label="Fechar Caixa" />
         <x-button pink label="Convênio" disabled="true" />

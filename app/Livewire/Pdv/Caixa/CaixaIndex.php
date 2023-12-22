@@ -2,14 +2,16 @@
 
 namespace App\Livewire\Pdv\Caixa;
 
+use App\Livewire\Forms\Pdv\EntradaForm;
+use App\Livewire\Forms\Pdv\SangriaForm;
 use Livewire\Component;
 use App\Models\Produtos;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
 
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Locked;
+use Illuminate\Support\Facades\DB;
 
 #[Layout('components.layouts.caixa')]
 class CaixaIndex extends Component
@@ -26,6 +28,12 @@ class CaixaIndex extends Component
     public $edicao_quantidade;
     #[Locked]
     public $edicao_preco_total;
+
+    public $withdrawalCashModal = false;
+    public SangriaForm $sangriaForm;
+
+    public $depositCashModal = false;
+    public EntradaForm $entradaForm;
 
     public $searchProductModal = false;
     public $editProductPrice = false;
@@ -111,21 +119,41 @@ class CaixaIndex extends Component
 
         $pesquisa = $this->pesquisa_produto;
 
-        $produtos = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual');
+        $unique_key = sha1(auth()->id().'.pdv.pesquisar_produto'.$pesquisa);
 
-        if(is_numeric($pesquisa)) {
-            $produtos->where(function($query) use ($pesquisa) {
-                return $query
-                    ->where('codigo_barras_1', $pesquisa)
-                    ->orWhere('codigo_barras_2', $pesquisa)
-                    ->orWhere('codigo_barras_3', $pesquisa)
-                    ->orWhere('id', $pesquisa);
-            });
-        }else{
-            $produtos->where('titulo', 'like', '%'.$pesquisa.'%')->get();
-        }
+        $produtos = cache()->remember($unique_key, 10, function() use ($pesquisa) {
+            $produtos = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual');
 
-        $produtos = $produtos->get();
+            if(is_numeric($pesquisa)) {
+                $produtos->where(function($query) use ($pesquisa) {
+                    return $query
+                        ->where('codigo_barras_1', $pesquisa)
+                        ->orWhere('codigo_barras_2', $pesquisa)
+                        ->orWhere('codigo_barras_3', $pesquisa)
+                        ->orWhere('id', $pesquisa);
+                });
+            }else{
+                $produtos->where('titulo', 'like', '%'.$pesquisa.'%');
+            }
+
+            return $produtos->get();
+        });
+
+        // $produtos = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual');
+
+        // if(is_numeric($pesquisa)) {
+        //     $produtos->where(function($query) use ($pesquisa) {
+        //         return $query
+        //             ->where('codigo_barras_1', $pesquisa)
+        //             ->orWhere('codigo_barras_2', $pesquisa)
+        //             ->orWhere('codigo_barras_3', $pesquisa)
+        //             ->orWhere('id', $pesquisa);
+        //     });
+        // }else{
+        //     $produtos->where('titulo', 'like', '%'.$pesquisa.'%');
+        // }
+
+        // $produtos = $produtos->get();
 
         if(!$produtos->count()) {
             $this->notification([
@@ -141,15 +169,19 @@ class CaixaIndex extends Component
         $this->reset('pesquisa_produto');
         
         if($produtos->count() == 1) {
-            $this->selecionar_produto($produtos[0]->id);
+            $this->selecionar_produto($produtos[0]->id, $produtos[0]);
         }else{
             $this->js('$openModal("searchProductModal")');
         }
     }
 
-    public function selecionar_produto($produto_id)
+    public function selecionar_produto($produto_id, $produto = null)
     {
-        $this->produto_selecionado = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual')->find($produto_id);
+        if($produto != null) {
+            $this->produto_selecionado = $produto;
+        }else{
+            $this->produto_selecionado = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual')->find($produto_id);
+        }
 
         $this->pesquisa_preco = $this->produto_selecionado->preco ?? 0;
 
@@ -332,7 +364,7 @@ class CaixaIndex extends Component
             //throw $th;
 
             $this->notification([
-                'title'       => 'Falha no cancelamento!',
+                'title'       => 'Aviso!',
                 'description' => 'Não foi possivel cancelar o Item.',
                 'icon'        => 'error'
             ]);
@@ -341,7 +373,7 @@ class CaixaIndex extends Component
         $this->mount();
     }
 
-    public function alterar_item($item_id, $params=null)
+    public function alterar_item($item_id)
     {
         $caixa = $this->caixa_show();
 
@@ -412,7 +444,7 @@ class CaixaIndex extends Component
 
             $this->notification([
                 'title'       => 'Aviso!',
-                'description' => 'Item removido.',
+                'description' => 'Item removido com sucesso.',
                 'icon'        => 'success'
             ]);
 
@@ -424,7 +456,7 @@ class CaixaIndex extends Component
     
             $this->notification([
                 'title'       => 'Aviso!',
-                'description' => 'Item atualizado.',
+                'description' => 'Item atualizado com sucesso.',
                 'icon'        => 'success'
             ]);
         }
@@ -432,6 +464,139 @@ class CaixaIndex extends Component
         $this->reset('editProductModal');
         
         $this->mount();
+    }
+
+    public function realizar_sangria()
+    {
+        $this->sangriaForm->reset();
+        $this->sangriaForm->resetValidation();
+
+        $this->js('$openModal("withdrawalCashModal")');
+
+        $this->set_focus('sangria_valor');
+    }
+
+    public function salvar_sangria()
+    {
+        $this->sangriaForm->validate();
+
+        $caixa = $this->caixa_show();
+
+        if(!$caixa) {
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Caixa não encontrado.',
+                'icon'        => 'error'
+            ]);
+            return $this->redirect('dashboard', true);
+        }
+
+        if($this->sangriaForm->valor > $this->caixa->vendas_encerradas()->sum('valor_total') + $this->caixa->entrada_total) {
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Valor da Sangria superior ao Valor do Caixa.',
+                'icon'        => 'info'
+            ]);
+            return;
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $resultado = $this->caixa->sangrias()->create([
+                'tipo'      => 's',
+                'motivo'    => $this->sangriaForm->motivo,
+                'valor'     => $this->sangriaForm->valor
+            ]);
+    
+            if($resultado) {
+                $this->caixa->update(['sangria_total' => $this->caixa->sangrias()->sum('valor')]);
+                // $this->printSangria($resultado->id, new Request(['no_return' => 1, 'interno' => 1]));
+            }
+    
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Sangria finalizada com sucesso!',
+                'icon'        => 'success'
+            ]);
+
+            DB::commit();
+
+            $this->reset('withdrawalCashModal');
+
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            DB::rollBack();
+
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Não foi possivel realizar a Sangria.',
+                'icon'        => 'error'
+            ]);
+        }
+    }
+
+    public function realizar_entrada()
+    {
+        $this->entradaForm->reset();
+        $this->entradaForm->resetValidation();
+
+        $this->js('$openModal("depositCashModal")');
+
+        $this->set_focus('entrada_valor');
+    }
+
+    public function salvar_entrada()
+    {
+        $this->entradaForm->validate();
+
+        $caixa = $this->caixa_show();
+
+        if(!$caixa) {
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Caixa não encontrado.',
+                'icon'        => 'error'
+            ]);
+            return $this->redirect('dashboard', true);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $resultado = $this->caixa->entradas()->create([
+                'tipo'      => 'e',
+                'motivo'    => $this->entradaForm->motivo,
+                'valor'     => $this->entradaForm->valor
+            ]);
+    
+            if($resultado) {
+                $this->caixa->update(['entrada_total' => $this->caixa->entradas()->sum('valor')]);
+                // $this->printEntrada($resultado->id, new Request(['no_return' => 1, 'interno' => 1]));
+            }
+    
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Entrada finalizada com sucesso!',
+                'icon'        => 'success'
+            ]);
+
+            DB::commit();
+
+            $this->reset('depositCashModal');
+
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            DB::rollBack();
+
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Não foi possivel realizar a Entrada.',
+                'icon'        => 'error'
+            ]);
+        }
     }
 
     #[On('onCloseSearchProductModal')]
@@ -451,6 +616,13 @@ class CaixaIndex extends Component
     {
         $this->reset('produto_selecionado', 'edicao_quantidade', 'edicao_preco', 'edicao_preco_total');
 
+        $this->set_focus('pesquisar_produto');
+    }
+
+    #[On('onCloseWithdrawalCashModal')]
+    #[On('onCloseDepositCashModal')]
+    public function onCloseWithdrawalDepositCashModal()
+    {
         $this->set_focus('pesquisar_produto');
     }
 

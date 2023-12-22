@@ -44,7 +44,7 @@
             <div class="flex-grow">
                 <div x-data="{ pesquisaProduto: @entangle('pesquisa_produto') }">
                     <x-input label="Pesquisa" placeholder="Pesquise pelo Produto" 
-                    x-model="pesquisaProduto" 
+                    x-model="pesquisaProduto"
                     id="pesquisar_produto" 
                     x-on:keyup.enter="pesquisaProduto !== '' ? $wire.pesquisar_produto() : ''" 
                     x-on:keyup.escape="$wire.escape_pesquisar_produto()"
