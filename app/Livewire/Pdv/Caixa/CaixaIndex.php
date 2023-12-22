@@ -2,16 +2,19 @@
 
 namespace App\Livewire\Pdv\Caixa;
 
-use App\Livewire\Forms\Pdv\EntradaForm;
-use App\Livewire\Forms\Pdv\SangriaForm;
 use Livewire\Component;
 use App\Models\Produtos;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
-
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\DB;
+use App\Models\EstoqueMovimentacoes;
+
+use App\Livewire\Forms\Pdv\EntradaForm;
+use App\Livewire\Forms\Pdv\PaymentForm;
+
+use App\Livewire\Forms\Pdv\SangriaForm;
 
 #[Layout('components.layouts.caixa')]
 class CaixaIndex extends Component
@@ -34,6 +37,9 @@ class CaixaIndex extends Component
 
     public $depositCashModal = false;
     public EntradaForm $entradaForm;
+
+    public $paymentModal = false;
+    public PaymentForm $pagamentoForm;
 
     public $searchProductModal = false;
     public $editProductPrice = false;
@@ -599,6 +605,137 @@ class CaixaIndex extends Component
         }
     }
 
+    public function encerrar_venda()
+    {
+        $this->pagamentoForm->reset();
+        $this->pagamentoForm->resetValidation();
+
+        $this->js('$openModal("paymentModal")');
+
+        $this->set_focus('desconto_valor');
+    }
+
+    public function updatedPagamentoForm()
+    {
+        $this->pagamentoForm->calcular($this->caixa->venda);
+    }
+
+    public function salvar_venda()
+    {
+        $caixa = $this->caixa_show();
+
+        if(!$caixa) {
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Caixa não encontrado.',
+                'icon'        => 'error'
+            ]);
+            return $this->redirect('dashboard', true);
+        }
+
+        if(!$caixa->venda) {
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Venda não encontrada.',
+                'icon'        => 'error'
+            ]);
+            return $this->redirect('dashboard', true);
+        }
+
+        $caixa->venda->pagamentos()->delete();
+
+        DB::beginTransaction();
+
+        try {
+            if($this->pagamentoForm->convenio) {
+                //     $caixa->venda->pagamentos()->create([
+                //         'caixa_id' => $caixa->id,
+                //         'forma_pagamento' => 'convenio',
+                //         'valor' => 0
+                //     ]);
+    
+                //     $caixa->venda->update([
+                //         'desconto' => 0,
+                //         'troco' => 0,
+                //         'status' => 4
+                //     ]);
+            }else{
+                $result = $this->pagamentoForm->store($caixa);
+                throw_unless(!$result, $result);
+
+                $caixa->venda->update([
+                    'desconto' => $this->pagamentoForm->desconto,
+                    'troco' => $this->pagamentoForm->troco,
+                    'status' => 1
+                ]);
+            }
+
+            $baixa_estoque = [];
+
+            foreach ($caixa->venda->itens as $key => $value) {
+                // if(in_array($value->produtos_id, $baixa_estoque)) {
+                //     $baixa_estoque[$itens->produtos_id] += $value->quantidade;
+                // }else{
+                    $baixa_estoque[$value->produtos_id] = $value->quantidade;
+                // }
+            }
+
+            $venda_id = $caixa->venda->id;
+
+            // $caixa = $this->caixa_show();
+
+            $baixas = [];
+            foreach ($baixa_estoque as $produto_id => $quantidade) {
+                $baixas[] = [
+                    'produtos_id' => $produto_id,
+                    'tipo' => 'venda',
+                    'quantidade' => $quantidade
+                ];
+            }
+
+            if(count($baixas)) {
+                $resultado = EstoqueMovimentacoes::insert($baixas);
+
+                if($resultado) {
+                    foreach ($caixa->venda->itens as $key => $value) {
+                        $value->produtos->update(['estoque_atual' => floatval($value->produtos->estoque_atual) - floatval($baixa_estoque[$value->produtos_id])]);
+                    }
+                }
+            }
+
+            if(!$this->pagamentoForm->convenio) {
+                // $resultado = $this->printTicket($venda_id, new Request(['no_return' => 1, 'interno' => 1]));
+            }
+
+            DB::commit();
+
+            if($this->pagamentoForm->convenio) {
+                $this->notification([
+                    'title'       => 'Aviso!',
+                    'description' => 'Convênio finalizado com sucesso.',
+                    'icon'        => 'success'
+                ]);
+            }else{
+                $this->notification([
+                    'title'       => 'Aviso!',
+                    'description' => 'Venda finalizada com sucesso.',
+                    'icon'        => 'success'
+                ]);
+            }
+
+            $this->reset('paymentModal');
+
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => $e->getMessage(),
+                'icon'        => 'error'
+            ]);
+        }
+    }
+
     #[On('onCloseSearchProductModal')]
     public function onCloseSearchProductModal()
     {
@@ -622,6 +759,12 @@ class CaixaIndex extends Component
     #[On('onCloseWithdrawalCashModal')]
     #[On('onCloseDepositCashModal')]
     public function onCloseWithdrawalDepositCashModal()
+    {
+        $this->set_focus('pesquisar_produto');
+    }
+
+    #[On('onClosePaymentModal')]
+    public function onClosePaymentModal()
     {
         $this->set_focus('pesquisar_produto');
     }
