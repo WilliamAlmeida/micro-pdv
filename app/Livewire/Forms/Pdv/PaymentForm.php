@@ -2,12 +2,19 @@
 
 namespace App\Livewire\Forms\Pdv;
 
+use App\Models\Clientes;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class PaymentForm extends Form
 {
+    #[Locked]
+    public $cliente_selecionado;
+
+    public $convenio = false;
+    public $cliente_id;
+
     public $desconto;
     #[Locked]
     public $informado;
@@ -19,12 +26,7 @@ class PaymentForm extends Form
     public $cartao_debito;
     public $cartao_credito;
 
-    #[Locked]
-    public $convenio = false;
-    public $convenio_nome;
-    public $convenio_matricula;
-
-    public function calcular($venda): void
+    public function calculeChangeBack($venda): void
     {
         $this->informado = $this->dinheiro + $this->ticket + $this->cartao_debito + $this->cartao_credito - $this->desconto;
         if($this->informado != 0) {
@@ -34,7 +36,7 @@ class PaymentForm extends Form
         }
     }
 
-    public function store($caixa): string|null
+    public function storePayment($caixa): string|null
     {
         try {
             if($this->dinheiro) {
@@ -68,6 +70,29 @@ class PaymentForm extends Form
                     'valor' => $this->cartao_credito
                 ]);
             }
+
+            return null;
+
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            return $th->getMessage();
+        }
+    }
+
+    public function resetAgreetment(): void
+    {
+        $this->reset('convenio_nome', 'convenio_matricula', 'convenio_selecionado');
+    }
+
+    public function storeAgreetment($caixa): string|null
+    {
+        try {
+            $caixa->venda->pagamentos()->create([
+                'caixa_id' => $caixa->id,
+                'forma_pagamento' => 'convenio',
+                'valor' => 0
+            ]);
 
             return null;
 

@@ -48,7 +48,7 @@
                     id="pesquisar_produto" 
                     x-on:keyup.enter="pesquisaProduto !== '' ? $wire.pesquisar_produto() : ''" 
                     x-on:keyup.escape="$wire.escape_pesquisar_produto()"
-                    x-on:keyup.slash="$wire.encerrar_venda(); pesquisaProduto = '';"
+                    x-on:keyup.slash="$wire.encerrar_venda(); pesquisaProduto = ''"
                     />
                 </div>
             </div>

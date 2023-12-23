@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pdv\Caixa;
 
+use App\Livewire\Forms\ConveniosForm;
 use Livewire\Component;
 use App\Models\Produtos;
 use WireUi\Traits\Actions;
@@ -15,6 +16,7 @@ use App\Livewire\Forms\Pdv\EntradaForm;
 use App\Livewire\Forms\Pdv\PaymentForm;
 
 use App\Livewire\Forms\Pdv\SangriaForm;
+use App\Models\Clientes;
 
 #[Layout('components.layouts.caixa')]
 class CaixaIndex extends Component
@@ -24,6 +26,7 @@ class CaixaIndex extends Component
     public $caixa;
 
     public $produto_selecionado;
+    public $cliente_selecionado;
 
     public $editProductModal = false;
     #[Locked]
@@ -607,6 +610,8 @@ class CaixaIndex extends Component
 
     public function encerrar_venda()
     {
+        if(!$this->caixa->venda?->valor_total) return;
+
         $this->pagamentoForm->reset();
         $this->pagamentoForm->resetValidation();
 
@@ -617,7 +622,21 @@ class CaixaIndex extends Component
 
     public function updatedPagamentoForm()
     {
-        $this->pagamentoForm->calcular($this->caixa->venda);
+        if(!$this->pagamentoForm->convenio) $this->pagamentoForm->calculeChangeBack($this->caixa->venda);
+    }
+
+    public function updatedPagamentoFormConvenio($value)
+    {
+        if($value == true || $value == false) $this->pagamentoForm->resetAgreetment();
+    }
+
+    public function pesquisar_cliente()
+    {
+        if($this->pagamentoForm->cliente_id) {
+            $this->cliente_selecionado = Clientes::find($this->pagamentoForm->cliente_id);
+        }else{
+            $this->reset('cliente_selecionado');
+        }
     }
 
     public function salvar_venda()
@@ -648,19 +667,17 @@ class CaixaIndex extends Component
 
         try {
             if($this->pagamentoForm->convenio) {
-                //     $caixa->venda->pagamentos()->create([
-                //         'caixa_id' => $caixa->id,
-                //         'forma_pagamento' => 'convenio',
-                //         'valor' => 0
-                //     ]);
-    
-                //     $caixa->venda->update([
-                //         'desconto' => 0,
-                //         'troco' => 0,
-                //         'status' => 4
-                //     ]);
+                $result = $this->pagamentoForm->storeAgreetment($caixa);
+                throw_unless(!$result, $result);
+
+                $caixa->venda->update([
+                    'desconto' => 0,
+                    'troco' => 0,
+                    'status' => 4
+                ]);
+
             }else{
-                $result = $this->pagamentoForm->store($caixa);
+                $result = $this->pagamentoForm->storePayment($caixa);
                 throw_unless(!$result, $result);
 
                 $caixa->venda->update([
