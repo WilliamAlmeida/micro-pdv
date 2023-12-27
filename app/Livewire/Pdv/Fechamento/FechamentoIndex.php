@@ -85,7 +85,7 @@ class FechamentoIndex extends Component
         // $caixa->total_gaveta = ($caixa->valor_inicial + ($caixa->pagamentos['dinheiro']->valor ?? 0) + $caixa->entrada_total) - ($caixa->descontos + $caixa->sangria_total);
     }
 
-    public function fechar_caixa()
+    public function fechar_caixa($params=null)
     {
         $this->caixa_show();
 
@@ -100,6 +100,19 @@ class FechamentoIndex extends Component
                 'icon'        => 'warning'
             ]);
             // return $this->redirect(route('pdv.index'), true);
+            return;
+        }
+
+        if($params == null) {
+            $this->dialog()->confirm([
+                'title'       => 'Você tem certeza?',
+                'description' => 'Deseja fechar o Caixa?',
+                'acceptLabel' => 'Sim',
+                'method'      => 'fechar_caixa',
+                'params'      => 'Close',
+            ]);
+
+            $this->set_focus(['button' => 'confirm']);
             return;
         }
 
