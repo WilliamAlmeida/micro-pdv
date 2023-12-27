@@ -28,7 +28,7 @@ class PaymentForm extends Form
 
     public function calculeChangeBack($venda): void
     {
-        $this->informado = $this->dinheiro + $this->ticket + $this->cartao_debito + $this->cartao_credito - $this->desconto;
+        $this->informado = $this->dinheiro + $this->ticket + $this->cartao_debito + $this->cartao_credito + $this->desconto;
         if($this->informado != 0) {
             $this->troco = $this->informado - $venda->valor_total;
         }else{

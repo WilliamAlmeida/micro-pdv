@@ -83,7 +83,7 @@
                 <x-button flat label="Cancelar" x-on:click="close" />
             @endif
 
-            @if(!$pagamentoForm->convenio && $pagamentoForm->troco > 0 || $pagamentoForm->convenio && $cliente_selecionado)
+            @if(!$pagamentoForm->convenio && $pagamentoForm->troco >= 0 || $pagamentoForm->convenio && $cliente_selecionado)
                 <x-button positive label="Finalizar" wire:click="salvar_venda" />
             @endif
         </div>

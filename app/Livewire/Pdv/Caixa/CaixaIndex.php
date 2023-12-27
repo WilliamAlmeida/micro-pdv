@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Pdv\Caixa;
 
-use App\Livewire\Forms\ConveniosForm;
 use Livewire\Component;
 use App\Models\Produtos;
 use WireUi\Traits\Actions;
@@ -17,11 +16,15 @@ use App\Livewire\Forms\Pdv\PaymentForm;
 
 use App\Livewire\Forms\Pdv\SangriaForm;
 use App\Models\Clientes;
+use App\Traits\HelperActions;
+use App\Traits\Pdv\CaixaActions;
 
 #[Layout('components.layouts.caixa')]
 class CaixaIndex extends Component
 {
     use Actions;
+    use CaixaActions;
+    use HelperActions;
 
     public $caixa;
 
@@ -56,25 +59,6 @@ class CaixaIndex extends Component
         $this->caixa = $this->caixa_show();
 
         $this->set_focus('pesquisar_produto');
-    }
-
-    private function caixa_show()
-    {
-        if(!auth()->user()->caixa()->exists()) {
-            $this->caixa = auth()->user()->caixa()->create([
-                'tipo_venda' => 'caixa',
-                'status' => 0,
-            ]);
-        }else{
-            $this->caixa = auth()->user()->caixa()->with('vendas')->first();
-            if($this->caixa && $this->caixa->venda) {
-                $this->caixa->venda->update(['valor_total' => $this->caixa->venda->itens()->sum('valor_total')]);
-                $this->caixa->venda->itens;
-                $this->caixa->venda->pagamentos;
-            }
-        }
-
-        return $this->caixa;
     }
 
     public function sair_caixa($params=null)
@@ -792,23 +776,6 @@ class CaixaIndex extends Component
             'title'       => $value,
             'icon'        => 'info'
         ]);
-    }
-
-    public function set_focus($values, $select=false)
-    {
-        if(is_array($values)) {
-            if(isset($values['button'])) {
-                if($values['button'] == 'confirm') {
-                    $this->set_focus(['query' => '[x-ref="accept"] button']);
-                }else{
-                    $this->set_focus(['query' => '[x-ref="reject"] button']);
-                }
-            }else{
-                $this->dispatch('setFocus', $values);
-            }
-        }else if(is_string($values)) {
-            $this->dispatch('setFocus', ['id' => $values, 'select' => $select]);
-        }
     }
 
     public function render()

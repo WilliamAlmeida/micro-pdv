@@ -1,19 +1,20 @@
 <?php
 
+use App\Livewire\Empresa\EmpresaEdit;
+use Illuminate\Support\Facades\Route;
+use App\Livewire\Estoque\EstoqueIndex;
+use App\Livewire\Pdv\Caixa\CaixaIndex;
+use App\Livewire\Clientes\ClienteIndex;
+use App\Livewire\Produtos\ProdutoIndex;
+use App\Livewire\Usuarios\UsuarioIndex;
+use App\Livewire\Convenios\ConvenioIndex;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Categorias\CategoriaIndex;
-use App\Livewire\Clientes\ClienteIndex;
-use App\Livewire\Convenios\ConvenioIndex;
-use App\Livewire\Empresa\EmpresaEdit;
-use App\Livewire\Estoque\EstoqueIndex;
-use App\Livewire\Fornecedores\FornecedorIndex;
-use App\Livewire\Pdv\Caixa\CaixaIndex;
-use App\Livewire\Produtos\ProdutoIndex;
+use App\Livewire\Tributacoes\Ncms\NcmIndex;
+use App\Livewire\Pdv\Vendas\VendaIndex;
 use App\Livewire\Tributacoes\Cests\CestIndex;
 use App\Livewire\Tributacoes\Cfops\CfopIndex;
-use App\Livewire\Tributacoes\Ncms\NcmIndex;
-use App\Livewire\Usuarios\UsuarioIndex;
-use Illuminate\Support\Facades\Route;
+use App\Livewire\Fornecedores\FornecedorIndex;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,8 @@ Route::prefix('painel')->group(function () {
 
         Route::prefix('pdv')->group(function () {
             Route::get('/', CaixaIndex::class)->name('pdv.index');
+
+            Route::get('vendas', VendaIndex::class)->name('pdv.vendas');
         });
     });
 });
