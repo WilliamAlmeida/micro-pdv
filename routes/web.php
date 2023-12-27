@@ -15,6 +15,7 @@ use App\Livewire\Pdv\Vendas\VendaIndex;
 use App\Livewire\Tributacoes\Cests\CestIndex;
 use App\Livewire\Tributacoes\Cfops\CfopIndex;
 use App\Livewire\Fornecedores\FornecedorIndex;
+use App\Livewire\Pdv\Fechamento\FechamentoIndex;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,7 @@ Route::prefix('painel')->group(function () {
             Route::get('/', CaixaIndex::class)->name('pdv.index');
 
             Route::get('vendas', VendaIndex::class)->name('pdv.vendas');
+            Route::get('fechamento', FechamentoIndex::class)->name('pdv.fechamento');
         });
     });
 });

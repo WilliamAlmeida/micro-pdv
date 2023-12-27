@@ -11,7 +11,11 @@
         @else
             <x-button sky label="Registros" disabled />
         @endif
-        <x-button purple label="Fechar Caixa" />
+        @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1))
+            <x-button purple label="Fechar Caixa" href="{{ route('pdv.fechamento') }}" wire:navigate />
+        @else
+            <x-button purple label="Fechar Caixa" disabled />
+        @endif
         <x-button pink label="Convênio" disabled="true" />
         <x-button rose label="Reimpressão" :disabled="!count($caixa->vendas) || $caixa->vendas->firstWhere('status', 1) ? true : false" />
         <x-button black label="Sair do Caixa" wire:click="sair_caixa" class="flex sm:hidden" />
