@@ -14,13 +14,13 @@
         'bg-lime-600 hover:bg-lime-500 dark:border-gray-700 dark:bg-indigo-500 dark:hover:bg-indigo-400'
         :
         'bg-gray-300 hover:bg-gray-200 dark:border-gray-700 dark:bg-transparent dark:hover:bg-gray-700'
-        }}" data-id="{{ $dados->id }}">
+        }} group/item" wire:key="{{ $dados->id }}">
             <td>{{ str_pad($dados->id, 6, "0", STR_PAD_LEFT) }}</td>
             <td>{{ \Carbon\Carbon::parse($dados->created_at)->format('H:i:s') }}</td>
             <td class="text-end">{{ number_format($dados->valor_total - $dados->desconto, 2, ',', '.') }}</td>
             <td class="text-end p-1">
                 @if(!$venda_selecionada || $venda_selecionada && $venda_selecionada->id != $dados->id)
-                    <x-button icon="eye" primary xs wire:click="visualizar_venda({{ $dados->id }})" />
+                    <x-button primary xs icon="eye" wire:click="visualizar_venda({{ $dados->id }})" class="invisible group-hover/item:visible" />
                 @endif
             </td>
         </tr>

@@ -53,17 +53,15 @@
             </div>
         </div>
         <div class="mx-auto min-w-[150px] sm:min-w-[200px]">
-            <span>Sangrias
-                <span class="float-right">Total: {{ $caixa->sangrias->count() }}</span>
-            </span>
+            <span>Sangrias</span>
+            <span class="float-right">Total: {{ $caixa->sangrias->count() }}</span>
             <div class="dark:bg-secondary-800 dark:text-secondary-400 border border-secondary-300 dark:border-secondary-600 form-input block py-0 w-full rounded-md shadow-sm text-end">
                 <span class="sm:text-2xl">{{ number_format($caixa->sangria_total ?? 0, 2, ',', '.') }}</span>
             </div>
         </div>
         <div class="mx-auto min-w-[150px] sm:min-w-[200px]">
-            <span>Entradas
-                <span class="float-right">Total: {{ $caixa->entradas->count() }}</span>
-            </span>
+            <span>Entradas</span>
+            <span class="float-right">Total: {{ $caixa->entradas->count() }}</span>
             <div class="dark:bg-secondary-800 dark:text-secondary-400 border border-secondary-300 dark:border-secondary-600 form-input block py-0 w-full rounded-md shadow-sm text-end">
                 <span class="sm:text-2xl">{{ number_format($caixa->entrada_total ?? 0, 2, ',', '.') }}</span>
             </div>
