@@ -18,12 +18,15 @@ use App\Livewire\Forms\Pdv\SangriaForm;
 use App\Models\Clientes;
 use App\Traits\HelperActions;
 use App\Traits\Pdv\CaixaActions;
+use App\Traits\Pdv\CaixaTickets;
+use Exception;
 
 #[Layout('components.layouts.caixa')]
 class CaixaIndex extends Component
 {
     use Actions;
     use CaixaActions;
+    use CaixaTickets;
     use HelperActions;
 
     public $caixa;
@@ -504,7 +507,8 @@ class CaixaIndex extends Component
     
             if($resultado) {
                 $this->caixa->update(['sangria_total' => $this->caixa->sangrias()->sum('valor')]);
-                // $this->printSangria($resultado->id, new Request(['no_return' => 1, 'interno' => 1]));
+                $result = $this->printSangria($resultado->id);
+                throw_if(array_key_exists('error', $result), $result['message']);
             }
     
             $this->notification([
@@ -566,7 +570,8 @@ class CaixaIndex extends Component
     
             if($resultado) {
                 $this->caixa->update(['entrada_total' => $this->caixa->entradas()->sum('valor')]);
-                // $this->printEntrada($resultado->id, new Request(['no_return' => 1, 'interno' => 1]));
+                $result = $this->printEntrada($resultado->id);
+                throw_if(array_key_exists('error', $result), $result['message']);
             }
     
             $this->notification([
@@ -705,7 +710,8 @@ class CaixaIndex extends Component
             }
 
             if(!$this->pagamentoForm->convenio) {
-                // $resultado = $this->printTicket($venda_id, new Request(['no_return' => 1, 'interno' => 1]));
+                $result = $this->printTicket($venda_id);
+                throw_if(array_key_exists('error', $result), $result['message']);
             }
 
             DB::commit();
@@ -735,6 +741,47 @@ class CaixaIndex extends Component
                 'icon'        => 'error'
             ]);
         }
+    }
+
+    public function imprimir_ultima_venda($params=null)
+    {
+        if($params == null) {
+            $this->dialog()->confirm([
+                'title'       => 'Deseja Reimprimir a Última Venda?',
+                'description' => 'Você não terá como cancelar após a confirmação!',
+                'acceptLabel' => 'Sim',
+                'method'      => 'imprimir_ultima_venda',
+                'params'      => 'Print',
+            ]);
+
+            $this->set_focus(['button' => 'confirm']);
+            return;
+        }
+
+        try {
+            $result = $this->printTicket_Last($this->caixa);
+            throw_if(array_key_exists('error', $result), $result['message']);
+
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => $result['message'],
+                'icon'        => 'success'
+            ]);
+
+            DB::commit();
+
+        } catch (\Throwable $e) {
+            //throw $e;
+
+            DB::rollback();
+
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => $e->getMessage(),
+                'icon'        => 'error'
+            ]);
+        }
+
     }
 
     #[On('onCloseSearchProductModal')]

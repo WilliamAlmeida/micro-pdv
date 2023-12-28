@@ -26,7 +26,7 @@
             <x-button primary label="Emitir Nota" disabled />
         </div>
         <div>
-            <x-button primary label="Reimprimir Venda" disabled />
+            <x-button primary label="Reimprimir Venda" wire:click="imprimir_venda" />
         </div>
         <div>
             <x-button negative label="Cancelar Venda" wire:click="cancelar_venda" />

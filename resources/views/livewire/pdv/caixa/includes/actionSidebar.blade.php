@@ -17,7 +17,7 @@
             <x-button purple label="Fechar Caixa" disabled />
         @endif
         <x-button pink label="Convênio" disabled="true" />
-        <x-button rose label="Reimpressão" :disabled="!count($caixa->vendas) || $caixa->vendas->firstWhere('status', 1) ? true : false" />
+        <x-button rose label="Reimpressão" :disabled="!count($caixa->vendas) || !$caixa->vendas->firstWhere('status', 1) ? true : false" wire:click="imprimir_ultima_venda" />
         <x-button black label="Sair do Caixa" wire:click="sair_caixa" class="flex sm:hidden" />
     </div>
 
