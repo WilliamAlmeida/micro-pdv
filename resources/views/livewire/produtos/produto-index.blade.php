@@ -7,8 +7,9 @@
     
     <div class="pt-6 pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-end">
+            <div class="flex justify-end gap-2">
                 <x-button white class="mb-3" label="Novo Produto" wire:click="$dispatch('create')" />
+                <x-button white class="mb-3" label="Importar Produtos" x-on:click="$dispatch('import')" />
             </div>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -21,4 +22,6 @@
 
     <livewire:produtos.produto-create-modal />
     <livewire:produtos.produto-edit-modal />
+
+    <livewire:produtos.produto-import-modal />
 </div>
