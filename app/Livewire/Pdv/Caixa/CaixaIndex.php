@@ -132,7 +132,7 @@ class CaixaIndex extends Component
                 $produtos->where('titulo', 'like', '%'.$pesquisa.'%');
             }
 
-            return $produtos->get();
+            return $produtos->get()->toArray();
         });
 
         // $produtos = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual');
@@ -151,7 +151,9 @@ class CaixaIndex extends Component
 
         // $produtos = $produtos->get();
 
-        if(!$produtos->count()) {
+        $produtos_count = count($produtos);
+
+        if(!$produtos_count) {
             $this->notification([
                 'title'       => 'Aviso!',
                 'description' => 'Nenhum Produto encontrado.',
@@ -164,8 +166,8 @@ class CaixaIndex extends Component
         
         $this->reset('pesquisa_produto');
         
-        if($produtos->count() == 1) {
-            $this->selecionar_produto($produtos[0]->id, $produtos[0]);
+        if($produtos_count == 1) {
+            $this->selecionar_produto($produtos[0]['id'], new Produtos($produtos[0]));
         }else{
             $this->js('$openModal("searchProductModal")');
         }

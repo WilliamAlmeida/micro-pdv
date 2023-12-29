@@ -6,7 +6,8 @@
         $dispatch('setFocus', [{'id': element.id}]);
     }
 }">
-<x-modal.card title="Produtos" blur wire:model.defer="searchProductModal" max-width="3xl"
+<x-modal.card title="Produtos" blur wire:model.defer="searchProductModal" fullscreen
+    {{-- max-width="3xl" --}}
     x-on:close="$dispatch('onCloseSearchProductModal')"
     x-on:open="initSelect"
     >
@@ -23,18 +24,18 @@
             </thead>
             <tbody>
                 @forelse($produtos_encontrados as $key => $produto)
-                    <tr wire:key="{{ $produto->id }}">
+                    <tr wire:key="{{ $produto['id'] }}">
                         <th scope="row" width="10%">
-                            <x-radio lg label="{{ $produto->id }}"
-                                id="radio_{{ $produto->id }}" name="radio_produtos"
-                                wire:keyup.enter.once="selecionar_produto({{ $produto->id }})"
+                            <x-radio lg label="{{ $produto['id'] }}"
+                                id="radio_{{ $produto['id'] }}" name="radio_produtos"
+                                wire:keyup.enter.once="selecionar_produto({{ $produto['id'] }})"
                             />
                         </th>
-                        <td width="30%" name="titulo">{{ $produto->titulo }}</td>
-                        <td width="17.5%" class="text-end">{{ $produto->estoque_atual ? $produto->estoque_atual : 0 }}</td>
-                        <td width="17.5%" name="preco" class="text-end">R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
-                        <td width="7.5%">
-                            <x-button primary sm icon="plus" wire:click="selecionar_produto({{ $produto->id }})" class="my-1" />
+                        <td width="30%" name="titulo">{{ $produto['titulo'] }}</td>
+                        <td width="17.5%" class="text-end">{{ $produto['estoque_atual'] ? $produto['estoque_atual'] : 0 }}</td>
+                        <td width="17.5%" name="preco" class="text-end">R$ {{ number_format($produto['preco'], 2, ',', '.') }}</td>
+                        <td width="7.5%" class="text-center">
+                            <x-button primary sm icon="plus" wire:click="selecionar_produto({{ $produto['id'] }})" class="my-1" />
                         </td>
                     </tr>
                 @empty
