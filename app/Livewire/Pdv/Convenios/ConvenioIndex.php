@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pdv\Vendas;
+namespace App\Livewire\Pdv\Convenios;
 
 use Livewire\Component;
 use WireUi\Traits\Actions;
@@ -15,7 +15,7 @@ use App\Models\EstoqueMovimentacoes;
 use App\Traits\Pdv\CaixaTickets;
 
 #[Layout('components.layouts.caixa')]
-class VendaIndex extends Component
+class ConvenioIndex extends Component
 {
     use Actions;
     use CaixaActions;
@@ -29,7 +29,7 @@ class VendaIndex extends Component
     public $caixa;
 
     #[Locked]
-    public $venda_selecionada;
+    public $convenio_selecionado;
 
     #[Locked]
     public $formas_pagamento;
@@ -47,7 +47,7 @@ class VendaIndex extends Component
         }
 
         if(is_numeric($this->c)) {
-            $this->visualizar_venda($this->c);
+            $this->visualizar_convenio($this->c);
         }
     }
 
@@ -55,10 +55,11 @@ class VendaIndex extends Component
     {
         if(auth()->user()->caixa()->exists()) {
             $this->caixa = auth()->user()->caixa()->with([
-                'vendas' => fn($q) => $q->with('pagamentos')->whereIn('status', [1])
+                'vendas' => fn($q) => $q->with('pagamentos')->whereIn('status', [4])
             ])->first();
 
             if($this->caixa && $this->caixa->vendas) {
+
                 $pagamentos = $this->caixa->vendas->map(function($item) {
                     return $item->pagamentos->map(function($item) {
                         return $item->only('forma_pagamento', 'valor');;
@@ -72,7 +73,7 @@ class VendaIndex extends Component
         }
     }
 
-    public function cancelar_venda($params=null)
+    public function cancelar_convenio($params=null)
     {
         $this->caixa_show();
 
@@ -85,23 +86,23 @@ class VendaIndex extends Component
             return $this->redirect(route('dashboard'), true);
         }
 
-        $venda = $this->venda_selecionada;
+        $convenio = $this->convenio_selecionado;
 
-        if(!$venda) {
+        if(!$convenio) {
             $this->notification([
                 'title'       => 'Aviso!',
-                'description' => 'Venda não encontrada.',
+                'description' => 'Convênio não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('pdv.vendas'), true);
+            return $this->redirect(route('pdv.convenios'), true);
         }
 
         if($params == null) {
             $this->dialog()->confirm([
                 'title'       => 'Você tem certeza?',
-                'description' => 'Deseja cancelar esta Venda?',
+                'description' => 'Deseja cancelar este Convênio?',
                 'acceptLabel' => 'Sim',
-                'method'      => 'cancelar_venda',
+                'method'      => 'cancelar_convenio',
                 'params'      => 'Cancel',
             ]);
 
@@ -114,7 +115,7 @@ class VendaIndex extends Component
         try {
             $baixa_estoque = [];
 
-            foreach ($venda->itens as $key => $value) {
+            foreach ($convenio->itens as $key => $value) {
                 // if(in_array($value->produtos_id, $baixa_estoque)) {
                 //     $baixa_estoque[$itens->produtos_id] += $value->quantidade;
                 // }else{
@@ -126,7 +127,7 @@ class VendaIndex extends Component
             foreach ($baixa_estoque as $produto_id => $quantidade) {
                 $baixas[] = [
                     'produtos_id' => $produto_id,
-                    'tipo' => 'venda_can',
+                    'tipo' => 'convenio_can',
                     'quantidade' => $quantidade
                 ];
             }
@@ -135,19 +136,19 @@ class VendaIndex extends Component
                 $resultado = EstoqueMovimentacoes::insert($baixas);
 
                 if($resultado) {
-                    foreach ($venda->itens as $key => $value) {
+                    foreach ($convenio->itens as $key => $value) {
                         $value->produtos->update(['estoque_atual' => floatval($value->produtos->estoque_atual) + floatval($baixa_estoque[$value->produtos_id])]);
                     }
                 }
             }
 
-            // $venda->itens()->delete();
-            // $venda->pagamentos()->delete();
-            $venda->update(['status' => 8]);
+            // $convenio->itens()->delete();
+            // $convenio->pagamentos()->delete();
+            $convenio->update(['status' => 8]);
 
             $this->notification([
                 'title'       => 'Aviso!',
-                'description' => 'Venda cancelda com sucesso!',
+                'description' => 'Convênio cancelado com sucesso!',
                 'icon'        => 'success'
             ]);
 
@@ -156,34 +157,34 @@ class VendaIndex extends Component
             $this->mount();
 
         } catch (\Throwable $th) {
-            //throw $th;
+            // throw $th;
 
             DB::rollBack();
 
             $this->notification([
                 'title'       => 'Aviso!',
-                'description' => 'Falha ao cancelar a venda.',
+                'description' => 'Falha ao cancelar a convênio.',
                 'icon'        => 'error'
             ]);
         }
     }
 
-    public function visualizar_venda($id)
+    public function visualizar_convenio($id)
     {
         $this->caixa_show();
 
-        $this->venda_selecionada = $this->caixa->vendas->firstWhere('id', $id);
+        $this->convenio_selecionado = $this->caixa->vendas->firstWhere('id', $id);
         $this->c = $id;
 
-        if($this->venda_selecionada) {
-            $value = Str::upper($this->venda_selecionada->pagamentos->pluck('forma_pagamento')->join(', '));
+        if($this->convenio_selecionado) {
+            $value = Str::upper($this->convenio_selecionado->pagamentos->pluck('forma_pagamento')->join(', '));
             $this->formas_pagamento = str_replace('_', ' ', $value);
         }else{
             $this->reset('formas_pagamento');
         }
     }
 
-    public function imprimir_venda($params=null)
+    public function imprimir_convenio($params=null)
     {
         $this->caixa_show();
 
@@ -196,23 +197,23 @@ class VendaIndex extends Component
             return $this->redirect(route('dashboard'), true);
         }
 
-        $venda = $this->venda_selecionada;
+        $convenio = $this->convenio_selecionado;
 
-        if(!$venda) {
+        if(!$convenio) {
             $this->notification([
                 'title'       => 'Aviso!',
-                'description' => 'Venda não encontrada.',
+                'description' => 'Convênio não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('pdv.vendas'), true);
+            return $this->redirect(route('pdv.convenios'), true);
         }
 
         if($params == null) {
             $this->dialog()->confirm([
-                'title'       => 'Deseja Reimprimir esta Venda?',
+                'title'       => 'Deseja Reimprimir esta Convênio?',
                 'description' => 'Você não terá como cancelar após a confirmação!',
                 'acceptLabel' => 'Sim',
-                'method'      => 'imprimir_venda',
+                'method'      => 'imprimir_convenio',
                 'params'      => 'Print',
             ]);
 
@@ -221,7 +222,7 @@ class VendaIndex extends Component
         }
 
         try {
-            $result = $this->printTicket($venda->id);
+            $result = $this->printTicket($convenio->id);
             throw_if(array_key_exists('error', $result), $result['message']);
 
             $this->notification([
@@ -248,6 +249,6 @@ class VendaIndex extends Component
 
     public function render()
     {
-        return view('livewire.pdv.vendas.venda-index');
+        return view('livewire.pdv.convenios.convenio-index');
     }
 }

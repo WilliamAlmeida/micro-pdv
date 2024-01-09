@@ -43,10 +43,9 @@ final class FornecedorTable extends PowerGridComponent
     
     public function datasource(): Builder
     {
-        return Fornecedores::query()->with('pais', 'estado', 'cidade')
+        return Fornecedores::query()->withTenant()->with('pais', 'estado', 'cidade')
         ->select('fornecedores.*')
-        ->selectRaw('CONCAT(cnpj, cpf) as cnpj_cpf')
-        ;
+        ->selectRaw('CONCAT(cnpj, cpf) as cnpj_cpf');
     }
     
     public function relationSearch(): array
@@ -114,7 +113,7 @@ final class FornecedorTable extends PowerGridComponent
             Filter::inputText('end_bairro')->operators(['contains']),
             Filter::inputText('end_uf')->operators(['contains']),
             Filter::select('idestado')
-            ->dataSource(Estado::all())
+            ->dataSource(Estado::has('fornecedores')->get())
             ->optionValue('id')
             ->optionLabel('uf'),
             Filter::select('idcidade')

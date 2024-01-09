@@ -5,7 +5,9 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import 'flatpickr/dist/flatpickr.min.css'
 
 // import Alpine from 'alpinejs';
+import mask from '@alpinejs/mask'
 // window.Alpine = Alpine;
+window.Alpine.plugin(mask);
 
 import './../../vendor/power-components/livewire-powergrid/dist/powergrid'
  

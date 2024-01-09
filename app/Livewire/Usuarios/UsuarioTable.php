@@ -39,7 +39,7 @@ final class UsuarioTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return User::query();
+        return User::query()->withTenant();
     }
 
     public function relationSearch(): array

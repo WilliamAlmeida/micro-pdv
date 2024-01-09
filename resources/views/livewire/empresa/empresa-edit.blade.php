@@ -30,7 +30,7 @@
                             <div x-show="activeTab === 'dados'" class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dados" role="tabpanel" aria-labelledby="dados-tab">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     @if($readMode)
-                                        <x-input label="Tipo de Empresa" value="{{ $empresa->getTipoEmpresa()['name'] ?: null }}" disabled="true" />
+                                        <x-input label="Tipo de Empresa" value="{{ $empresa ? ($empresa->getTipoEmpresa()['name'] ?? null) : null }}" disabled="true" />
                                     @endif
                                     <x-select label="Tipo de Empresa" placeholder="Selecione um Tipo" :options="$array_tipos_empresas" option-label="name" option-value="id" wire:model.defer="form.id_tipo_empresa" :class="$readMode ? 'hidden' : null" />
 
@@ -59,7 +59,7 @@
                                             </x-input>
             
                                             @if($readMode)
-                                                <x-input label="Estado" value="{{ $empresa->estado->uf }}" disabled="true" />
+                                                <x-input label="Estado" value="{{ $empresa->estado->uf ?? null }}" disabled="true" />
                                             @endif
                                             <x-select label="Estado" placeholder="Selecione um Estado" :options="$array_estados" option-label="uf" option-value="id" wire:model.defer="form.idestado" :class="$readMode ? 'hidden' : null" />
 
@@ -126,7 +126,7 @@
                                     <x-button flat label="Cancelar" class="w-24" wire:click="cancel" />
                                     <x-button primary label="Salvar" class="w-24" wire:click='save' />
                                 @else
-                                    <x-button primary label="Editar" class="w-24" wire:click="$set('readMode', false)" />
+                                    <x-button primary :label="$empresa ? 'Editar' : 'Registrar'" class="w-24" wire:click="$set('readMode', false)" />
                                 @endif
                             </div>
 

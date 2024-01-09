@@ -7,11 +7,9 @@ use Livewire\Component;
 use App\Models\Empresas;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Locked;
 use App\Livewire\Forms\EmpresaForm;
 use App\Http\Controllers\Api\CepController;
-use App\Rules\ArrayValidacao;
 
 class EmpresaEdit extends Component
 {
@@ -19,7 +17,7 @@ class EmpresaEdit extends Component
 
     public EmpresaForm $form;
 
-    public Empresas $empresa;
+    public $empresa;
 
     public $readMode = true;
 
@@ -42,9 +40,8 @@ class EmpresaEdit extends Component
         $this->array_tipos_empresas = Empresas::$tipos_empresas;
         $this->array_estados = Estado::select('id','uf')->get()->toArray();
 
-        $this->empresa = auth()->user()->empresa;
+        $this->empresa = auth()->user()->empresa ?? null;
         $this->form->mount($this->empresa);
-        // $this->empresa = new Empresas;
     }
 
     public function updated($name, $value) 
@@ -110,8 +107,8 @@ class EmpresaEdit extends Component
         if($params == null) {
             $this->dialog()->confirm([
                 'title'       => 'Você tem certeza?',
-                'description' => 'Atualizar as informações da empresa?',
-                'acceptLabel' => 'Sim, atualize',
+                'description' => 'Salvar os dados da empresa?',
+                'acceptLabel' => 'Sim, salve',
                 'method'      => 'save',
                 'params'      => 'Saved',
             ]);
@@ -122,6 +119,8 @@ class EmpresaEdit extends Component
             if(!$this->empresa) {
                 $this->empresa = new Empresas($this->form->all());
                 $this->empresa->save();
+
+                auth()->user()->update(['empresas_id' => $this->empresa->id]);
             }else{
                 $this->empresa->update($this->form->all());
                 $this->empresa->horarios()->delete();
@@ -131,8 +130,8 @@ class EmpresaEdit extends Component
             if($horarios) $this->empresa->horarios()->createMany($horarios);
 
             $this->notification([
-                'title'       => 'Empresa atualizada!',
-                'description' => 'Empresa foi atualizada com sucesso.',
+                'title'       => 'Aviso!',
+                'description' => 'Dados da Empresa foram salvo com sucesso.',
                 'icon'        => 'success'
             ]);
 
@@ -141,8 +140,8 @@ class EmpresaEdit extends Component
             // throw $th;
     
             $this->notification([
-                'title'       => 'Falha na atualização!',
-                'description' => 'Não foi possivel atualizar a Empresa.',
+                'title'       => 'Falha no processo!',
+                'description' => 'Não foi possivel salvar os dados da Empresa.',
                 'icon'        => 'error'
             ]);
         }

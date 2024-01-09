@@ -3,7 +3,6 @@
 namespace App\Livewire\Tributacoes\Ncms;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
 use App\Models\Tributacoes\Ncm;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;

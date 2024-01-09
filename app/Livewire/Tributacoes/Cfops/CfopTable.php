@@ -3,7 +3,6 @@
 namespace App\Livewire\Tributacoes\Cfops;
 
 use App\Models\Tributacoes\Cfop;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;

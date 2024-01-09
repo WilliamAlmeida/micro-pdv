@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-5697fc73.css",
+    "file": "assets/app-2d79d901.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -12,8 +12,13 @@
     "css": [
       "assets/app-85dc921b.css"
     ],
-    "file": "assets/app-ed1a687f.js",
+    "file": "assets/app-5a6e3df6.js",
     "isEntry": true,
     "src": "resources/js/app.js"
+  },
+  "resources/js/plugins/cleave.min.js": {
+    "file": "assets/cleave.min-688b3a7e.js",
+    "isEntry": true,
+    "src": "resources/js/plugins/cleave.min.js"
   }
 }

@@ -606,15 +606,17 @@ class CaixaIndex extends Component
         $this->pagamentoForm->reset();
         $this->pagamentoForm->resetValidation();
 
+        $this->pagamentoForm->valor_total = $this->caixa->venda->valor_total;
+
         $this->js('$openModal("paymentModal")');
 
         $this->set_focus('desconto_valor');
     }
 
-    public function updatedPagamentoForm()
-    {
-        if(!$this->pagamentoForm->convenio) $this->pagamentoForm->calculeChangeBack($this->caixa->venda);
-    }
+    // public function updatedPagamentoForm()
+    // {
+    //     if(!$this->pagamentoForm->convenio) $this->pagamentoForm->calculeChangeBack($this->caixa->venda);
+    // }
 
     public function updatedPagamentoFormConvenio($value)
     {
@@ -672,8 +674,8 @@ class CaixaIndex extends Component
                 throw_unless(!$result, $result);
 
                 $caixa->venda->update([
-                    'desconto' => $this->pagamentoForm->desconto,
-                    'troco' => $this->pagamentoForm->troco,
+                    'desconto' => $this->pagamentoForm->currency2Decimal($this->pagamentoForm->desconto),
+                    'troco' => $this->pagamentoForm->currency2Decimal($this->pagamentoForm->troco),
                     'status' => 1
                 ]);
             }

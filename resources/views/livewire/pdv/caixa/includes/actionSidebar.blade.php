@@ -2,22 +2,34 @@
     <div class="text-center font-bold dark:text-white">Ações</div>
     
     <div class="flex flex-wrap justify-center sm:justify-normal sm:flex-nowrap sm:flex-col gap-y-2 gap-x-1 flex-grow">
-        <x-button primary label="Encerrar" wire:click="encerrar_venda" :disabled="!count($caixa->vendas) || !$caixa->vendas->firstWhere('status', 0) ? true : false" />
-        <x-button warning label="Orçamento" disabled="true" />
+        @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 0))
+            <x-button primary label="Encerrar" wire:click="encerrar_venda" />
+        @else
+            <x-button secondary label="Encerrar" disabled wire:click="encerrar_venda" />
+        @endif
+        {{-- <x-button warning label="Orçamento" disabled="true" /> --}}
         <x-button negative label="Sangria" wire:click="realizar_sangria" />
         <x-button positive label="Entrada" wire:click="realizar_entrada" />
         @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1))
             <x-button sky label="Registros" href="{{ route('pdv.vendas') }}" wire:navigate />
         @else
-            <x-button sky label="Registros" disabled />
+            <x-button secondary label="Registros" disabled />
         @endif
         @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1))
             <x-button purple label="Fechar Caixa" href="{{ route('pdv.fechamento') }}" wire:navigate />
         @else
-            <x-button purple label="Fechar Caixa" disabled />
+            <x-button secondary label="Fechar Caixa" disabled />
         @endif
-        <x-button pink label="Convênio" disabled="true" />
-        <x-button rose label="Reimpressão" :disabled="!count($caixa->vendas) || !$caixa->vendas->firstWhere('status', 1) ? true : false" wire:click="imprimir_ultima_venda" />
+        {{-- @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 4))
+            <x-button pink label="Convênio" href="{{ route('pdv.convenios') }}" wire:navigate />
+        @else
+            <x-button pink label="Convênio" disabled />
+        @endif --}}
+        @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1))
+            <x-button rose label="Reimpressão" wire:click="imprimir_ultima_venda" />
+        @else
+            <x-button secondary label="Reimpressão" disabled wire:click="imprimir_ultima_venda" />
+        @endif
         <x-button black label="Sair do Caixa" wire:click="sair_caixa" class="flex sm:hidden" />
     </div>
 

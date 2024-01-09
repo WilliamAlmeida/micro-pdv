@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -10,10 +11,11 @@ class Convenios extends Model
     protected $table = 'convenios';
     protected $primaryKey = 'id';
     // public $timestamps = false;
-    use SoftDeletes;
+    use SoftDeletes, HasTenant;
 
     /*Add your validation rules here*/
     public static $rules = array(
+        'empresas_id' => array('min:0'),
         'nome_fantasia' => array('required','min:0','max:255'),
         'slug' => array('min:0','max:255'),
         'razao_social' => array('min:0','max:255'),
@@ -34,6 +36,7 @@ class Convenios extends Model
     );
 
     public static $rules_u = array(
+        'empresas_id' => array('min:0'),
         'nome_fantasia' => array('required','min:0','max:255'),
         'slug' => array('min:0','max:255'),
         'razao_social' => array('min:0','max:255'),
@@ -59,7 +62,7 @@ class Convenios extends Model
      * @var array
      */
     protected $fillable = [
-        'id_tipo_fornecedor', 'nome_fantasia', 'slug', 'razao_social', 'idpais', 'idestado', 'idcidade', 'cnpj', 'inscricao_estadual', 'cpf', 'end_logradouro', 'end_numero', 'end_complemento', 'end_bairro', 'end_cidade', 'end_uf', 'end_cep', 'whatsapp'
+        'empresas_id', 'nome_fantasia', 'slug', 'razao_social', 'idpais', 'idestado', 'idcidade', 'cnpj', 'inscricao_estadual', 'cpf', 'end_logradouro', 'end_numero', 'end_complemento', 'end_bairro', 'end_cidade', 'end_uf', 'end_cep', 'whatsapp'
     ];
 
     /**
@@ -70,6 +73,11 @@ class Convenios extends Model
     protected $hidden = [
         // 'id',
     ];
+
+    public function empresas()
+    {
+        return $this->hasOne('App\Models\Empresas', 'id', 'empresas_id');
+    }
 
     public function pais()
     {

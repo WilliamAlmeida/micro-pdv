@@ -43,7 +43,7 @@ final class ClienteTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Clientes::query()->with('pais', 'estado', 'cidade', 'convenio')
+        return Clientes::query()->withTenant()->with('pais', 'estado', 'cidade', 'convenio')
         ->select('clientes.*')
         ->selectRaw('CONCAT(cnpj, cpf) as cnpj_cpf');
     }

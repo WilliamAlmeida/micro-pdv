@@ -10,13 +10,15 @@ class ProdutoController extends Controller
 {
     public function index(Request $request)
     {
+        $produtos = Produtos::orderBy('titulo');
+
         if($request->filled('search')) {
-            $produtos = Produtos::orderBy('titulo')->where('titulo', 'like', $request->search.'%')->limit(50)->get();
-        }else{
-            $produtos = Produtos::orderBy('titulo')->limit(50)->get();
+            $produtos->where('titulo', 'like', $request->search.'%');
         }
 
-        return $produtos;
+        if($request->filled('empresa')) $produtos->withTenant(1, $request->get('empresa'));
+
+        return $produtos->limit(50)->get();
     }
 
     public function show(string $id)

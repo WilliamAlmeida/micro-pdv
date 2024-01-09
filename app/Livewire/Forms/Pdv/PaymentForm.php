@@ -9,6 +9,8 @@ use Livewire\Form;
 
 class PaymentForm extends Form
 {
+    public $valor_total = 0;
+
     #[Locked]
     public $cliente_selecionado;
 
@@ -16,9 +18,9 @@ class PaymentForm extends Form
     public $cliente_id;
 
     public $desconto;
-    #[Locked]
-    public $informado;
-    #[Locked]
+    // #[Locked]
+    public $informado = 0;
+    // #[Locked]
     public $troco;
 
     public $dinheiro;
@@ -26,15 +28,21 @@ class PaymentForm extends Form
     public $cartao_debito;
     public $cartao_credito;
 
-    public function calculeChangeBack($venda): void
+    public function currency2Decimal($value): float
     {
-        $this->informado = $this->dinheiro + $this->ticket + $this->cartao_debito + $this->cartao_credito + $this->desconto;
-        if($this->informado != 0) {
-            $this->troco = $this->informado - $venda->valor_total;
-        }else{
-            $this->reset('troco');
-        }
+        $value = str_replace('.', ',', $value);
+        return floatval(str_replace(',', '.', $value));
     }
+
+    // public function calculeChangeBack($venda): void
+    // {
+    //     $this->informado = floatval($this->dinheiro) + floatval($this->ticket) + floatval($this->cartao_debito) + floatval($this->cartao_credito) + floatval($this->desconto);
+    //     if($this->informado != 0) {
+    //         $this->troco = floatval($this->informado) - floatval($venda->valor_total);
+    //     }else{
+    //         $this->reset('troco');
+    //     }
+    // }
 
     public function storePayment($caixa): string|null
     {
@@ -43,7 +51,7 @@ class PaymentForm extends Form
                 $caixa->venda->pagamentos()->create([
                     'caixa_id' => $caixa->id,
                     'forma_pagamento' => 'dinheiro',
-                    'valor' => $this->dinheiro
+                    'valor' => $this->currency2Decimal($this->dinheiro)
                 ]);
             }
     
@@ -51,7 +59,7 @@ class PaymentForm extends Form
                 $caixa->venda->pagamentos()->create([
                     'caixa_id' => $caixa->id,
                     'forma_pagamento' => 'ticket',
-                    'valor' => $this->ticket
+                    'valor' => $this->currency2Decimal($this->ticket)
                 ]);
             }
     
@@ -59,7 +67,7 @@ class PaymentForm extends Form
                 $caixa->venda->pagamentos()->create([
                     'caixa_id' => $caixa->id,
                     'forma_pagamento' => 'cartao_debito',
-                    'valor' => $this->cartao_debito
+                    'valor' => $this->currency2Decimal($this->cartao_debito)
                 ]);
             }
     
@@ -67,7 +75,7 @@ class PaymentForm extends Form
                 $caixa->venda->pagamentos()->create([
                     'caixa_id' => $caixa->id,
                     'forma_pagamento' => 'cartao_credito',
-                    'valor' => $this->cartao_credito
+                    'valor' => $this->currency2Decimal($this->cartao_credito)
                 ]);
             }
 

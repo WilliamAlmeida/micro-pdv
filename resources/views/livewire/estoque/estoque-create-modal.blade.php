@@ -11,7 +11,7 @@
                         label="Produto"
                         wire:model.defer="form.produtos_id"
                         placeholder="Selecione um Produto"
-                        :async-data="route('api.produtos')"
+                        :async-data="route('api.produtos', ['empresa' => $empresa ?? null])"
                         option-label="titulo"
                         option-value="id"
                         x-on:selected="$wire.fillProduto()"

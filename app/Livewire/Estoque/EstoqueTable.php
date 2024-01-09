@@ -41,7 +41,9 @@ final class EstoqueTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return EstoqueMovimentacoes::query()->with('produtos')
+        return EstoqueMovimentacoes::query()
+        ->whereHas('produtos.empresas', fn($q) => $q->whereId(auth()->user()->empresas_id))
+        ->with('produtos')
         ->leftJoin('produtos','produtos.id','estoque_movimentacoes.produtos_id')
         ->select('estoque_movimentacoes.*', 'produtos.titulo as produtos_titulo')
         ->latest();

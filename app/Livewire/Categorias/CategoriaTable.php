@@ -40,7 +40,7 @@ final class CategoriaTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Categorias::query()->withCount('produtos');
+        return Categorias::query()->withTenant()->withCount('produtos');
     }
 
     public function relationSearch(): array

@@ -66,4 +66,9 @@ class Estado extends Model
     {
     	return $this->hasMany('App\User', 'end_idestado', 'id');
     }
+
+    public function fornecedores()
+    {
+    	return $this->belongsTo('App\Models\Fornecedores', 'id', 'idestado');
+    }
 }
