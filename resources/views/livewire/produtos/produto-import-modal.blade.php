@@ -89,8 +89,9 @@
         </div>
 
         <x-slot name="footer">
-            <div class="flex justify-end gap-x-4">
-                <div class="flex">
+            <div class="flex justify-between gap-x-4">
+                <x-button primary label="Baixar Modelo" href="{{ asset('assets/modelos-importacao/produtos.xlsx') }}" download />
+                <div class="flex gap-x-4">
                     <x-button flat label="Cancelar" x-on:click="close" />
                     <x-button primary label="Importar" wire:click="save" />
                 </div>
