@@ -1,24 +1,15 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-2d79d901.css",
+    "file": "assets/app-Ci0bNNGN.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
-  "resources/js/app.css": {
-    "file": "assets/app-85dc921b.css",
-    "src": "resources/js/app.css"
-  },
   "resources/js/app.js": {
     "css": [
-      "assets/app-85dc921b.css"
+      "assets/app-tY8lvnP6.css"
     ],
-    "file": "assets/app-5a6e3df6.js",
+    "file": "assets/app-Qk5jiD8k.js",
     "isEntry": true,
     "src": "resources/js/app.js"
-  },
-  "resources/js/plugins/cleave.min.js": {
-    "file": "assets/cleave.min-688b3a7e.js",
-    "isEntry": true,
-    "src": "resources/js/plugins/cleave.min.js"
   }
 }
