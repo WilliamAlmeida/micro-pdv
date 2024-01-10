@@ -4,6 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Caixa;
 use App\Models\CaixaSangriaEntrada;
+use App\Models\ConveniosHead;
+use App\Models\ConveniosItens;
+use App\Models\ConveniosRecebimentos;
+use App\Models\ConveniosPagamentos;
 use App\Models\VendasHead;
 use App\Models\VendasItens;
 use App\Models\VendasPagamentos;
@@ -22,5 +26,9 @@ class ResetDadosCaixa extends Seeder
         VendasHead::truncate();
         VendasItens::truncate();
         VendasPagamentos::truncate();
+        ConveniosHead::truncate();
+        ConveniosItens::truncate();
+        ConveniosRecebimentos::truncate();
+        ConveniosPagamentos::truncate();
     }
 }
