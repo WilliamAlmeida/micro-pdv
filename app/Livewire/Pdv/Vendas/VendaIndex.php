@@ -60,9 +60,18 @@ class VendaIndex extends Component
 
             if($this->caixa && $this->caixa->vendas) {
                 $pagamentos = $this->caixa->vendas->map(function($item) {
-                    return $item->pagamentos->map(function($item) {
+                    $value = $item->pagamentos->map(function($item) {
                         return $item->only('forma_pagamento', 'valor');;
                     });
+
+                    if($value->firstWhere('forma_pagamento', 'convenio')) {
+                        $value->transform(function($item_2) use ($item) {
+                            $item_2['valor'] = $item->valor_total;
+                            return $item_2;
+                        });
+                    }
+
+                    return $value;
                 })->collapse()->groupBy('forma_pagamento')->map(function($item) {
                     return $item->sum('valor');
                 });
