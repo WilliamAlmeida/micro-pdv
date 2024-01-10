@@ -2,9 +2,7 @@
 
 namespace App\Livewire\Forms\Pdv;
 
-use App\Models\Clientes;
 use Livewire\Attributes\Locked;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class PaymentForm extends Form
@@ -96,6 +94,15 @@ class PaymentForm extends Form
     public function storeAgreetment($caixa): string|null
     {
         try {
+            $convenio = $caixa->venda->convenio()->create([
+                'caixa_id' => $caixa->id,
+                'clientes_id' => $this->cliente_id,
+            ]);
+
+            foreach($caixa->venda->itens as $item) {
+                $convenio->itens()->create($item->toArray());
+            }
+
             $caixa->venda->pagamentos()->create([
                 'caixa_id' => $caixa->id,
                 'forma_pagamento' => 'convenio',
