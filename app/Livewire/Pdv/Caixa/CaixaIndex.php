@@ -402,7 +402,7 @@ class CaixaIndex extends Component
 
         $this->js('$openModal("editProductModal")');
         
-        $this->set_focus('edicao_quantidade');
+        $this->set_focus('edicao_quantidade', true);
     }
 
     public function updatedEdicaoQuantidade($value) 
@@ -666,7 +666,7 @@ class CaixaIndex extends Component
                 $caixa->venda->update([
                     'desconto' => 0,
                     'troco' => 0,
-                    'status' => 4
+                    'status' => 1,
                 ]);
 
             }else{
