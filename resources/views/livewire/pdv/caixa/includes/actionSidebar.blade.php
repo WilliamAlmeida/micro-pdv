@@ -20,11 +20,7 @@
         @else
             <x-button secondary label="Fechar Caixa" disabled />
         @endif
-        {{-- @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 4))
-            <x-button pink label="Convênio" href="{{ route('pdv.convenios') }}" wire:navigate />
-        @else
-            <x-button pink label="Convênio" disabled />
-        @endif --}}
+        <x-button pink label="Convênios" href="{{ route('pdv.convenios') }}" wire:navigate />
         @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1))
             <x-button rose label="Reimpressão" wire:click="imprimir_ultima_venda" />
         @else
