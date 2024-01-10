@@ -17,7 +17,8 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/plugins/cleave.min.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="{{ asset('build/assets/plugins/cleave.min.js?id=1') }}" data-navigate-track></script>
     </head>
     <body class="font-sans antialiased scrollbar">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
