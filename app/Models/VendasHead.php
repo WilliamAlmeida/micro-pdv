@@ -64,4 +64,9 @@ class VendasHead extends Model
     {
         return $this->hasMany('App\Models\Impressoes','rel_id','id')->where('rel_table','=','vendas');
     }
+
+    public function convenio()
+    {
+        return $this->hasOne('App\Models\ConveniosHead','vendas_head_id','id');
+    }
 }
