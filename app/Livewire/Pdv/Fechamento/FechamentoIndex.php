@@ -25,6 +25,9 @@ class FechamentoIndex extends Component
     public $pagamentos;
 
     #[Locked]
+    public $convenios;
+
+    #[Locked]
     public $formas_pagamento;
 
     public function mount()
@@ -43,26 +46,132 @@ class FechamentoIndex extends Component
     public function caixa_show()
     {
         if(auth()->user()->caixa()->exists()) {
+            /* Obtém o objeto 'caixa' associado ao usuário autenticado */
             $this->caixa = auth()->user()->caixa()->with([
                 'vendas' => fn($q) => $q->with('pagamentos')->whereStatus(1),
-                'entradas', 'sangrias'
+                'entradas', 'sangrias',
+                'convenios_recebimentos.pagamentos',
+                'convenios_itens_pendentes', 'convenios_itens_cancelados', 'convenios_itens_pagos'
             ])->first();
 
-            if($this->caixa && $this->caixa->vendas) {
-                $pagamentos = $this->caixa->vendas->map(function($item) {
-                    return $item->pagamentos->map(function($item) {
-                        return $item->only('forma_pagamento', 'valor');;
+            /* Verifica se existe o objeto caixa e se há vendas associadas a ele */
+            if ($this->caixa && $this->caixa->vendas) {
+                $quant_convenios = 0;
+
+                /* Mapeia as vendas para obter os pagamentos, filtrando apenas aqueles com status 1 */
+                $pagamentos = $this->caixa->vendas->map(function ($item) use (&$quant_convenios) {
+                    $value = $item->pagamentos->map(function ($item) {
+                        return $item->only('forma_pagamento', 'valor');
                     });
-                })->collapse()->groupBy('forma_pagamento')->map(function($item) {
+
+                    /* Verifica se a forma de pagamento é 'convenio' e ajusta o valor */
+                    if ($value->firstWhere('forma_pagamento', 'convenio')) {
+                        $value->transform(function ($item_2) use ($item) {
+                            $item_2['valor'] = $item->valor_total;
+                            return $item_2;
+                        });
+
+                        $quant_convenios++;
+                    }
+
+                    return $value;
+
+                })->collapse()->groupBy('forma_pagamento')->map(function ($item) {
                     return $item->sum('valor');
                 });
 
+                /* Configura a variável $convenios com a quantidade e valor total de pagamentos com 'convenio' */
+                $this->convenios['lancados'] = ['quant' => $quant_convenios, 'valor' => ($pagamentos['convenio'] ?? 0)];
+                unset($pagamentos['convenio'], $quant_convenios);
+
+                /* Mapeia os pagamentos dos convênios recebidos no caixa */
+                $recebimentos = $this->caixa->convenios_recebimentos->map(function ($item) {
+                    return $item->pagamentos->map(function ($item) {
+                        return $item->only('forma_pagamento', 'valor');
+                    });;
+
+                })->collapse()->groupBy('forma_pagamento')->map(function ($item) {
+                    return $item->sum('valor');
+                });
+
+                /* Adiciona os valores dos recebimentos ao array de pagamentos */
+                foreach ($recebimentos as $key => $value) {
+                    if ($pagamentos->has($key)) {
+                        $pagamentos[$key] += $value;
+                    } else {
+                        $pagamentos[$key] = $value;
+                    }
+                }
+
+                /* Limpa a variável $recebimentos e configura a variável $pagamentos */
+                unset($recebimentos);
                 $this->pagamentos = $pagamentos;
 
+                /* Calcula o total na gaveta considerando entradas, sangrias e pagamentos em dinheiro */
                 $this->gaveta_total = $this->caixa->entradas->sum('valor') ?? 0;
                 $this->gaveta_total -= $this->caixa->sangrias->sum('valor') ?? 0;
-                $this->gaveta_total += $this->caixa->pagamentos['dinheiro'] ?? 0;
+                $this->gaveta_total += $this->pagamentos['dinheiro'] ?? 0;
             }
+
+            // $this->caixa = auth()->user()->caixa()->with([
+            //     'vendas' => fn($q) => $q->with('pagamentos')->whereStatus(1),
+            //     'entradas', 'sangrias',
+            //     'convenios_recebimentos.pagamentos',
+            //     'convenios_itens_pendentes', 'convenios_itens_cancelados', 'convenios_itens_pagos'
+            // ])->first();
+
+            // if($this->caixa && $this->caixa->vendas) {
+            //     $quant_convenios = 0;
+
+            //     $pagamentos = $this->caixa->vendas->map(function($item) use (&$quant_convenios) {
+            //         $value = $item->pagamentos->map(function($item) {
+            //             return $item->only('forma_pagamento', 'valor');;
+            //         });
+
+            //         if($value->firstWhere('forma_pagamento', 'convenio')) {
+            //             $value->transform(function($item_2) use ($item) {
+            //                 $item_2['valor'] = $item->valor_total;
+            //                 return $item_2;
+            //             });
+
+            //             $quant_convenios++;
+            //         }
+
+            //         return $value;
+
+            //     })->collapse()->groupBy('forma_pagamento')->map(function($item) {
+            //         return $item->sum('valor');
+            //     });
+
+            //     $this->convenios['lancados'] = ['quant' => $quant_convenios, 'valor' => ($pagamentos['convenio'] ?? 0)];
+            //     unset($pagamentos['convenio'], $quant_convenios);
+
+            //     $recebimentos = $this->caixa->convenios_recebimentos->map(function($item) {
+            //         $value = $item->pagamentos->map(function($item) {
+            //             return $item->only('forma_pagamento', 'valor');;
+            //         });
+
+            //         return $value;
+
+            //     })->collapse()->groupBy('forma_pagamento')->map(function($item) {
+            //         return $item->sum('valor');
+            //     });
+
+            //     foreach($recebimentos as $key => $value) {
+            //         if($pagamentos->has($key)) {
+            //             $pagamentos[$key] += $value;
+            //         }else{
+            //             $pagamentos[$key] = $value;
+            //         }
+            //     }
+
+            //     unset($recebimentos);
+            //     $this->pagamentos = $pagamentos;
+
+            //     $this->gaveta_total = $this->caixa->entradas->sum('valor') ?? 0;
+            //     $this->gaveta_total -= $this->caixa->sangrias->sum('valor') ?? 0;
+            //     $this->gaveta_total += $this->pagamentos['dinheiro'] ?? 0;
+            // }
         }
 
         // $caixa->pagamentos['total_caixa'] = (object) [

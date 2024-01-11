@@ -73,4 +73,38 @@
             </div>
         </div>
     </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-1 gap-2">
+        <div class="grow text-center col-span-2 sm:col-auto">
+            <span class="text-2xl sm:text-3xl font-bold">Convênios</span>
+        </div>
+        <div class="mx-auto min-w-[150px] sm:min-w-[200px]">
+            <span>Conv. Lanc.</span>
+            <span class="float-right">Total: {{ $convenios['lancados']['quant'] ?? 0 }}</span>
+            <div class="dark:bg-secondary-800 dark:text-secondary-400 border border-secondary-300 dark:border-secondary-600 form-input block py-0 w-full rounded-md shadow-sm text-end">
+                <span class="sm:text-2xl">{{ number_format($convenios['lancados']['valor'] ?? 0, 2, ',', '.') }}</span>
+            </div>
+        </div>
+        <div class="mx-auto min-w-[150px] sm:min-w-[200px]">
+            <span>Conv. em Aberto.</span>
+            <span class="float-right">Total: {{ $caixa->convenios_itens_pendentes->count() }}</span>
+            <div class="dark:bg-secondary-800 dark:text-secondary-400 border border-secondary-300 dark:border-secondary-600 form-input block py-0 w-full rounded-md shadow-sm text-end">
+                <span class="sm:text-2xl">{{ number_format($caixa->convenios_itens_pendentes->sum('valor_total') - $caixa->convenios_itens_pendentes->sum('desconto') ?? 0, 2, ',', '.') }}</span>
+            </div>
+        </div>
+        <div class="mx-auto min-w-[150px] sm:min-w-[200px]">
+            <span>Conv. Canc.</span>
+            <span class="float-right">Total: {{ $caixa->convenios_itens_cancelados->count() }}</span>
+            <div class="dark:bg-secondary-800 dark:text-secondary-400 border border-secondary-300 dark:border-secondary-600 form-input block py-0 w-full rounded-md shadow-sm text-end">
+                <span class="sm:text-2xl">{{ number_format($caixa->convenios_itens_cancelados->sum('valor_total') - $caixa->convenios_itens_cancelados->sum('desconto') ?? 0, 2, ',', '.') }}</span>
+            </div>
+        </div>
+        <div class="sm:mx-auto col-span-2 sm:col-auto sm:min-w-[200px]">
+            <span>Conv. Receb.</span>
+            <span class="float-right">Total: {{ $caixa->convenios_recebimentos->count() }}</span>
+            <div class="dark:bg-green-800 dark:text-green-400 border border-secondary-300 dark:border-green-700 form-input block py-0 w-full rounded-md shadow-sm text-end bg-green-400 text-white">
+                <span class="sm:text-2xl">{{ number_format($caixa->convenios_recebimentos->sum('valor_total') - $caixa->convenios_recebimentos->sum('desconto') ?? 0, 2, ',', '.') }}</span>
+            </div>
+        </div>
+    </div>
 </div>
