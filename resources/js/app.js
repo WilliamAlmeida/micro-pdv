@@ -44,6 +44,7 @@ window.toggleTheme = (value = null) => {
 
 document.addEventListener('livewire:init', () => {
     console.log('livewire:init');
+
     window.addEventListener('setFocus', function(e){
         if(!e.detail.length) return;
 
@@ -61,6 +62,13 @@ document.addEventListener('livewire:init', () => {
                 setTimeout(function () { element.focus() }, time);
             }
         }, 150);
+    });
+
+    document.addEventListener('keydown', function(event) {
+        // Verifica se a tecla pressionada é 'm' e se a tecla Ctrl também está pressionada
+        if (event.key === 'm' && event.ctrlKey) {
+            Livewire.dispatch('openArtisanPanel');
+        }
     });
 });
 
