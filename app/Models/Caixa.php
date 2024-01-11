@@ -94,4 +94,9 @@ class Caixa extends Model
     {
         return $this->hasMany('App\Models\CaixaSangriaEntrada','caixa_id','id')->where('tipo', '=', 'e');
     }
+
+    public function convenio_recebidos()
+    {
+        return $this->hasMany('App\Models\CoveniosRecebimentos','caixa_id','id');
+    }
 }

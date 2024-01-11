@@ -11,14 +11,14 @@ class ConveniosRecebimentos extends Model
 
 	/*Add your validation rules here*/
 	public static $rules = array(
-        'convenios_head_id' => array('required','min:0'),
+        'caixa_id' => array('min:0'),
         'desconto' => array('min:0'),
         'troco' => array('min:0'),
         'valor_total' => array('min:0'),
 	);
 
 	public static $rules_u = array(
-        'convenios_head_id' => array('required','min:0'),
+        'caixa_id' => array('min:0'),
         'desconto' => array('min:0'),
         'troco' => array('min:0'),
         'valor_total' => array('min:0'),
@@ -30,7 +30,7 @@ class ConveniosRecebimentos extends Model
      * @var array
      */
     protected $fillable = [
-    	'convenios_head_id', 'desconto', 'troco', 'valor_total'
+    	'caixa_id', 'desconto', 'troco', 'valor_total'
     ];
 
     /**
@@ -41,6 +41,11 @@ class ConveniosRecebimentos extends Model
     protected $hidden = [
         // 'id',
     ];
+
+    public function caixa()
+    {
+        return $this->hasOne('App\Models\Caixa','id','caixa_id');
+    }
 
     public function itens()
     {

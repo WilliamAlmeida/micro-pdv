@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms\Pdv;
+namespace App\Livewire\Forms\Pdv\Caixa;
 
 use Livewire\Attributes\Locked;
 use Livewire\Form;

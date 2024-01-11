@@ -12,9 +12,13 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use App\Traits\Pdv\CaixaActions;
 use App\Traits\Pdv\CaixaTickets;
+use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\DB;
 use App\Models\EstoqueMovimentacoes;
-use Livewire\Attributes\Validate;
+use App\Models\ConveniosRecebimentos;
+use App\Livewire\Forms\Pdv\Convenio\ReceivementForm;
+use App\Livewire\Forms\Pdv\Convenio\DivideItemForm;
+use App\Livewire\Forms\Pdv\Convenio\ReturnItemForm;
 
 #[Layout('components.layouts.caixa')]
 class ConvenioIndex extends Component
@@ -27,6 +31,7 @@ class ConvenioIndex extends Component
     #[Locked]
     public $caixa;
 
+    public $vendas_status = 0;
     public $vendas_ate;
 
     public $cliente_id;
@@ -43,14 +48,16 @@ class ConvenioIndex extends Component
     public $produto_quantidade = 0;
 
     public $returnProductModal = false;
-
-    #[Validate('required|min:1|numeric', as: 'quantidade')]
-    public $devolver_quantidade = 0;
+    public ReturnItemForm $devolucaoForm;
 
     public $divideProductModal = false;
+    public DivideItemForm $fracionamentoForm;
 
-    #[Validate('required|min:1|numeric', as: 'quantidade')]
-    public $fracionar_quantidade = 0;
+    public $receivementModal = false;
+    public ReceivementForm $recebimentoForm;
+
+    #[Locked]
+    public $recebimentos_convenio = [];
 
     public function mount()
     {
@@ -64,7 +71,7 @@ class ConvenioIndex extends Component
             return $this->redirect(route('pdv.index'), true);
         }
 
-        $this->vendas_ate = now()->addDay()->format('d-m-Y');
+        // $this->vendas_ate = now()->addDay()->format('d-m-Y');
         // $this->cliente_id = 3;
         // $this->cliente_selecionado = Clientes::find($this->cliente_id);
         // $this->filtrar_itens();
@@ -77,7 +84,7 @@ class ConvenioIndex extends Component
             $this->caixa = auth()->user()->caixa()->first();
 
             if($this->caixa) {
-                $convenios = ConveniosHead::with('caixa','cliente','venda','recebimentos','itens');
+                $convenios = ConveniosHead::with('caixa','cliente','venda','itens');
 
                 $this->caixa->convenios = $convenios->get();
             }
@@ -115,22 +122,40 @@ class ConvenioIndex extends Component
 
     public function filtrar_itens()
     {
-        $this->reset('itens_selecionados');
+        $this->reset('itens_selecionados', 'itens_convenio', 'recebimentos_convenio');
 
-        $itens = ConveniosItens::with('convenio','recebimento');
+        if($this->vendas_status == 0 || $this->vendas_status == 2) {
+            $itens = ConveniosItens::with('convenio','recebimento');
+            
+            $itens->whereHas('convenio', function($query) {
+                return $query->whereClientesId($this->cliente_id);
+            });
 
-        $itens->whereHas('convenio', function($query) {
-            return $query->whereClientesId($this->cliente_id);
-        });
+            if(!in_array($this->vendas_status, [0, 2])) $this->vendas_status = 0;
 
-        $itens->whereStatus(0);
+            $itens->whereStatus($this->vendas_status);
 
-        if($this->vendas_ate) {
-            $data_final = \Carbon\Carbon::parse($this->vendas_ate)->endOfDay()->format('Y-m-d H:i:s');
-            $itens->where('created_at', '<=', $data_final);
+            if($this->vendas_ate) {
+                $data_final = \Carbon\Carbon::parse($this->vendas_ate)->endOfDay()->format('Y-m-d H:i:s');
+                $itens->where('created_at', '<=', $data_final);
+            }
+
+            $this->itens_convenio = $itens->get();
+
+        }else if($this->vendas_status == 1) {
+            $recebimentos = ConveniosRecebimentos::with('itens','pagamentos');
+
+            $recebimentos->whereHas('itens.convenio', function($query) {
+                return $query->whereClientesId($this->cliente_id);
+            });
+
+            if($this->vendas_ate) {
+                $data_final = \Carbon\Carbon::parse($this->vendas_ate)->endOfDay()->format('Y-m-d H:i:s');
+                $recebimentos->where('created_at', '<=', $data_final);
+            }
+
+            $this->recebimentos_convenio = $recebimentos->get();
         }
-
-        $this->itens_convenio = $itens->get();
     }
 
     public function devolver_item()
@@ -139,8 +164,8 @@ class ConvenioIndex extends Component
 
         $this->produto_selecionado  = collect($this->itens_convenio)->firstWhere('id', $this->itens_selecionados[0]);
         $this->produto_quantidade   = $this->produto_selecionado->quantidade;
-        $this->devolver_quantidade  = 0;
-        
+        $this->devolucaoForm->reset();
+
         $this->js('$openModal("returnProductModal")');
         $this->set_focus('devolver_quantidade');
     }
@@ -176,7 +201,7 @@ class ConvenioIndex extends Component
             return $this->redirect(route('pdv.convenios'), true);
         }
 
-        $this->validateOnly('devolver_quantidade');
+        $this->devolucaoForm->validate();
 
         if($params == null) {
             $this->dialog()->confirm([
@@ -195,26 +220,26 @@ class ConvenioIndex extends Component
 
         $item = $this->produto_selecionado;
 
-        if($this->devolver_quantidade > $item->quantidade) $this->devolver_quantidade = $item->quantidade;
+        if($this->devolucaoForm->quantidade > $item->quantidade) $this->devolucaoForm->quantidade = $item->quantidade;
 
         try {
             $devolucoes = [
                 'produtos_id' => $item->produtos_id,
                 'tipo' => 'convenio_dev',
-                'quantidade' => $this->devolver_quantidade
+                'quantidade' => $this->devolucaoForm->quantidade
             ];
 
             $resultado = EstoqueMovimentacoes::insert($devolucoes);
 
             if($resultado) {
-                $item->produto->update(['estoque_atual' => $item->produto->estoque_atual + $this->devolver_quantidade]);
+                $item->produto->update(['estoque_atual' => $item->produto->estoque_atual + $this->devolucaoForm->quantidade]);
 
-                if($this->devolver_quantidade == $item->quantidade) {
-                    $item->delete();
+                if($this->devolucaoForm->quantidade == $item->quantidade) {
+                    $item->update(['status' => 2]);
                 }else{
                     $item->update([
-                        'quantidade' => $item->quantidade - $this->devolver_quantidade,
-                        'valor_total' => (($item->quantidade - $this->devolver_quantidade) * $item->preco) - $item->desconto,
+                        'quantidade' => $item->quantidade - $this->devolucaoForm->quantidade,
+                        'valor_total' => (($item->quantidade - $this->devolucaoForm->quantidade) * $item->preco) - $item->desconto,
                     ]);
                 }
             }
@@ -234,9 +259,9 @@ class ConvenioIndex extends Component
             $this->filtrar_itens();
 
         } catch (\Throwable $th) {
+            // throw $th;
+            
             DB::rollBack();
-
-            throw $th;
 
             $this->notification([
                 'title'       => 'Aviso!',
@@ -252,7 +277,7 @@ class ConvenioIndex extends Component
 
         $this->produto_selecionado  = collect($this->itens_convenio)->firstWhere('id', $this->itens_selecionados[0]);
         $this->produto_quantidade   = $this->produto_selecionado->quantidade;
-        $this->fracionar_quantidade  = 0;
+        $this->fracionamentoForm->reset();
         
         $this->js('$openModal("divideProductModal")');
         $this->set_focus('fracionar_quantidade');
@@ -289,9 +314,9 @@ class ConvenioIndex extends Component
             return $this->redirect(route('pdv.convenios'), true);
         }
 
-        $this->validateOnly('fracionar_quantidade');
+        $this->fracionamentoForm->validate();
 
-        if($this->fracionar_quantidade >= $this->produto_selecionado->quantidade) {
+        if($this->fracionamentoForm->quantidade >= $this->produto_selecionado->quantidade) {
             $this->notification([
                 'title'       => 'Aviso!',
                 'description' => 'Quantidade informada não pode ser maior ou igual a quantidade atual.',
@@ -319,13 +344,13 @@ class ConvenioIndex extends Component
 
         try {
             $item->update([
-                'quantidade' => $item->quantidade - $this->fracionar_quantidade,
-                'valor_total' => (($item->quantidade - $this->fracionar_quantidade) * $item->preco) - $item->desconto,
+                'quantidade' => $item->quantidade - $this->fracionamentoForm->quantidade,
+                'valor_total' => (($item->quantidade - $this->fracionamentoForm->quantidade) * $item->preco) - $item->desconto,
             ]);
 
             $new_item = $item->replicate()->fill([
-                'quantidade' => $this->fracionar_quantidade,
-                'valor_total' => ($this->fracionar_quantidade * $item->preco) - $item->desconto,
+                'quantidade' => $this->fracionamentoForm->quantidade,
+                'valor_total' => ($this->fracionamentoForm->quantidade * $item->preco) - $item->desconto,
             ]);
 
             $new_item->save();
@@ -350,6 +375,108 @@ class ConvenioIndex extends Component
             $this->notification([
                 'title'       => 'Aviso!',
                 'description' => 'Falha ao realizar o fracionamento do item.',
+                'icon'        => 'error'
+            ]);
+        }
+    }
+
+    public function iniciar_recebimento()
+    {
+        if(empty($this->itens_selecionados)) return;
+
+        $this->recebimentoForm->reset();
+        $this->recebimentoForm->resetValidation();
+
+        $itens_selecionados = $this->itens_selecionados;
+
+        $itens_recebimento = collect($this->itens_convenio)->filter(function($item) {
+            return in_array($item->id, $this->itens_selecionados);
+        });
+
+        unset($itens_selecionados);
+
+        $this->recebimentoForm->valor_total = $itens_recebimento->sum('valor_total');
+        $this->recebimentoForm->dinheiro    = $itens_recebimento->sum('valor_total');
+        $this->recebimentoForm->informado   = $itens_recebimento->sum('valor_total');
+
+        $this->js('$openModal("receivementModal")');
+
+        $this->set_focus('desconto_valor');
+    }
+
+    public function salvar_recebimento()
+    {
+        $this->caixa_show();
+
+        if(!$this->caixa) {
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Caixa não encontrado.',
+                'icon'        => 'error'
+            ]);
+            return $this->redirect(route('dashboard'), true);
+        }
+
+        if(!$this->cliente_selecionado) {
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Cliente não selecionado.',
+                'icon'        => 'error'
+            ]);
+            return $this->redirect(route('pdv.convenios'), true);
+        }
+
+        if(empty($this->itens_selecionados)) return;
+
+        $itens_selecionados = $this->itens_selecionados;
+
+        $itens_recebimento = collect($this->itens_convenio)->filter(function($item) {
+            return in_array($item->id, $this->itens_selecionados);
+        });
+
+        unset($itens_selecionados);
+
+        DB::beginTransaction();
+
+        try {
+            $recebimento = ConveniosRecebimentos::create([
+                'caixa_id'      => $this->caixa->id,
+                'desconto'      => $this->recebimentoForm->currency2Decimal($this->recebimentoForm->desconto),
+                'troco'         => $this->recebimentoForm->currency2Decimal($this->recebimentoForm->troco),
+                'valor_total'   => $this->recebimentoForm->currency2Decimal($this->recebimentoForm->valor_total)
+            ]);
+
+            $result = $this->recebimentoForm->storePayment($recebimento);
+            throw_unless(!$result, $result);
+
+            $resultado = ConveniosItens::whereIn('id', $itens_recebimento->pluck('id'))->update([
+                'convenios_recebimentos_id' => $recebimento->id,
+                'status' => 1
+            ]);
+
+            // $result = $this->printTicket($venda_id);
+            // throw_if(array_key_exists('error', $result), $result['message']);
+
+            DB::commit();
+
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => 'Recebimento finalizado com sucesso.',
+                'icon'        => 'success'
+            ]);
+
+            $this->reset('receivementModal', 'produto_selecionado');
+
+            $this->filtrar_itens();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            throw $e;
+
+            $this->notification([
+                'title'       => 'Aviso!',
+                'description' => $e->getMessage(),
                 'icon'        => 'error'
             ]);
         }

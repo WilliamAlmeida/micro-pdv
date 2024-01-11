@@ -100,4 +100,9 @@ class Clientes extends Model
     {
         return $this->hasOne('App\Models\Convenios', 'id', 'id_convenio');
     }
+
+    public function compras()
+    {
+        return $this->hasMany('App\Model\VendasHead','cliente_id','id');
+    }
 }

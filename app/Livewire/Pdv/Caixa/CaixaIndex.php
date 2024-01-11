@@ -11,15 +11,14 @@ use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\DB;
 use App\Models\EstoqueMovimentacoes;
 
-use App\Livewire\Forms\Pdv\EntradaForm;
-use App\Livewire\Forms\Pdv\PaymentForm;
+use App\Livewire\Forms\Pdv\Caixa\EntradaForm;
+use App\Livewire\Forms\Pdv\Caixa\PaymentForm;
+use App\Livewire\Forms\Pdv\Caixa\SangriaForm;
 
-use App\Livewire\Forms\Pdv\SangriaForm;
 use App\Models\Clientes;
 use App\Traits\HelperActions;
 use App\Traits\Pdv\CaixaActions;
 use App\Traits\Pdv\CaixaTickets;
-use Exception;
 
 #[Layout('components.layouts.caixa')]
 class CaixaIndex extends Component

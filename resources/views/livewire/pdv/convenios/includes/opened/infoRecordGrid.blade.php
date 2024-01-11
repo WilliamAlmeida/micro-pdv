@@ -23,7 +23,7 @@
 
     <div class="flex flex-row items-stretch sm:justify-end gap-2 p-2 border-t-2" x-show="itens_selecionados.length">
         <div>
-            <x-button positive label="Recebimento" disabled />
+            <x-button positive label="Recebimento" wire:click="iniciar_recebimento" />
         </div>
         <div>
             <x-button purple label="Fracionar Item" wire:click="fracionar_item" />

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire\Forms\Pdv;
+namespace App\Livewire\Forms\Pdv\Caixa;
 
 use Livewire\Form;
 use Livewire\Attributes\Validate;
 
-class SangriaForm extends Form
+class EntradaForm extends Form
 {
     #[Validate('required|min:0.1|numeric')]
     public $valor;

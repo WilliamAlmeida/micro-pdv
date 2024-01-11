@@ -55,11 +55,6 @@ class ConveniosHead extends Model
         return $this->hasOne('App\Models\VendasHead','id','vendas_head_id');
     }
 
-    public function recebimentos()
-    {
-        return $this->hasMany('App\Models\ConveniosRecebimentos','convenios_head_id','id');
-    }
-
     public function itens()
     {
         return $this->hasMany('App\Models\ConveniosItens','convenios_head_id','id');

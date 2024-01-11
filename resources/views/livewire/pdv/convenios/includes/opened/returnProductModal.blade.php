@@ -1,9 +1,9 @@
-    <x-modal.card title="Fracionar Item" blur wire:model.defer="divideProductModal" max-width="3xl"
+    <x-modal.card title="Devolução de Item" blur wire:model.defer="returnProductModal" max-width="3xl"
     {{-- x-on:close="$dispatch('onCloseReturnProductModal')" --}}
     >
     <div class="grid grid-cols-3 gap-4" x-data="{
         quantidade: @entangle('produto_quantidade'),
-        nova_quantidade: @entangle('fracionar_quantidade'),
+        nova_quantidade: @entangle('devolucaoForm.quantidade'),
         quantidade_restante: 0,
         calculeDiff() {
             if(this.nova_quantidade) {
@@ -24,10 +24,10 @@
 
         <x-input label="Quantidade" placeholder="0.00" wire:model="produto_quantidade" type="number" name="quantidade" disabled />
 
-        <x-input label="Quantidade hà fracionar" placeholder="0.00" wire:model="fracionar_quantidade"
+        <x-input label="Quantidade hà devolver" placeholder="0.00" wire:model="devolucaoForm.quantidade"
         type="number"
-        id="fracionar_quantidade"
-        wire:keyup.enter="salvar_fracionar_item"
+        id="devolver_quantidade"
+        wire:keyup.enter="salvar_devolver_item"
         @input="calculeDiff"
         />
 
@@ -38,7 +38,7 @@
         <div class="flex justify-end gap-x-4">
             <div class="flex gap-x-4">
                 <x-button flat label="Cancelar" x-on:click="close" />
-                <x-button primary label="Fracionar" wire:click="salvar_fracionar_item" />
+                <x-button primary label="Devolver" wire:click="salvar_devolver_item" />
             </div>
         </div>
     </x-slot>
