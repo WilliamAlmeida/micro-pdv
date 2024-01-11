@@ -95,8 +95,56 @@ class Caixa extends Model
         return $this->hasMany('App\Models\CaixaSangriaEntrada','caixa_id','id')->where('tipo', '=', 'e');
     }
 
-    public function convenio_recebidos()
+    public function convenios_recebimentos()
     {
-        return $this->hasMany('App\Models\CoveniosRecebimentos','caixa_id','id');
+        return $this->hasMany('App\Models\ConveniosRecebimentos','caixa_id','id');
+    }
+
+    public function convenios_itens()
+    {
+        return $this->hasManyThrough(
+            'App\Models\ConveniosItens',
+            'App\Models\ConveniosHead',
+            'caixa_id',                 // Chave estrangeira em convenios_recebimentos que relaciona ao Caixa
+            'convenios_head_id',        // Chave estrangeira em convenios_itens que relaciona ao ConveniosHead
+            'id',                       // Chave primária na tabela Caixa
+            'id'                        // Chave primária em convenios_head
+        );
+    }
+
+    public function convenios_itens_pendentes()
+    {
+        return $this->hasManyThrough(
+            'App\Models\ConveniosItens',
+            'App\Models\ConveniosHead',
+            'caixa_id',                 // Chave estrangeira em convenios_recebimentos que relaciona ao Caixa
+            'convenios_head_id',        // Chave estrangeira em convenios_itens que relaciona ao ConveniosHead
+            'id',                       // Chave primária na tabela Caixa
+            'id'                        // Chave primária em convenios_head
+        )->where('status', 0);
+    }
+
+    public function convenios_itens_cancelados()
+    {
+        return $this->hasManyThrough(
+            'App\Models\ConveniosItens',
+            'App\Models\ConveniosHead',
+            'caixa_id',                 // Chave estrangeira em convenios_recebimentos que relaciona ao Caixa
+            'convenios_head_id',        // Chave estrangeira em convenios_itens que relaciona ao ConveniosHead
+            'id',                       // Chave primária na tabela Caixa
+            'id'                        // Chave primária em convenios_head
+        )->where('status', 2);
+    }
+
+    public function convenios_itens_pagos()
+    {
+        return $this->hasManyThrough(
+            'App\Models\ConveniosItens',
+            'App\Models\ConveniosRecebimentos',
+            'caixa_id',                 // Chave estrangeira em convenios_recebimentos que relaciona ao Caixa
+            'convenios_recebimentos_id',// Chave estrangeira em convenios_itens que relaciona ao ConveniosRecebimentos
+            'id',                       // Chave primária na tabela Caixa
+            'id'                        // Chave primária em convenios_recebimentos
+        )->where('status', 1);
     }
 }
