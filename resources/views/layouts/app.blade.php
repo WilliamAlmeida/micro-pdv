@@ -39,6 +39,10 @@
             </main>
         </div>
 
+        @if(auth()->user()->is_admin)
+            <livewire:admin.artisan-panel />
+        @endif
+
         @livewireScripts
         @wireUiScripts
     </body>

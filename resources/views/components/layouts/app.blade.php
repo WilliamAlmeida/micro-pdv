@@ -41,6 +41,10 @@
         <x-notifications />
         <x-dialog />
 
+        @if(auth()->user()->is_admin)
+            <livewire:admin.artisan-panel />
+        @endif
+
         @wireUiScripts
     </body>
 </html>

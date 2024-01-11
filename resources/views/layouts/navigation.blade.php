@@ -78,7 +78,11 @@
                     <x-slot name="trigger">
                         <x-button label="{{ Auth::user()->name }}" dark rightIcon="dots-vertical" />
                     </x-slot>
-                 
+
+                    @if(auth()->user()->is_admin)
+                        <x-dropdown.item label="{{ __('Artisan Panel') }}" onclick="Livewire.dispatch('openArtisanPanel');" />
+                    @endif
+
                     <x-dropdown.item wire:navigate label="{{ __('Profile') }}" :href="route('profile.edit')" />
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
