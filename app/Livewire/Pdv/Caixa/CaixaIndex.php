@@ -78,7 +78,7 @@ class CaixaIndex extends Component
             return;
         }
         
-        $this->redirect('dashboard', true);
+        $this->redirect(route('dashboard'), true);
     }
 
     public function escape_pesquisar_produto()
@@ -302,7 +302,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         if(!$caixa->venda) {
@@ -311,7 +311,7 @@ class CaixaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         $item = $caixa->venda->itens()->whereId($item_id)->first();
@@ -380,7 +380,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         if(!$caixa->venda) {
@@ -389,7 +389,7 @@ class CaixaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         $item = $caixa->venda->itens()->whereId($item_id)->first();
@@ -421,7 +421,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         if(!$caixa->venda) {
@@ -430,7 +430,7 @@ class CaixaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         $item       = $this->produto_selecionado;
@@ -485,7 +485,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         if($this->sangriaForm->valor > $this->caixa->vendas_encerradas()->sum('valor_total') + $this->caixa->entrada_total) {
@@ -557,7 +557,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         DB::beginTransaction();
@@ -641,7 +641,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         if(!$caixa->venda) {
@@ -650,7 +650,7 @@ class CaixaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         $caixa->venda->pagamentos()->delete();

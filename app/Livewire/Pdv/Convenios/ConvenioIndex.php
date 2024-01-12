@@ -64,7 +64,7 @@ class ConvenioIndex extends Component
         $this->caixa_show();
 
         if(!$this->caixa) {
-            return $this->redirect('dashboard', true);
+            return $this->redirect(route('dashboard'), true);
         }
 
         if(!$this->caixa->convenios->count()) {
