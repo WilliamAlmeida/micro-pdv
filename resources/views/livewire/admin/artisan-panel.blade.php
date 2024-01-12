@@ -14,7 +14,7 @@
 
                 @if($output)
                     <p class="bg-secondary-100 dark:bg-black dark:text-lime-400 mt-3 p-2 border border-secondary-300 dark:border-gray-600 rounded-md text-xs">
-                        {{ $output }}
+                        {!! $output !!}
                     </p>
                 @endif
         

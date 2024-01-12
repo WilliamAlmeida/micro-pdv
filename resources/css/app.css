@@ -3,25 +3,42 @@
 @tailwind utilities;
 
 /* ===== Scrollbar CSS ===== */
-/* Firefox */
-.scrollbar {
-	scrollbar-width: auto;
-	scrollbar-color: #c2c2c2 #e3e3e3;
-}
+@layer utilities {
+	/* Firefox */
+	.scrollbar {
+		scrollbar-width: auto;
+		scrollbar-color: #c2c2c2 #e3e3e3;
+	}
+	
+	/* Chrome, Edge, and Safari */
+	.scrollbar::-webkit-scrollbar, .scrollbar-w-1::-webkit-scrollbar {
+		width: 10px;
+	}
 
-/* Chrome, Edge, and Safari */
-.scrollbar::-webkit-scrollbar {
-	width: 10px;
-}
+	.scrollbar-w-2::-webkit-scrollbar {
+		width: 13px;
+	}
 
-.scrollbar::-webkit-scrollbar-track {
-	background: #e3e3e3;
-}
+	.scrollbar-w-3::-webkit-scrollbar {
+		width: 16px;
+	}
+	
+	.scrollbar::-webkit-scrollbar-thumb {
+		background-color: #c2c2c2;
+		border-radius: 5px;
+	}
 
-.scrollbar::-webkit-scrollbar-thumb {
-	background-color: #c2c2c2;
-	border-radius: 20px;
-	border: 0px solid #ffffff;
+	.scrollbar-w-2::-webkit-scrollbar-thumb {
+		border-radius: 7px;
+	}
+
+	.scrollbar-w-3::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+	}
+	
+	.scrollbar::-webkit-scrollbar-track {
+		background-color: #e3e3e3;
+	}
 }
 
 div.absolute.inset-y-0.left-0.pl-2\.5.flex.items-center.pointer-events-none {

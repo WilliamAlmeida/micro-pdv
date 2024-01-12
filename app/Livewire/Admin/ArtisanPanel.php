@@ -42,7 +42,7 @@ class ArtisanPanel extends Component
         if(empty($this->parameters)) $params = [];
 
         Artisan::call($this->command, $params);
-        $this->output = Artisan::output();
+        $this->output = nl2br(Artisan::output());
     }
 
     public function render()
