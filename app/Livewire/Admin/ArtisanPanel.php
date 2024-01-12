@@ -41,8 +41,17 @@ class ArtisanPanel extends Component
         $params = explode(';', $this->parameters);
         if(empty($this->parameters)) $params = [];
 
-        Artisan::call($this->command, $params);
-        $this->output = nl2br(Artisan::output());
+        try {
+            throw_unless(auth()->user()->is_admin, 'Only admin can use commands.');
+
+            Artisan::call($this->command, $params);
+
+            $this->output = nl2br(Artisan::output());
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            $this->output = $th->getMessage();
+        }
     }
 
     public function render()
