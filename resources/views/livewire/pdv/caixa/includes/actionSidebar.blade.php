@@ -15,7 +15,7 @@
         @else
             <x-button secondary label="Registros" disabled />
         @endif
-        @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1))
+        @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1) || $caixa->convenios_recebimentos->count())
             <x-button purple label="Fechar Caixa" href="{{ route('pdv.fechamento') }}" wire:navigate />
         @else
             <x-button secondary label="Fechar Caixa" disabled />

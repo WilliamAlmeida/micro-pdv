@@ -12,7 +12,7 @@ trait CaixaActions
                 'status' => 0,
             ]);
         }else{
-            $caixa = auth()->user()->caixa()->with('vendas')->first();
+            $caixa = auth()->user()->caixa()->with('vendas','convenios_recebimentos')->first();
             if($caixa && $caixa->venda) {
                 $caixa->venda->update(['valor_total' => $caixa->venda->itens()->sum('valor_total')]);
                 $caixa->venda->itens;
