@@ -8,7 +8,9 @@
     <div class="pt-6 pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-end">
-                <x-button white class="mb-3" label="Novo Usuário" wire:click="$dispatch('create')" />
+                @if(auth()->user()->is_admin)
+                    <x-button white class="mb-3" label="Novo Usuário" wire:click="$dispatch('create')" />
+                @endif
             </div>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
