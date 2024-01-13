@@ -40,10 +40,10 @@ Route::prefix('painel')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
-    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', function () {
             return view('dashboard');
-        })->name('dashboard');
+        })->name('dashboard')->middleware('verified');
     
         Route::get('/usuarios', UsuarioIndex::class)->name('usuarios.index');
 
