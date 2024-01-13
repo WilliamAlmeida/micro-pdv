@@ -18,8 +18,10 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create()
     {
+        if(!app()->environment('local')) return redirect()->route('login');
+
         return view('auth.register');
     }
 

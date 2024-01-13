@@ -23,12 +23,12 @@
                 <x-inputs.password label="Confirmação da Senha" placeholder="Senha" wire:model.blur="password_confirmation" id="edit_password_confirmation" />
             @endif
      
-            <div class="col-span-1 sm:col-span-2 cursor-pointer bg-gray-100 rounded-xl shadow-md h-72 flex items-center justify-center">
+            {{-- <div class="col-span-1 sm:col-span-2 cursor-pointer bg-gray-100 rounded-xl shadow-md h-72 flex items-center justify-center">
                 <div class="flex flex-col items-center justify-center">
                     <x-icon name="cloud-upload" class="w-16 h-16 text-blue-600" />
                     <p class="text-blue-600">Click or drop files here</p>
                 </div>
-            </div>
+            </div> --}}
         </div>
      
         <x-slot name="footer">

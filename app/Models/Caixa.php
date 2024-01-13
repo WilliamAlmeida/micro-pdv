@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 
 class Caixa extends Model
@@ -150,6 +151,8 @@ class Caixa extends Model
 
     public function validDataAbertura(): bool
     {
-        return \Carbon\Carbon::parse($this->created_at)->format('Y-m-d') <= now()->subDays(3)->format('Y-m-d');
+        $open = \Carbon\Carbon::parse($this->created_at);
+
+        return $open->diffInDays(\Carbon\Carbon::now()) >= 2;
     }
 }

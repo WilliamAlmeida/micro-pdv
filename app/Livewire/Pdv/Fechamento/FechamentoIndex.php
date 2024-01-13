@@ -45,9 +45,9 @@ class FechamentoIndex extends Component
             return $this->redirect(route('dashboard'), true);
         }
 
-        $this->fechamento_obrigatorio = !$this->caixa->validDataAbertura();
+        if($this->caixa->validDataAbertura()) {
+            $this->fechamento_obrigatorio = true;
 
-        if($this->fechamento_obrigatorio) {
             $this->js('
             setTimeout(() => {
                 $wireui.dialog({
