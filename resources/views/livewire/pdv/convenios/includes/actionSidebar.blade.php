@@ -19,8 +19,9 @@
 
         <div class="flex flex-row gap-2">
             <x-radio id="itens_em_aberto" label="Não Pagos" value="0" wire:model.defer="vendas_status" />
-            <x-radio id="itens_pagas" label="Pagos" value="1" wire:model.defer="vendas_status" />
             <x-radio id="itens_devolvidos" label="Devolvidos" value="2" wire:model.defer="vendas_status" />
+            <x-radio id="recebimentos" label="Recebimentos" value="3" wire:model.defer="vendas_status" />
+            <x-radio id="itens_pagas" label="Pagos (Itens)" value="1" wire:model.defer="vendas_status" />
         </div>
 
         <div x-show="vendas_ate">

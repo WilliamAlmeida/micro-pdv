@@ -147,4 +147,9 @@ class Caixa extends Model
             'id'                        // Chave primária em convenios_recebimentos
         )->where('status', 1);
     }
+
+    public function validDataAbertura(): bool
+    {
+        return !(\Carbon\Carbon::parse($this->created_at)->format('Y-m-d') <= now()->subDays(1)->format('Y-m-d'));
+    }
 }

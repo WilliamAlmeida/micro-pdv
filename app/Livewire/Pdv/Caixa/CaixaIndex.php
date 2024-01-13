@@ -60,6 +60,8 @@ class CaixaIndex extends Component
     {
         $this->caixa = $this->caixa_show();
 
+        if(!$this->caixa->validDataAbertura()) return $this->redirect(route('pdv.fechamento'));
+
         $this->set_focus('pesquisar_produto');
     }
 

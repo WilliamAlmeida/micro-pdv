@@ -24,14 +24,15 @@
             }">
                 <div class="flex-none bg-black text-white">
                     @includeWhen($vendas_status == 0, 'livewire.pdv.convenios.includes.opened.infoSaleGrid')
-                    @includeWhen($vendas_status == 1, 'livewire.pdv.convenios.includes.payed.infoSaleGrid')
+                    @includeWhen($vendas_status == 1 || $vendas_status == 3, 'livewire.pdv.convenios.includes.payed.infoSaleGrid')
                     @includeWhen($vendas_status == 2, 'livewire.pdv.convenios.includes.returned.infoSaleGrid')
                 </div>
 
                 <div class="flex-grow overflow-y-auto soft-scrollbar">
                     @includeWhen($vendas_status == 0, 'livewire.pdv.convenios.includes.opened.gridProductTable')
-                    @includeWhen($vendas_status == 1, 'livewire.pdv.convenios.includes.payed.gridReceivementTable')
+                    @includeWhen($vendas_status == 1, 'livewire.pdv.convenios.includes.payed.gridProductTable')
                     @includeWhen($vendas_status == 2, 'livewire.pdv.convenios.includes.returned.gridProductTable')
+                    @includeWhen($vendas_status == 3, 'livewire.pdv.convenios.includes.payed.gridReceivementTable')
                 </div>
 
                 <div class="flex-none self-stretch bg-gray-300 dark:bg-gray-800">

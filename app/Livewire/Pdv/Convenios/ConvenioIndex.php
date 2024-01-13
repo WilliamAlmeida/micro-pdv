@@ -124,14 +124,14 @@ class ConvenioIndex extends Component
     {
         $this->reset('itens_selecionados', 'itens_convenio', 'recebimentos_convenio');
 
-        if($this->vendas_status == 0 || $this->vendas_status == 2) {
+        if($this->vendas_status == 0 || $this->vendas_status == 1 || $this->vendas_status == 2) {
             $itens = ConveniosItens::with('convenio','recebimento');
             
             $itens->whereHas('convenio', function($query) {
                 return $query->whereClientesId($this->cliente_id);
             });
 
-            if(!in_array($this->vendas_status, [0, 2])) $this->vendas_status = 0;
+            if(!in_array($this->vendas_status, [0, 1, 2])) $this->vendas_status = 0;
 
             $itens->whereStatus($this->vendas_status);
 
@@ -142,7 +142,7 @@ class ConvenioIndex extends Component
 
             $this->itens_convenio = $itens->get();
 
-        }else if($this->vendas_status == 1) {
+        }else if($this->vendas_status == 3) {
             $recebimentos = ConveniosRecebimentos::with('itens','pagamentos');
 
             $recebimentos->whereHas('itens.convenio', function($query) {

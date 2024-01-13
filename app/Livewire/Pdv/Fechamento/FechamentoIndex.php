@@ -30,6 +30,9 @@ class FechamentoIndex extends Component
     #[Locked]
     public $formas_pagamento;
 
+    #[Locked]
+    public $fechamento_obrigatorio = false;
+
     public function mount()
     {
         $this->caixa_show();
@@ -40,6 +43,20 @@ class FechamentoIndex extends Component
 
         if($this->caixa->status) {
             return $this->redirect(route('dashboard'), true);
+        }
+
+        $this->fechamento_obrigatorio = !$this->caixa->validDataAbertura();
+
+        if($this->fechamento_obrigatorio) {
+            $this->js('
+            setTimeout(() => {
+                $wireui.dialog({
+                    title: "ATENÇÃO!",
+                    description: "Fechamento do Caixa Obrigatório, pois esta caixa foi aberto em '.\Carbon\Carbon::parse($this->caixa->created_at)->format('d/m/Y').'!",
+                    icon: "warning"
+                });
+            }, 100);
+            ');
         }
     }
 
