@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link wire:navigate :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Painel de Controle') }}
+                        {{ __('Dashboard') }}
                     </x-nav-link>
                     
                     @if(auth()->user()->empresa)
@@ -107,9 +107,41 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" label="{{ __('Dashboard') }}" />
+
+            @if(auth()->user()->empresa)
+                <x-responsive-nav-link wire:navigate :href="route('pdv.index')" :active="request()->routeIs('pdv.index')" label="{{ __('PDV') }}" />
+                <x-responsive-nav-link wire:navigate :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')" label="{{ __('Usuários') }}" />
+
+                <x-responsive-nav-dropdown
+                    label="{{ __('Cadastros') }}"
+                    toggleIcon
+                    :active="request()->routeIs(['categorias.index', 'produtos.index', 'fornecedores.index', 'convenios.index'])"
+                    >
+                    <x-responsive-nav-link wire:navigate :href="route('categorias.index')" :active="request()->routeIs('categorias.index')" label="{{ __('Categorias') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('produtos.index')" :active="request()->routeIs('produtos.index')" label="{{ __('Produtos') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('fornecedores.index')" :active="request()->routeIs('fornecedores.index')" label="{{ __('Fornecedores') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('convenios.index')" :active="request()->routeIs('convenios.index')" label="{{ __('Convênios') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('clientes.index')" :active="request()->routeIs('clientes.index')" label="{{ __('Clientes') }}" />
+                </x-responsive-nav-dropdown>
+
+                <x-responsive-nav-link wire:navigate :href="route('estoque.index')" :active="request()->routeIs('estoque.index')" label="{{ __('Movimentações') }}" />
+                    <x-responsive-nav-dropdown
+                    label="{{ __('Tributações') }}"
+                    toggleIcon
+                    :active="request()->routeIs(['ncms.index', 'cests.index', 'cfops.index'])"
+                    >
+                    <x-responsive-nav-link wire:navigate :href="route('ncms.index')" :active="request()->routeIs('ncms.index')" label="{{ __('Ncm') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('cests.index')" :active="request()->routeIs('cests.index')" label="{{ __('Cest') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('cfops.index')" :active="request()->routeIs('cfops.index')" label="{{ __('Cfop') }}" />
+                </x-responsive-nav-dropdown>
+            @endif
+
+            @if(auth()->user()->empresa)
+                <x-responsive-nav-link wire:navigate :href="route('empresa.edit')" :active="request()->routeIs('empresa.edit')" label="{{ __('Empresa') }}" />
+            @else
+                <x-responsive-nav-link wire:navigate :href="route('empresa.edit')" :active="request()->routeIs('empresa.edit')" label="{{ __('Empresa') }}" />
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
