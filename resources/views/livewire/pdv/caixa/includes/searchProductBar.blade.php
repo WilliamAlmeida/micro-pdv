@@ -27,7 +27,7 @@
             </div>
             @else
             <div class="flex-1 sm:flex-none">
-                <x-input label="Quantidade" placeholder="0.00" wire:model="pesquisa_quantidade"  class="sm:max-w-[100px]"
+                <x-input label="Quantidade" placeholder="0.00" wire:model="pesquisa_quantidade" class="sm:max-w-[100px]" inputmode="numeric"
                 id="pesquisar_quantidade"
                 wire:keyup.enter="inserir_quantidade"
                 wire:keyup.escape="escape_inserir_quantidade"

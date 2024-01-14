@@ -1,7 +1,7 @@
     <x-modal.card title="Devolução de Item" blur wire:model.defer="returnProductModal" max-width="3xl"
     {{-- x-on:close="$dispatch('onCloseReturnProductModal')" --}}
     >
-    <div class="grid grid-cols-3 gap-4" x-data="{
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" x-data="{
         quantidade: @entangle('produto_quantidade'),
         nova_quantidade: @entangle('devolucaoForm.quantidade'),
         quantidade_restante: 0,
@@ -18,7 +18,7 @@
             this.calculeDiff();
         }
     }">
-        <div class="col-span-3">
+        <div class="sm:col-span-3">
             <x-input label="Descrição" placeholder="Pesquise pelo Produto" value="{{ $produto_selecionado?->descricao }}" disabled />
         </div>
 
@@ -27,11 +27,12 @@
         <x-input label="Quantidade hà devolver" placeholder="0.00" wire:model="devolucaoForm.quantidade"
         type="number"
         id="devolver_quantidade"
+        inputmode="numeric"
         wire:keyup.enter="salvar_devolver_item"
         @input="calculeDiff"
         />
 
-        <x-input label="Quantidade" placeholder="0.00" x-model="quantidade_restante" type="number" disabled />
+        <x-input label="Quantidade Restante" placeholder="0.00" x-model="quantidade_restante" type="number" disabled />
     </div>
 
     <x-slot name="footer">

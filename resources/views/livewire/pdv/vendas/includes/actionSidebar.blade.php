@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-y-2 h-full dark:text-white">
+<div class="flex flex-col space-y-2 h-full dark:text-white">
     <div class="flex justify-between px-1 border-b-2 border-b-black dark:border-gray-700">
         <strong>Operador</strong>
         <span>{{ Str::upper($caixa->user->name ?: 'Desconhecido') }}</span>

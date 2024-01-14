@@ -21,8 +21,8 @@
             </td>
             {{-- <td>{{ str_pad($item->convenio->caixa_id, 4, "0", STR_PAD_LEFT) }}</td> --}}
             {{-- <td>{{ str_pad($item->convenio->vendas_head_id ?? 0, 4, "0", STR_PAD_LEFT) }}</td> --}}
-            <td>{{ str_pad($item->convenios_head_id, 4, "0", STR_PAD_LEFT) }}</td>
-            <td>{{ str_pad($item->produtos_id, 4, "0", STR_PAD_LEFT) }}</td>
+            <td class="text-center sm:text-left">{{ str_pad($item->convenios_head_id, 4, "0", STR_PAD_LEFT) }}</td>
+            <td class="text-center sm:text-left">{{ str_pad($item->produtos_id, 4, "0", STR_PAD_LEFT) }}</td>
             <td>{{ $item->descricao }}</td>
             <td class="sm:text-end">{{ number_format($item->quantidade, 2, ',', '.') }}</td>
             <td class="sm:text-end">R$ {{ number_format($item->preco, 2, ',', '.') }}</td>

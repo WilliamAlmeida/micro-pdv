@@ -5,6 +5,7 @@ x-on:close="$dispatch('onCloseWithdrawalCashModal')"
         <x-inputs.currency label="Valor" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model="sangriaForm.valor"
         id="sangria_valor"
         wire:keyup.enter="salvar_sangria"
+        inputmode="numeric"
         />
 
         <x-input label="Descrição" placeholder="Informe um motivo" wire:model="sangriaForm.motivo"

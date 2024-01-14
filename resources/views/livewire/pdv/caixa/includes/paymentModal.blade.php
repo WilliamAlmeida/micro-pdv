@@ -78,21 +78,21 @@
             <!-- Conteúdo anterior permanece inalterado -->
             
             <!-- Desconto -->
-            <x-input label="Desconto (R$)" x-mask:dynamic="$money($input, ',')" placeholder="0,00" thousands="." decimal="," x-model="desconto" id="desconto_valor" @input="calculeChangeBack" />
+            <x-input label="Desconto (R$)" x-mask:dynamic="$money($input, ',')" placeholder="0,00" thousands="." decimal="," x-model="desconto" inputmode="numeric" id="desconto_valor" @input="calculeChangeBack" />
             
             <!-- Dinheiro e Ticket -->
             <div class="col-span-full">
                 <div class="grid grid-cols-2 gap-4">
-                    <x-input label="Dinheiro" placeholder="0,00" x-model="dinheiro" @input="calculeChangeBack" />
-                    <x-input label="Ticket" placeholder="0,00" x-model="ticket" @input="calculeChangeBack" />
+                    <x-input label="Dinheiro" placeholder="0,00" x-model="dinheiro" inputmode="numeric" @input="calculeChangeBack" />
+                    <x-input label="Ticket" placeholder="0,00" x-model="ticket" inputmode="numeric" @input="calculeChangeBack" />
                 </div>
             </div>
             
             <!-- Cartão de Débito e Cartão de Crédito -->
             <div class="col-span-full">
                 <div class="grid grid-cols-2 gap-4">
-                    <x-input label="Cartão de Débito" x-mask:dynamic="$money($input, ',')" placeholder="0,00" thousands="." decimal="," x-model="cartao_debito" @input="calculeChangeBack" />
-                    <x-input label="Cartão de Crédito" x-mask:dynamic="$money($input, ',')" placeholder="0,00" thousands="." decimal="," x-model="cartao_credito" @input="calculeChangeBack" />
+                    <x-input label="Cartão de Débito" x-mask:dynamic="$money($input, ',')" placeholder="0,00" thousands="." decimal="," x-model="cartao_debito" inputmode="numeric" @input="calculeChangeBack" />
+                    <x-input label="Cartão de Crédito" x-mask:dynamic="$money($input, ',')" placeholder="0,00" thousands="." decimal="," x-model="cartao_credito" inputmode="numeric" @input="calculeChangeBack" />
                 </div>
             </div>
             

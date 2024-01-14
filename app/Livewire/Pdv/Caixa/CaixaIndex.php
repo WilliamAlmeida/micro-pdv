@@ -60,7 +60,29 @@ class CaixaIndex extends Component
     {
         $this->caixa = $this->caixa_show();
 
-        if($this->caixa->validDataAbertura()) return $this->redirect(route('pdv.fechamento'));
+        if($this->caixa->validDataAbertura()) {
+            if($this->caixa->venda) {
+                $this->js('
+                setTimeout(() => {
+                    $wireui.dialog({
+                        title: "ATENÇÃO!",
+                        description: "Fechamento do Caixa Obrigatório, pois esta caixa foi aberto em '.\Carbon\Carbon::parse($this->caixa->created_at)->format('d/m/Y').'!",
+                        icon: "warning"
+                    });
+                }, 100);
+                ');
+            }else{
+                if( !$this->caixa->vendas->count() &&
+                    !$this->caixa->convenios_recebimentos->count() &&
+                    !$this->caixa->sangrias->count() &&
+                    !$this->caixa->entradas->count()
+                ) {
+                    $this->caixa->update(['created_at' => now()]);
+                }else{
+                    return $this->redirect(route('pdv.fechamento'));
+                }
+            }
+        }
 
         $this->set_focus('pesquisar_produto');
     }
@@ -86,12 +108,8 @@ class CaixaIndex extends Component
     public function escape_pesquisar_produto()
     {
         if($this->pesquisa_produto != null) {
-            $this->not('cancelar pesquisa: '.$this->pesquisa_produto);
-
             $this->reset('pesquisa_produto');
         }else{
-            $this->not('sair caixa');
-
             $this->sair_caixa();
         }
     }
@@ -99,12 +117,8 @@ class CaixaIndex extends Component
     public function escape_inserir_quantidade()
     {
         if($this->pesquisa_quantidade != null) {
-            $this->not('cancelar quantidade: '.$this->pesquisa_quantidade);
-
             $this->reset('pesquisa_quantidade');
         }else{
-            $this->not('voltar para pesquisa');
-
             $this->reset('produto_selecionado', 'pesquisa_preco');
             $this->set_focus('pesquisar_produto');
         }
@@ -229,24 +243,18 @@ class CaixaIndex extends Component
 
     public function habilitar_edicao_preco()
     {
-        $this->not('habilita alteração do preço');
-
         $this->editProductPrice = true;
         $this->set_focus('pesquisar_preco', true);
     }
     
     public function atualizar_preco()
     {
-        $this->not('finaliza alteração do preço');
-
         $this->editProductPrice = false;
         $this->set_focus('pesquisar_quantidade', true);
     }
 
     public function cancelar_pesquisa_produto()
     {
-        $this->not('cancelar pesquisa produto');
-
         $this->reset('produto_selecionado', 'pesquisa_preco', 'pesquisa_quantidade', 'pesquisa_produto', 'editProductPrice');
         $this->set_focus('pesquisar_produto');
     }
@@ -820,14 +828,6 @@ class CaixaIndex extends Component
     public function onClosePaymentModal()
     {
         $this->set_focus('pesquisar_produto');
-    }
-
-    private function not($value)
-    {
-        $this->notification([
-            'title'       => $value,
-            'icon'        => 'info'
-        ]);
     }
 
     public function render()

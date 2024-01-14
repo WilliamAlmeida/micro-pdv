@@ -5,6 +5,7 @@ x-on:close="$dispatch('onCloseDepositCashModal')"
         <x-inputs.currency label="Valor" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model="entradaForm.valor"
         id="entrada_valor"
         wire:keyup.enter="salvar_entrada"
+        inputmode="numeric"
         />
 
         <x-input label="Descrição" placeholder="Informe um motivo" wire:model="entradaForm.motivo"

@@ -12,9 +12,9 @@
             
             <x-input label="Título" placeholder="Título" wire:model="form.titulo" />
             
-            <x-inputs.currency label="Preço" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model.blur="form.preco_varejo" />
+            <x-inputs.currency label="Preço" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model.blur="form.preco_varejo" inputmode="numeric" />
             
-            <x-inputs.currency label="Preço Promocional" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model.blur="form.preco_promocao" />
+            <x-inputs.currency label="Preço Promocional" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model.blur="form.preco_promocao" inputmode="numeric" />
             
             @if($form->preco_promocao && $form->preco_promocao > 0)
                 <x-datetime-picker
@@ -40,8 +40,7 @@
         <div class="mt-3">
             <x-textarea wire:model="form.descricao" label="Descrição" placeholder="Descrição" />
         </div>
-        
-        
+
         <x-slot name="footer">
             <div class="flex justify-end gap-x-4">
                 <div class="flex">

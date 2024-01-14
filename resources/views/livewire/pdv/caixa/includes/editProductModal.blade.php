@@ -9,6 +9,7 @@
         <x-input label="Quantidade" placeholder="0.00" wire:model.live.debounce.2s="edicao_quantidade"
         type="number"
         id="edicao_quantidade"
+        inputmode="numeric"
         wire:keyup.enter="salvar_alteracao_item"
         />
         <x-inputs.currency label="Valor Unitário" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model="edicao_preco" disabled />

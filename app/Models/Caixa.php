@@ -34,7 +34,7 @@ class Caixa extends Model
      * @var array
      */
     protected $fillable = [
-    	'user_id', 'status', 'valor_inicial', 'sangria_total', 'entrada_total'
+    	'user_id', 'status', 'valor_inicial', 'sangria_total', 'entrada_total', 'created_at'
     ];
 
     /**

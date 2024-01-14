@@ -1,7 +1,7 @@
     <x-modal.card title="Fracionar Item" blur wire:model.defer="divideProductModal" max-width="3xl"
     {{-- x-on:close="$dispatch('onCloseReturnProductModal')" --}}
     >
-    <div class="grid grid-cols-3 gap-4" x-data="{
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" x-data="{
         quantidade: @entangle('produto_quantidade'),
         nova_quantidade: @entangle('fracionamentoForm.quantidade'),
         quantidade_restante: 0,
@@ -18,7 +18,7 @@
             this.calculeDiff();
         }
     }">
-        <div class="col-span-3">
+        <div class="sm:col-span-3">
             <x-input label="Descrição" placeholder="Pesquise pelo Produto" value="{{ $produto_selecionado?->descricao }}" disabled />
         </div>
 
@@ -27,11 +27,12 @@
         <x-input label="Quantidade hà fracionar" placeholder="0.00" wire:model="fracionamentoForm.quantidade"
         type="number"
         id="fracionar_quantidade"
+        inputmode="numeric"
         wire:keyup.enter="salvar_fracionar_item"
         @input="calculeDiff"
         />
 
-        <x-input label="Quantidade" placeholder="0.00" x-model="quantidade_restante" type="number" disabled />
+        <x-input label="Quantidade Restante" placeholder="0.00" x-model="quantidade_restante" type="number" disabled />
     </div>
 
     <x-slot name="footer">

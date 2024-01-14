@@ -13,9 +13,9 @@
             
             <x-input label="Título" placeholder="Título" wire:model="form.titulo" id="edit_titulo" />
             
-            <x-inputs.currency label="Preço" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model.blur="form.preco_varejo" id="edit_preco_varejo" />
+            <x-inputs.currency label="Preço" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model.blur="form.preco_varejo" inputmode="numeric" id="edit_preco_varejo" />
             
-            <x-inputs.currency label="Preço Promocional" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model.blur="form.preco_promocao" id="edit_preco_promocao" />
+            <x-inputs.currency label="Preço Promocional" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model.blur="form.preco_promocao" inputmode="numeric" id="edit_preco_promocao" />
 
             @if($form->preco_promocao && $form->preco_promocao > 0)
                 <x-datetime-picker

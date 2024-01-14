@@ -3,6 +3,8 @@
         <div class="flex">
             <img src="https://ibox.delivery/uploads/adm/empresas/111/empresa-logo-111iZJw.png" class="h-[80px] w-[80px] mr-2 hidden sm:flex" />
             <div class="self-center dark:text-white">
+                Cód. Caixa: {{ str_pad($caixa->id, 4, "0", STR_PAD_LEFT) }}
+                <br/>
                 Operador: {{ $caixa->user->name ?: 'Desconhecido' }}
                 <br/>
                 Caixa aberto em: {{ Carbon\Carbon::parse($caixa->created_at)->format('d/m/Y H:i:s') }}

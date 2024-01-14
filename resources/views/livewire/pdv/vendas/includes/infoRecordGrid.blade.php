@@ -23,7 +23,7 @@
         </div>
     @endif
 
-    <div class="flex flex-row items-stretch sm:justify-end gap-2 p-2 border-t-2">
+    <div class="flex flex-row items-stretch justify-around sm:justify-end space-x-2 p-2 border-t-2">
         @if($formas_pagamento != 'CONVENIO')
             <div>
                 <x-button primary label="Emitir Nota" disabled />

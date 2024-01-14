@@ -21,7 +21,7 @@
         </div>
     </div> --}}
 
-    <div class="flex flex-row items-stretch sm:justify-end gap-2 p-2 border-t-2" x-show="itens_selecionados.length">
+    <div class="flex flex-row items-stretch justify-around sm:justify-end space-x-2 p-2 border-t-2" x-show="itens_selecionados.length">
         <div>
             <x-button positive label="Recebimento" wire:click="iniciar_recebimento" />
         </div>
