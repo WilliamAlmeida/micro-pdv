@@ -23,7 +23,7 @@
 
     @include('livewire.pdv.caixa.includes.searchProductModal')
     @include('livewire.pdv.caixa.includes.editProductModal')
-    @include('livewire.pdv.caixa.includes.withdrawalCashModal')
-    @include('livewire.pdv.caixa.includes.depositCashModal')
+    <livewire:pdv.caixa.sangria-modal />
+    <livewire:pdv.caixa.entrada-modal />
     @include('livewire.pdv.caixa.includes.paymentModal')
 </div>

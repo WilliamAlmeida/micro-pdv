@@ -8,14 +8,17 @@
             <x-button secondary label="Encerrar" disabled wire:click="encerrar_venda" />
         @endif
         {{-- <x-button warning label="Orçamento" disabled="true" /> --}}
-        <x-button negative label="Sangria" wire:click="realizar_sangria" />
-        <x-button positive label="Entrada" wire:click="realizar_entrada" />
+        <x-button negative label="Sangria" wire:click="$dispatch('realizar_sangria')" />
+        <x-button positive label="Entrada" wire:click="$dispatch('realizar_entrada')" />
         @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1))
             <x-button sky label="Registros" href="{{ route('pdv.vendas') }}" wire:navigate />
         @else
             <x-button secondary label="Registros" disabled />
         @endif
-        @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1) || $caixa->convenios_recebimentos->count())
+        @if(
+            count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1) ||
+            $caixa->convenios_recebimentos->count() || $caixa->entradas->count() || $caixa->sangrias->count()
+        )
             <x-button purple label="Fechar Caixa" href="{{ route('pdv.fechamento') }}" wire:navigate />
         @else
             <x-button secondary label="Fechar Caixa" disabled />

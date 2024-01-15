@@ -3,19 +3,17 @@
 namespace App\Livewire\Pdv\Caixa;
 
 use Livewire\Component;
-use App\Models\Produtos;
 use WireUi\Traits\Actions;
+use App\Models\Clientes;
+use App\Models\Produtos;
+use App\Models\EstoqueMovimentacoes;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\DB;
-use App\Models\EstoqueMovimentacoes;
 
-use App\Livewire\Forms\Pdv\Caixa\EntradaForm;
 use App\Livewire\Forms\Pdv\Caixa\PaymentForm;
-use App\Livewire\Forms\Pdv\Caixa\SangriaForm;
 
-use App\Models\Clientes;
 use App\Traits\HelperActions;
 use App\Traits\Pdv\CaixaActions;
 use App\Traits\Pdv\CaixaTickets;
@@ -39,12 +37,6 @@ class CaixaIndex extends Component
     public $edicao_quantidade;
     #[Locked]
     public $edicao_preco_total;
-
-    public $withdrawalCashModal = false;
-    public SangriaForm $sangriaForm;
-
-    public $depositCashModal = false;
-    public EntradaForm $entradaForm;
 
     public $paymentModal = false;
     public PaymentForm $pagamentoForm;
@@ -351,7 +343,7 @@ class CaixaIndex extends Component
                 ]
             ]);
             
-            $this->set_focus(['button' => 'cancel']);
+            $this->set_focus(['button' => 'confirm']);
             return;
         }
 
@@ -471,141 +463,6 @@ class CaixaIndex extends Component
         $this->reset('editProductModal');
         
         $this->mount();
-    }
-
-    public function realizar_sangria()
-    {
-        $this->sangriaForm->reset();
-        $this->sangriaForm->resetValidation();
-
-        $this->js('$openModal("withdrawalCashModal")');
-
-        $this->set_focus('sangria_valor');
-    }
-
-    public function salvar_sangria()
-    {
-        $this->sangriaForm->validate();
-
-        $caixa = $this->caixa_show();
-
-        if(!$caixa) {
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Caixa não encontrado.',
-                'icon'        => 'error'
-            ]);
-            return $this->redirect(route('dashboard'), true);
-        }
-
-        if($this->sangriaForm->valor > $this->caixa->vendas_encerradas()->sum('valor_total') + $this->caixa->entrada_total) {
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Valor da Sangria superior ao Valor do Caixa.',
-                'icon'        => 'info'
-            ]);
-            return;
-        }
-
-        DB::beginTransaction();
-
-        try {
-            $resultado = $this->caixa->sangrias()->create([
-                'tipo'      => 's',
-                'motivo'    => $this->sangriaForm->motivo,
-                'valor'     => $this->sangriaForm->valor
-            ]);
-    
-            if($resultado) {
-                $this->caixa->update(['sangria_total' => $this->caixa->sangrias()->sum('valor')]);
-                $result = $this->printSangria($resultado->id);
-                throw_if(array_key_exists('error', $result), $result['message']);
-            }
-    
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Sangria finalizada com sucesso!',
-                'icon'        => 'success'
-            ]);
-
-            DB::commit();
-
-            $this->reset('withdrawalCashModal');
-
-        } catch (\Throwable $th) {
-            //throw $th;
-
-            DB::rollBack();
-
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Não foi possivel realizar a Sangria.',
-                'icon'        => 'error'
-            ]);
-        }
-    }
-
-    public function realizar_entrada()
-    {
-        $this->entradaForm->reset();
-        $this->entradaForm->resetValidation();
-
-        $this->js('$openModal("depositCashModal")');
-
-        $this->set_focus('entrada_valor');
-    }
-
-    public function salvar_entrada()
-    {
-        $this->entradaForm->validate();
-
-        $caixa = $this->caixa_show();
-
-        if(!$caixa) {
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Caixa não encontrado.',
-                'icon'        => 'error'
-            ]);
-            return $this->redirect(route('dashboard'), true);
-        }
-
-        DB::beginTransaction();
-
-        try {
-            $resultado = $this->caixa->entradas()->create([
-                'tipo'      => 'e',
-                'motivo'    => $this->entradaForm->motivo,
-                'valor'     => $this->entradaForm->valor
-            ]);
-    
-            if($resultado) {
-                $this->caixa->update(['entrada_total' => $this->caixa->entradas()->sum('valor')]);
-                $result = $this->printEntrada($resultado->id);
-                throw_if(array_key_exists('error', $result), $result['message']);
-            }
-    
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Entrada finalizada com sucesso!',
-                'icon'        => 'success'
-            ]);
-
-            DB::commit();
-
-            $this->reset('depositCashModal');
-
-        } catch (\Throwable $th) {
-            //throw $th;
-
-            DB::rollBack();
-
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Não foi possivel realizar a Entrada.',
-                'icon'        => 'error'
-            ]);
-        }
     }
 
     public function encerrar_venda()
@@ -814,13 +671,6 @@ class CaixaIndex extends Component
     {
         $this->reset('produto_selecionado', 'edicao_quantidade', 'edicao_preco', 'edicao_preco_total');
 
-        $this->set_focus('pesquisar_produto');
-    }
-
-    #[On('onCloseWithdrawalCashModal')]
-    #[On('onCloseDepositCashModal')]
-    public function onCloseWithdrawalDepositCashModal()
-    {
         $this->set_focus('pesquisar_produto');
     }
 
