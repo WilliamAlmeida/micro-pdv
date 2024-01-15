@@ -1,6 +1,6 @@
 <div>
     <div class="flex flex-col sm:flex-row h-screen" id="pdv">
-        <div class="flex-none sm:w-1/4 bg-gray-300 dark:bg-gray-800 overflow-y-auto soft-scrollbar">
+        <div class="flex-none sm:w-1/6 bg-gray-300 dark:bg-gray-800 overflow-y-auto soft-scrollbar">
             @include('livewire.pdv.convenios.includes.actionSidebar')
         </div>
 
