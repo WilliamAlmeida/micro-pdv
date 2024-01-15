@@ -21,8 +21,8 @@
         </div>
     </div>
 
-    @include('livewire.pdv.caixa.includes.searchProductModal')
-    @include('livewire.pdv.caixa.includes.editProductModal')
+    <livewire:pdv.caixa.pesquisar-item-modal />
+    <livewire:pdv.caixa.alterar-item-modal />
     <livewire:pdv.caixa.sangria-modal />
     <livewire:pdv.caixa.entrada-modal />
     @include('livewire.pdv.caixa.includes.paymentModal')

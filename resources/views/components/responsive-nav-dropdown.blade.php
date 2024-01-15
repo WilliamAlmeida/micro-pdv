@@ -41,7 +41,7 @@ $classes = ($active ?? false)
         </button>
     @endif
 
-    <div x-show="open" {{ $attributes->class(['dark:bg-gray-50/10']) }} x-transition>
+    <div x-cloak x-show="open" x-on:keydown.escape.window="open = false" {{ $attributes->class(['dark:bg-gray-50/10']) }} x-transition>
         {{ $slot }}
     </div>
 </div>

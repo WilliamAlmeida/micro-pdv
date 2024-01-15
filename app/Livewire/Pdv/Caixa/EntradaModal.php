@@ -76,6 +76,8 @@ class EntradaModal extends Component
 
             $this->reset('depositCashModal');
 
+            $this->dispatch('refreshCaixa');
+
         } catch (\Throwable $th) {
             //throw $th;
 

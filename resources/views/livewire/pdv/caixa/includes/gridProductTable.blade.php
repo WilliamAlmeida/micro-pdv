@@ -24,12 +24,12 @@
                             <x-slot name="trigger">
                                 <x-button primary icon="pencil" class="w-[32px] mx-1" />
                             </x-slot>
-                            <x-dropdown.item label="Alterar" wire:click="alterar_item('{{ $item->id }}')" />
+                            <x-dropdown.item label="Alterar" wire:click="$dispatch('alterar_item', { id: '{{ $item->id }}' })" />
                             <x-dropdown.item separator label="Cancelar" wire:click="cancelar_item('{{ $item->id }}')" />
                         </x-dropdown>
                     </div>
                     <div class="hidden sm:flex justify-center gap-1">
-                        <x-button.circle primary icon="pencil" wire:click="alterar_item('{{ $item->id }}')" />
+                        <x-button.circle primary icon="pencil" wire:click="$dispatch('alterar_item', { id: '{{ $item->id }}' })" />
                         <x-button.circle negative icon="x" wire:click="cancelar_item('{{ $item->id }}')" />
                     </div>
                 </td>

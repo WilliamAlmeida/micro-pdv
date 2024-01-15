@@ -1,5 +1,5 @@
 <x-modal.card title="Entrada" blur wire:model.defer="depositCashModal" max-width="sm"
-x-on:close="$dispatch('onCloseDepositCashModal')"
+{{-- x-on:close="$dispatch('onCloseDepositCashModal')" --}}
 >
     <div class="grid grid-cols-1 gap-y-4">
         <x-inputs.currency label="Valor" placeholder="0,00" prefix="R$" thousands="." decimal="," wire:model="entradaForm.valor"

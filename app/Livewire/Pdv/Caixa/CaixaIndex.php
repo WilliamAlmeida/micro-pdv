@@ -48,6 +48,7 @@ class CaixaIndex extends Component
     public $pesquisa_preco = null;
     public $pesquisa_quantidade = null;
 
+    #[On('refreshCaixa')]
     public function mount()
     {
         $this->caixa = $this->caixa_show();
@@ -116,70 +117,7 @@ class CaixaIndex extends Component
         }
     }
 
-    public function pesquisar_produto()
-    {
-        if(empty($this->pesquisa_produto)) return;
-
-        $pesquisa = $this->pesquisa_produto;
-
-        $unique_key = sha1(auth()->id().'.pdv.pesquisar_produto'.$pesquisa);
-
-        $produtos = cache()->remember($unique_key, 10, function() use ($pesquisa) {
-            $produtos = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual');
-
-            if(is_numeric($pesquisa)) {
-                $produtos->where(function($query) use ($pesquisa) {
-                    return $query
-                        ->where('codigo_barras_1', $pesquisa)
-                        ->orWhere('codigo_barras_2', $pesquisa)
-                        ->orWhere('codigo_barras_3', $pesquisa)
-                        ->orWhere('id', $pesquisa);
-                });
-            }else{
-                $produtos->where('titulo', 'like', '%'.$pesquisa.'%');
-            }
-
-            return $produtos->get()->toArray();
-        });
-
-        // $produtos = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual');
-
-        // if(is_numeric($pesquisa)) {
-        //     $produtos->where(function($query) use ($pesquisa) {
-        //         return $query
-        //             ->where('codigo_barras_1', $pesquisa)
-        //             ->orWhere('codigo_barras_2', $pesquisa)
-        //             ->orWhere('codigo_barras_3', $pesquisa)
-        //             ->orWhere('id', $pesquisa);
-        //     });
-        // }else{
-        //     $produtos->where('titulo', 'like', '%'.$pesquisa.'%');
-        // }
-
-        // $produtos = $produtos->get();
-
-        $produtos_count = count($produtos);
-
-        if(!$produtos_count) {
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Nenhum Produto encontrado.',
-                'icon'        => 'warning'
-            ]);
-            return;
-        }
-
-        $this->produtos_encontrados = $produtos;
-        
-        $this->reset('pesquisa_produto');
-        
-        if($produtos_count == 1) {
-            $this->selecionar_produto($produtos[0]['id'], new Produtos($produtos[0]));
-        }else{
-            $this->js('$openModal("searchProductModal")');
-        }
-    }
-
+    #[On('selecionar_produto')]
     public function selecionar_produto($produto_id, $produto = null)
     {
         if($produto != null) {
@@ -372,99 +310,6 @@ class CaixaIndex extends Component
         $this->mount();
     }
 
-    public function alterar_item($item_id)
-    {
-        $caixa = $this->caixa_show();
-
-        if(!$caixa) {
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Caixa não encontrado.',
-                'icon'        => 'error'
-            ]);
-            return $this->redirect(route('dashboard'), true);
-        }
-
-        if(!$caixa->venda) {
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Venda não encontrada.',
-                'icon'        => 'error'
-            ]);
-            return $this->redirect(route('dashboard'), true);
-        }
-
-        $item = $caixa->venda->itens()->whereId($item_id)->first();
-
-        $this->produto_selecionado  = $item;
-        $this->edicao_quantidade    = $this->produto_selecionado->quantidade;
-        $this->edicao_preco         = number_format($this->produto_selecionado->preco, 2, ',', '.');
-        $this->edicao_preco_total   = number_format($this->produto_selecionado->valor_total, 2, ',', '.');
-
-        $this->js('$openModal("editProductModal")');
-        
-        $this->set_focus('edicao_quantidade', true);
-    }
-
-    public function updatedEdicaoQuantidade($value) 
-    {   
-        if($value > 0) $this->edicao_preco_total   = number_format(floatval($value) * $this->produto_selecionado->preco, 2, ',', '.');
-    }
-
-    public function salvar_alteracao_item()
-    {
-        if(!$this->produto_selecionado) return;
-
-        $caixa = $this->caixa_show();
-
-        if(!$caixa) {
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Caixa não encontrado.',
-                'icon'        => 'error'
-            ]);
-            return $this->redirect(route('dashboard'), true);
-        }
-
-        if(!$caixa->venda) {
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Venda não encontrada.',
-                'icon'        => 'error'
-            ]);
-            return $this->redirect(route('dashboard'), true);
-        }
-
-        $item       = $this->produto_selecionado;
-        $quantidade = $this->edicao_quantidade;
-
-        if($quantidade <= 0) {
-            $item->delete();
-
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Item removido com sucesso.',
-                'icon'        => 'success'
-            ]);
-
-        }else{
-            $item->update([
-                'quantidade' => $quantidade,
-                'valor_total' => ($quantidade * $item->preco) - $item->desconto,
-            ]);
-    
-            $this->notification([
-                'title'       => 'Aviso!',
-                'description' => 'Item atualizado com sucesso.',
-                'icon'        => 'success'
-            ]);
-        }
-
-        $this->reset('editProductModal');
-        
-        $this->mount();
-    }
-
     public function encerrar_venda()
     {
         if(!$this->caixa->venda?->valor_total) return;
@@ -652,26 +497,6 @@ class CaixaIndex extends Component
             ]);
         }
 
-    }
-
-    #[On('onCloseSearchProductModal')]
-    public function onCloseSearchProductModal()
-    {
-        $this->reset('produtos_encontrados');
-
-        if($this->produto_selecionado) {
-            $this->set_focus('pesquisar_quantidade');
-        }else{
-            $this->set_focus('pesquisar_produto');
-        }
-    }
-
-    #[On('onCloseEditProductModal')]
-    public function onCloseEditProductModal()
-    {
-        $this->reset('produto_selecionado', 'edicao_quantidade', 'edicao_preco', 'edicao_preco_total');
-
-        $this->set_focus('pesquisar_produto');
     }
 
     #[On('onClosePaymentModal')]

@@ -85,6 +85,8 @@ class SangriaModal extends Component
 
             $this->reset('withdrawalCashModal');
 
+            $this->dispatch('refreshCaixa');
+
         } catch (\Throwable $th) {
             //throw $th;
 
