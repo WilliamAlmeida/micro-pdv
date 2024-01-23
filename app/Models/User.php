@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasTenant;
@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'type',
         'empresas_id',
     ];
 
@@ -48,26 +49,38 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    static public function listTypeUser(): array
-    {
-        $USER  = 0;
-        $ADMIN = 1;
+    protected const USER = 0;
+    protected const EMPRESA = 1;
+    protected const ADMIN = 2;
 
-        return [
-            ['type' => $USER, 'label' => 'Usuário'],
-            ['type' => $ADMIN, 'label' => 'Admin'],
-        ];
-    }
+    static public $list_type_user = [
+        ['type' => self::USER, 'label' => 'Usuário'],
+        ['type' => self::EMPRESA, 'label' => 'Empresa'],
+        ['type' => self::ADMIN, 'label' => 'Admin'],
+    ];
 
     public function getTypeUser(): string
     {
-        $USER  = 0;
-        $ADMIN = 1;
-
-        return match ($this->is_admin) {
-            $USER  => "Usuário",
-            $ADMIN => "Admin",
+        return match ($this->type) {
+            self::USER  => "Usuário",
+            self::EMPRESA => "Empresa",
+            self::ADMIN => "Admin"
         };
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->type == self::ADMIN;
+    }
+
+    public function isEmpresa(): bool
+    {
+        return $this->type == self::EMPRESA;
+    }
+
+    public function isUser(): bool
+    {
+        return $this->type == self::USER;
     }
 
     public function empresa()
@@ -77,11 +90,11 @@ class User extends Authenticatable
 
     public function caixas()
     {
-        return $this->hasMany('App\Models\Caixa', 'user_id', 'id');
+        return $this->hasMany('App\Models\Tenant\Caixa', 'user_id', 'id');
     }
 
     public function caixa()
     {
-        return $this->hasOne('App\Models\Caixa', 'user_id', 'id')->whereIn('status', [0])->latest();
+        return $this->hasOne('App\Models\Tenant\Caixa', 'user_id', 'id')->whereIn('status', [0])->latest();
     }
 }

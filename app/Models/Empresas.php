@@ -174,12 +174,12 @@ class Empresas extends Model
 
     public function categorias()
     {
-        return $this->hasMany('App\Models\Categorias','empresas_id','id');
+        return $this->hasMany('App\Models\Tenant\Categorias','empresas_id','id');
     }
 
     public function produtos()
     {
-        return $this->hasMany('App\Models\Produtos','empresas_id','id');
+        return $this->hasMany('App\Models\Tenant\Produtos','empresas_id','id');
     }
 
     public function horarios()

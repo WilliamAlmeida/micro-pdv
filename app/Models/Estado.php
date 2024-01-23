@@ -69,6 +69,6 @@ class Estado extends Model
 
     public function fornecedores()
     {
-    	return $this->belongsTo('App\Models\Fornecedores', 'id', 'idestado');
+    	return $this->belongsTo('App\Models\Tenant\Fornecedores', 'id', 'idestado');
     }
 }

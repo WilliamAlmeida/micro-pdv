@@ -2,11 +2,11 @@
 
 namespace App\Traits\Pdv;
 
-use App\Models\Caixa;
 use App\Models\Empresas;
-use App\Models\Impressoes;
-use App\Models\VendasHead;
-use App\Models\CaixaSangriaEntrada;
+use App\Models\Tenant\Caixa;
+use App\Models\Tenant\Impressoes;
+use App\Models\Tenant\VendasHead;
+use App\Models\Tenant\CaixaSangriaEntrada;
 
 trait CaixaTickets
 {

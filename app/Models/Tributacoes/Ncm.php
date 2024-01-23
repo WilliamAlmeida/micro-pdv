@@ -43,6 +43,6 @@ class Ncm extends Model
 
     public function produtos()
     {
-        return $this->hasMany('App\Models\Produtos','trib_ncm','ncm');
+        return $this->hasMany('App\Models\Tenant\Produtos','trib_ncm','ncm');
     }
 }

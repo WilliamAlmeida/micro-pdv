@@ -23,7 +23,7 @@
     <body class="font-sans antialiased scrollbar">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @if (isset($navigation))
-                @include('layouts.navigation')
+                @include('layouts.app.navigation')
             @endif
 
             <!-- Page Heading -->

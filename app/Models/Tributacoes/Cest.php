@@ -43,7 +43,7 @@ class Cest extends Model
 
     public function produtos()
     {
-        return $this->hasMany('App\Models\Produtos','trib_cest','cest');
+        return $this->hasMany('App\Models\Tenant\Produtos','trib_cest','cest');
     }
 
     public function ncm()

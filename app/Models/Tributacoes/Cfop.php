@@ -43,6 +43,6 @@ class Cfop extends Model
 
     public function produtos()
     {
-        return $this->hasMany('App\Models\Produtos','trib_cfop_de','cfop');
+        return $this->hasMany('App\Models\Tenant\Produtos','trib_cfop_de','cfop');
     }
 }

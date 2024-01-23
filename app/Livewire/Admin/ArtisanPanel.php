@@ -42,7 +42,7 @@ class ArtisanPanel extends Component
         if(empty($this->parameters)) $params = [];
 
         try {
-            throw_unless(auth()->user()->is_admin, 'Only admin can use commands.');
+            throw_unless(auth()->user()->isAdmin, 'Only admin can use commands.');
 
             Artisan::call($this->command, $params);
 
