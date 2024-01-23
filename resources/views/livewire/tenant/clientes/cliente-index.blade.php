@@ -13,12 +13,12 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <livewire:clientes.cliente-table />
+                    <livewire:tenant.clientes.cliente-table />
                 </div>
             </div>
         </div>
     </div>
 
-    <livewire:clientes.cliente-create-modal />
-    <livewire:clientes.cliente-edit-modal />
+    <livewire:tenant.clientes.cliente-create-modal />
+    <livewire:tenant.clientes.cliente-edit-modal />
 </div>

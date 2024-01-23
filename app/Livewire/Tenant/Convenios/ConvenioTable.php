@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Convenios;
+namespace App\Livewire\Tenant\Convenios;
 
 use App\Models\Cidade;
 use App\Models\Estado;

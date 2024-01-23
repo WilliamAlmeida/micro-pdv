@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Produtos;
+namespace App\Livewire\Tenant\Produtos;
 
 use App\Livewire\Forms\Tenant\ProdutosForm;
 use App\Models\Tenant\Categorias;
@@ -82,6 +82,6 @@ class ProdutoCreateModal extends Component
 
     public function render()
     {
-        return view('livewire.produtos.produto-create-modal');
+        return view('livewire.tenant.produtos.produto-create-modal');
     }
 }

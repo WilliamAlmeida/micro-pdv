@@ -7,10 +7,12 @@ use Livewire\Component;
 use App\Models\Empresas;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use App\Livewire\Forms\EmpresaForm;
 use App\Http\Controllers\Api\CepController;
 
+#[Layout('components.layouts.admin')]
 class EmpresaEdit extends Component
 {
     use Actions;

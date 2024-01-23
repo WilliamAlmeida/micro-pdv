@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Produtos;
+namespace App\Livewire\Tenant\Produtos;
 
 use App\Models\Tenant\Categorias;
 use App\Models\Tenant\Produtos;

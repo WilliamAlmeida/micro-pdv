@@ -46,7 +46,7 @@
                     pesquisaProduto: @entangle('pesquisa_produto'),
                     onEnter() {
                         if(this.pesquisaProduto == '') return;
-                        $wire.dispatchTo('pdv.caixa.pesquisar-item-modal', 'pesquisar_produto', {value: this.pesquisaProduto});
+                        $wire.dispatchTo('tenant.pdv.caixa.pesquisar-item-modal', 'pesquisar_produto', {value: this.pesquisaProduto});
                         this.pesquisaProduto = '';
                     },
                     onEscape() {

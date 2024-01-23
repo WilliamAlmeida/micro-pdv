@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Fornecedores;
+namespace App\Livewire\Tenant\Fornecedores;
 
 use App\Models\Cidade;
 use App\Models\Estado;
@@ -233,6 +233,6 @@ class FornecedorEditModal extends Component
 
     public function render()
     {
-        return view('livewire.fornecedores.fornecedor-edit-modal');
+        return view('livewire.tenant.fornecedores.fornecedor-edit-modal');
     }
 }

@@ -13,12 +13,12 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <livewire:fornecedores.fornecedor-table />
+                    <livewire:tenant.fornecedores.fornecedor-table />
                 </div>
             </div>
         </div>
     </div>
 
-    <livewire:fornecedores.fornecedor-create-modal />
-    <livewire:fornecedores.fornecedor-edit-modal />
+    <livewire:tenant.fornecedores.fornecedor-create-modal />
+    <livewire:tenant.fornecedores.fornecedor-edit-modal />
 </div>

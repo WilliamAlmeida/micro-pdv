@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Clientes;
+namespace App\Livewire\Tenant\Clientes;
 
 use App\Models\Cidade;
 use App\Models\Estado;
@@ -121,6 +121,6 @@ class ClienteCreateModal extends Component
 
     public function render()
     {
-        return view('livewire.clientes.cliente-create-modal');
+        return view('livewire.tenant.clientes.cliente-create-modal');
     }
 }

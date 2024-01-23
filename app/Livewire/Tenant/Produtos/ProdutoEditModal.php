@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Produtos;
+namespace App\Livewire\Tenant\Produtos;
 
 use Livewire\Component;
 use App\Models\Tenant\Produtos;
@@ -210,6 +210,6 @@ class ProdutoEditModal extends Component
 
     public function render()
     {
-        return view('livewire.produtos.produto-edit-modal');
+        return view('livewire.tenant.produtos.produto-edit-modal');
     }
 }

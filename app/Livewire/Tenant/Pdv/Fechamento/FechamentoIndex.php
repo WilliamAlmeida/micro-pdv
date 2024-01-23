@@ -38,11 +38,11 @@ class FechamentoIndex extends Component
         $this->caixa_show();
 
         if(!$this->caixa) {
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         if($this->caixa->status) {
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         if($this->caixa->validDataAbertura()) {
@@ -216,7 +216,7 @@ class FechamentoIndex extends Component
         $this->caixa_show();
 
         if(!$this->caixa) {
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         if($this->caixa->venda) {
@@ -225,7 +225,7 @@ class FechamentoIndex extends Component
                 'description' => 'Você esta com uma venda em andamento.',
                 'icon'        => 'warning'
             ]);
-            // return $this->redirect(route('pdv.index'), true);
+            // return $this->redirect(route('tenant.pdv.index'), true);
             return;
         }
 
@@ -257,7 +257,7 @@ class FechamentoIndex extends Component
 
             DB::commit();
 
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -274,6 +274,6 @@ class FechamentoIndex extends Component
 
     public function render()
     {
-        return view('livewire.pdv.fechamento.fechamento-index');
+        return view('livewire.tenant.pdv.fechamento.fechamento-index');
     }
 }

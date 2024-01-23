@@ -6,7 +6,7 @@
         $dispatch('setFocus', [{id: element.id}]);
     },
     selectItem(value) {
-        $wire.dispatchTo('pdv.caixa.caixa-index', 'selecionar_produto', {'produto_id': value});
+        $wire.dispatchTo('tenant.pdv.caixa.caixa-index', 'selecionar_produto', {'produto_id': value});
     }
 }">
 <x-modal.card title="Produtos" blur wire:model.defer="searchProductModal" fullscreen {{-- max-width="3xl" --}}

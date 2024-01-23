@@ -14,11 +14,11 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <livewire:estoque.estoque-table />
+                    <livewire:tenant.estoque.estoque-table />
                 </div>
             </div>
         </div>
     </div>
 
-    <livewire:estoque.estoque-create-modal />
+    <livewire:tenant.estoque.estoque-create-modal />
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Estoque;
+namespace App\Livewire\Tenant\Estoque;
 
 use WireUi\Traits\Actions;
 use Illuminate\Support\Carbon;
@@ -59,7 +59,7 @@ final class EstoqueTable extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('produtos_titulo', function (EstoqueMovimentacoes $model) {
-                return '<a wire:navigate href="'. route('produtos.index', ['search' => e($model->produtos_titulo)]) . '">'. e($model->produtos_titulo) .'</a>'; 
+                return '<a wire:navigate href="'. route('tenant.produtos.index', ['search' => e($model->produtos_titulo)]) . '">'. e($model->produtos_titulo) .'</a>'; 
             })
             ->addColumn('tipo')
             ->addColumn('quantidade')

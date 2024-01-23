@@ -64,11 +64,11 @@ class ConvenioIndex extends Component
         $this->caixa_show();
 
         if(!$this->caixa) {
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         if(!$this->caixa->convenios->count()) {
-            return $this->redirect(route('pdv.index'), true);
+            return $this->redirect(route('tenant.pdv.index'), true);
         }
 
         // $this->vendas_ate = now()->addDay()->format('d-m-Y');
@@ -180,7 +180,7 @@ class ConvenioIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         if(!$this->cliente_selecionado) {
@@ -293,7 +293,7 @@ class ConvenioIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         if(!$this->cliente_selecionado) {
@@ -414,7 +414,7 @@ class ConvenioIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         if(!$this->cliente_selecionado) {
@@ -484,6 +484,6 @@ class ConvenioIndex extends Component
 
     public function render()
     {
-        return view('livewire.pdv.convenios.convenio-index');
+        return view('livewire.tenant.pdv.convenios.convenio-index');
     }
 }

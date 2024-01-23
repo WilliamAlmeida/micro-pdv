@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Produtos;
+namespace App\Livewire\Tenant\Produtos;
 
 use Livewire\Component;
 use App\Models\Tenant\Produtos;
@@ -313,7 +313,7 @@ class ProdutoImportModal extends Component
 
     public function render()
     {
-        return view('livewire.produtos.produto-import-modal');
+        return view('livewire.tenant.produtos.produto-import-modal');
     }
 
     private function rcEmoji($string, $action = null) {

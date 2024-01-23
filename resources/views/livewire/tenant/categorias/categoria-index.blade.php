@@ -13,12 +13,12 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <livewire:categorias.categoria-table />
+                    <livewire:tenant.categorias.categoria-table />
                 </div>
             </div>
         </div>
     </div>
 
-    <livewire:categorias.categoria-create-modal />
-    <livewire:categorias.categoria-edit-modal />
+    <livewire:tenant.categorias.categoria-create-modal />
+    <livewire:tenant.categorias.categoria-edit-modal />
 </div>

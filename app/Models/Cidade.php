@@ -53,16 +53,16 @@ class Cidade extends Model
 
     public function fornecedores()
     {
-    	return $this->belongsTo('App\Models\Fornecedores', 'id', 'idcidade');
+    	return $this->belongsTo('App\Models\Tenant\Fornecedores', 'id', 'idcidade');
     }
 
     public function convenios()
     {
-    	return $this->belongsTo('App\Models\Convenios', 'id', 'idcidade');
+    	return $this->belongsTo('App\Models\Tenant\Convenios', 'id', 'idcidade');
     }
 
     public function clientes()
     {
-    	return $this->belongsTo('App\Models\Clientes', 'id', 'idcidade');
+    	return $this->belongsTo('App\Models\Tenant\Clientes', 'id', 'idcidade');
     }
 }

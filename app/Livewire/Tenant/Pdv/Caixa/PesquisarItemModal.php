@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pdv\Caixa;
+namespace App\Livewire\Tenant\Pdv\Caixa;
 
 use Livewire\Component;
 use App\Models\Tenant\Produtos;
@@ -79,6 +79,6 @@ class PesquisarItemModal extends Component
 
     public function render()
     {
-        return view('livewire.pdv.caixa.pesquisar-item-modal');
+        return view('livewire.tenant.pdv.caixa.pesquisar-item-modal');
     }
 }

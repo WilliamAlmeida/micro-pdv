@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Convenios;
+namespace App\Livewire\Tenant\Convenios;
 
 use App\Models\Cidade;
 use App\Models\Estado;
@@ -117,6 +117,6 @@ class ConvenioCreateModal extends Component
 
     public function render()
     {
-        return view('livewire.convenios.convenio-create-modal');
+        return view('livewire.tenant.convenios.convenio-create-modal');
     }
 }

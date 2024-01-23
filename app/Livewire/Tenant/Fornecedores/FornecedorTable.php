@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Fornecedores;
+namespace App\Livewire\Tenant\Fornecedores;
 
 use App\Models\Cidade;
 use App\Models\Estado;

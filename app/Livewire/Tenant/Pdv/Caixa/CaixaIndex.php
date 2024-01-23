@@ -95,7 +95,7 @@ class CaixaIndex extends Component
             return;
         }
         
-        $this->redirect(route('dashboard'), true);
+        $this->redirect(route('tenant.dashboard'), true);
     }
 
     public function escape_pesquisar_produto()
@@ -242,7 +242,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         if(!$caixa->venda) {
@@ -251,7 +251,7 @@ class CaixaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         $item = $caixa->venda->itens()->whereId($item_id)->first();
@@ -353,7 +353,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         if(!$caixa->venda) {
@@ -362,7 +362,7 @@ class CaixaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard'), true);
         }
 
         $caixa->venda->pagamentos()->delete();
@@ -507,6 +507,6 @@ class CaixaIndex extends Component
 
     public function render()
     {
-        return view('livewire.pdv.caixa.caixa-index');
+        return view('livewire.tenant.pdv.caixa.caixa-index');
     }
 }

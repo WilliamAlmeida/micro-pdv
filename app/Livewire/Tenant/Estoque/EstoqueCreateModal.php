@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Estoque;
+namespace App\Livewire\Tenant\Estoque;
 
 use App\Livewire\Forms\Tenant\EstoqueForm;
 use Livewire\Component;
@@ -157,7 +157,7 @@ class EstoqueCreateModal extends Component
 
     public function render()
     {
-        return view('livewire.estoque.estoque-create-modal', [
+        return view('livewire.tenant.estoque.estoque-create-modal', [
             'empresa' => auth()->user()->empresas_id
         ]);
     }

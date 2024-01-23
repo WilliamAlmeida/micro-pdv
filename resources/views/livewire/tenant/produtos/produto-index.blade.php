@@ -14,14 +14,14 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <livewire:produtos.produto-table />
+                    <livewire:tenant.produtos.produto-table />
                 </div>
             </div>
         </div>
     </div>
 
-    <livewire:produtos.produto-create-modal />
-    <livewire:produtos.produto-edit-modal />
+    <livewire:tenant.produtos.produto-create-modal />
+    <livewire:tenant.produtos.produto-edit-modal />
 
-    <livewire:produtos.produto-import-modal />
+    <livewire:tenant.produtos.produto-import-modal />
 </div>

@@ -13,12 +13,12 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <livewire:convenios.convenio-table />
+                    <livewire:tenant.convenios.convenio-table />
                 </div>
             </div>
         </div>
     </div>
 
-    <livewire:convenios.convenio-create-modal />
-    <livewire:convenios.convenio-edit-modal />
+    <livewire:tenant.convenios.convenio-create-modal />
+    <livewire:tenant.convenios.convenio-edit-modal />
 </div>
