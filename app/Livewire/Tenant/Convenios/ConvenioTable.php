@@ -4,7 +4,7 @@ namespace App\Livewire\Convenios;
 
 use App\Models\Cidade;
 use App\Models\Estado;
-use App\Models\Convenios;
+use App\Models\Tenant\Convenios;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -171,7 +171,7 @@ final class ConvenioTable extends PowerGridComponent
         }
     }
 
-    public function actions(\App\Models\Convenios $row): array
+    public function actions(Convenios $row): array
     {
         return [
             // Button::add('edit')

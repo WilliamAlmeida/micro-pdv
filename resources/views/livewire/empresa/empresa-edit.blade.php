@@ -11,6 +11,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
                     <div x-data="{ activeTab: 'dados' }">
+                        @if($empresa || !$readMode && !$empresa)
                         <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
                             <ul class="flex flex-wrap justify-evenly -mb-px text-sm font-medium text-center" id="default-tab" role="tablist">
                                 <li class="me-2" role="presentation">
@@ -24,9 +25,11 @@
                                 </li>
                             </ul>
                         </div>
+                        @endif
 
                         <div id="default-tab-content">
 
+                            @if($empresa || !$readMode && !$empresa)
                             <div x-show="activeTab === 'dados'" class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dados" role="tabpanel" aria-labelledby="dados-tab">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     @if($readMode)
@@ -120,11 +123,14 @@
                                     <x-textarea wire:model="form.description" label="Descrição" placeholder="Descrição" :disabled="$readMode" />
                                 </div>
                             </div>
+                            @endif
 
-                            <div class="flex justify-center mt-3 gap-x-3">
+                            <div class="flex justify-center gap-x-3">
                                 @if(!$readMode)
-                                    <x-button flat label="Cancelar" class="w-24" wire:click="cancel" />
-                                    <x-button primary label="Salvar" class="w-24" wire:click='save' />
+                                    <div class="mt-3">
+                                        <x-button flat label="Cancelar" class="w-24" wire:click="cancel" />
+                                        <x-button primary label="Salvar" class="w-24" wire:click='save' />
+                                    </div>
                                 @else
                                     <x-button primary :label="$empresa ? 'Editar' : 'Registrar'" class="w-24" wire:click="$set('readMode', false)" />
                                 @endif

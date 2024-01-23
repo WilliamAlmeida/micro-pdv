@@ -3,22 +3,22 @@
 namespace App\Livewire\Tenant\Pdv\Convenios;
 
 use Livewire\Component;
-use App\Models\Clientes;
+use App\Models\Tenant\Clientes;
 use WireUi\Traits\Actions;
-use App\Models\ConveniosHead;
+use App\Models\Tenant\ConveniosHead;
 use App\Traits\HelperActions;
-use App\Models\ConveniosItens;
+use App\Models\Tenant\ConveniosItens;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use App\Traits\Pdv\CaixaActions;
 use App\Traits\Pdv\CaixaTickets;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\DB;
-use App\Models\EstoqueMovimentacoes;
-use App\Models\ConveniosRecebimentos;
-use App\Livewire\Forms\Pdv\Convenio\ReceivementForm;
-use App\Livewire\Forms\Pdv\Convenio\DivideItemForm;
-use App\Livewire\Forms\Pdv\Convenio\ReturnItemForm;
+use App\Models\Tenant\EstoqueMovimentacoes;
+use App\Models\Tenant\ConveniosRecebimentos;
+use App\Livewire\Forms\Tenant\Pdv\Convenio\ReceivementForm;
+use App\Livewire\Forms\Tenant\Pdv\Convenio\DivideItemForm;
+use App\Livewire\Forms\Tenant\Pdv\Convenio\ReturnItemForm;
 
 #[Layout('components.layouts.caixa')]
 class ConvenioIndex extends Component

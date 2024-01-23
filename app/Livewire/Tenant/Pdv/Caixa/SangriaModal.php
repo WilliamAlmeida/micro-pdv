@@ -11,7 +11,7 @@ use App\Traits\Pdv\CaixaActions;
 
 use App\Traits\Pdv\CaixaTickets;
 use Illuminate\Support\Facades\DB;
-use App\Livewire\Forms\Pdv\Caixa\SangriaForm;
+use App\Livewire\Forms\Tenant\Pdv\Caixa\SangriaForm;
 
 class SangriaModal extends Component
 {

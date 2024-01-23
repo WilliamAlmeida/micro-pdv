@@ -3,17 +3,13 @@
 namespace App\Livewire\Produtos;
 
 use Livewire\Component;
-use App\Models\Produtos;
-use App\Models\Categorias;
+use App\Models\Tenant\Produtos;
+use App\Models\Tenant\Categorias;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Locked;
-use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\DB;
-use App\Livewire\Forms\ProdutosForm;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Contracts\Service\Attribute\Required;
 
 class ProdutoImportModal extends Component
@@ -74,7 +70,7 @@ class ProdutoImportModal extends Component
 
             $deleted_at = date('Y-m-d h:i:s');
 
-            $categorias = \App\Models\Categorias::select('id', 'titulo', 'slug', 'empresas_id')->whereEmpresasId(auth()->user()->empresas_id)->orderBy('titulo')->get()->toArray();
+            $categorias = Categorias::select('id', 'titulo', 'slug', 'empresas_id')->whereEmpresasId(auth()->user()->empresas_id)->orderBy('titulo')->get()->toArray();
 
             foreach ($categorias as $key => $value) {
                 $categorias[$value['titulo']] = $value;
@@ -267,7 +263,7 @@ class ProdutoImportModal extends Component
         try {
 
             foreach($this->categorias as $key => $categoria) {
-                $result = \App\Models\Categorias::create($categoria);
+                $result = Categorias::create($categoria);
 
                 $this->categorias[$key]['id'] = $result->id;
             }
@@ -275,7 +271,7 @@ class ProdutoImportModal extends Component
             $categorias = collect($this->categorias);
 
             foreach($this->produtos as $key => $produto) {
-                $result = \App\Models\Produtos::create($produto);
+                $result = Produtos::create($produto);
 
                 $categoria = $categorias->firstWhere('slug', $produto['categoria']);
                 if($categoria) $result->categorias()->sync(['categorias_id' => $categoria['id']]);

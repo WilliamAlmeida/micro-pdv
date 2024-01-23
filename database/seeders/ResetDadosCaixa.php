@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\Caixa;
-use App\Models\CaixaSangriaEntrada;
-use App\Models\ConveniosHead;
-use App\Models\ConveniosItens;
-use App\Models\ConveniosRecebimentos;
-use App\Models\ConveniosPagamentos;
-use App\Models\VendasHead;
-use App\Models\VendasItens;
-use App\Models\VendasPagamentos;
+use App\Models\Tenant\Caixa;
+use App\Models\Tenant\CaixaSangriaEntrada;
+use App\Models\Tenant\ConveniosHead;
+use App\Models\Tenant\ConveniosItens;
+use App\Models\Tenant\ConveniosRecebimentos;
+use App\Models\Tenant\ConveniosPagamentos;
+use App\Models\Tenant\VendasHead;
+use App\Models\Tenant\VendasItens;
+use App\Models\Tenant\VendasPagamentos;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

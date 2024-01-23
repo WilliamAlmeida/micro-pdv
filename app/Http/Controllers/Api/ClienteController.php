@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Clientes;
+use App\Models\Tenant\Clientes;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller

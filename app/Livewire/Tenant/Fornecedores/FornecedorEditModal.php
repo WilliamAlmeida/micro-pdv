@@ -5,13 +5,12 @@ namespace App\Livewire\Fornecedores;
 use App\Models\Cidade;
 use App\Models\Estado;
 use Livewire\Component;
-use App\Models\Categorias;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
-use App\Models\Fornecedores;
+use App\Models\Tenant\Fornecedores;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Storage;
-use App\Livewire\Forms\FornecedoresForm;
+use App\Livewire\Forms\Tenant\FornecedoresForm;
 use App\Http\Controllers\Api\CepController;
 
 class FornecedorEditModal extends Component

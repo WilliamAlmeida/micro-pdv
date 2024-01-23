@@ -4,15 +4,15 @@ namespace App\Livewire\Tenant\Pdv\Caixa;
 
 use Livewire\Component;
 use WireUi\Traits\Actions;
-use App\Models\Clientes;
-use App\Models\Produtos;
-use App\Models\EstoqueMovimentacoes;
+use App\Models\Tenant\Clientes;
+use App\Models\Tenant\Produtos;
+use App\Models\Tenant\EstoqueMovimentacoes;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\DB;
 
-use App\Livewire\Forms\Pdv\Caixa\PaymentForm;
+use App\Livewire\Forms\Tenant\Pdv\Caixa\PaymentForm;
 
 use App\Traits\HelperActions;
 use App\Traits\Pdv\CaixaActions;

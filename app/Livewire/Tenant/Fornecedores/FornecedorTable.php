@@ -6,7 +6,7 @@ use App\Models\Cidade;
 use App\Models\Estado;
 use App\Models\Empresas;
 use WireUi\Traits\Actions;
-use App\Models\Fornecedores;
+use App\Models\Tenant\Fornecedores;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -170,7 +170,7 @@ final class FornecedorTable extends PowerGridComponent
         }
     }
     
-    public function actions(\App\Models\Fornecedores $row): array
+    public function actions(Fornecedores $row): array
     {
         return [
             // Button::add('edit')

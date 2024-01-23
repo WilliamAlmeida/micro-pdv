@@ -7,7 +7,8 @@
             label="Selecione um Tipo"
             :options="[
             ['name' => 'Usuário',  'id' => 0],
-            ['name' => 'Admin', 'id' => 1],
+            ['name' => 'Empresa', 'id' => 1],
+            ['name' => 'Admin', 'id' => 2],
             ]"
             option-label="name"
             option-value="id"

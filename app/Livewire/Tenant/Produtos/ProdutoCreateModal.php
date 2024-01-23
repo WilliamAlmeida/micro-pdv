@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Produtos;
 
-use App\Livewire\Forms\ProdutosForm;
-use App\Models\Categorias;
+use App\Livewire\Forms\Tenant\ProdutosForm;
+use App\Models\Tenant\Categorias;
 use Livewire\Component;
-use App\Models\Produtos;
+use App\Models\Tenant\Produtos;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;

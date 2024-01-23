@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Produtos;
 
-use App\Models\Categorias;
-use App\Models\Produtos;
+use App\Models\Tenant\Categorias;
+use App\Models\Tenant\Produtos;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
@@ -303,7 +303,7 @@ final class ProdutoTable extends PowerGridComponent
         }
     }
 
-    public function actions(\App\Models\Produtos $row): array
+    public function actions(Produtos $row): array
     {
         return [
             // Button::add('edit')

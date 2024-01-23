@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Estoque;
 
-use App\Livewire\Forms\EstoqueForm;
+use App\Livewire\Forms\Tenant\EstoqueForm;
 use Livewire\Component;
-use App\Models\EstoqueMovimentacoes;
-use App\Models\Produtos;
+use App\Models\Tenant\EstoqueMovimentacoes;
+use App\Models\Tenant\Produtos;
 use Illuminate\Support\Facades\DB;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;

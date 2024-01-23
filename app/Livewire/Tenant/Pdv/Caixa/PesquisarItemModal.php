@@ -3,7 +3,7 @@
 namespace App\Livewire\Pdv\Caixa;
 
 use Livewire\Component;
-use App\Models\Produtos;
+use App\Models\Tenant\Produtos;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\On;
 

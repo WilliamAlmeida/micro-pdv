@@ -3,12 +3,12 @@
 namespace App\Livewire\Produtos;
 
 use Livewire\Component;
-use App\Models\Produtos;
-use App\Models\Categorias;
+use App\Models\Tenant\Produtos;
+use App\Models\Tenant\Categorias;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
-use App\Livewire\Forms\ProdutosForm;
+use App\Livewire\Forms\Tenant\ProdutosForm;
 use Illuminate\Support\Facades\Storage;
 
 class ProdutoEditModal extends Component

@@ -11,7 +11,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use App\Traits\Pdv\CaixaActions;
 use Illuminate\Support\Facades\DB;
-use App\Models\EstoqueMovimentacoes;
+use App\Models\Tenant\EstoqueMovimentacoes;
 use App\Traits\Pdv\CaixaTickets;
 
 #[Layout('components.layouts.caixa')]

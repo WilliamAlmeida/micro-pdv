@@ -5,12 +5,12 @@ namespace App\Livewire\Clientes;
 use App\Models\Cidade;
 use App\Models\Estado;
 use Livewire\Component;
-use App\Models\Clientes;
-use App\Models\Convenios;
+use App\Models\Tenant\Clientes;
+use App\Models\Tenant\Convenios;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
-use App\Livewire\Forms\ClientesForm;
+use App\Livewire\Forms\Tenant\ClientesForm;
 use App\Http\Controllers\Api\CepController;
 
 class ClienteCreateModal extends Component

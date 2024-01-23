@@ -7,9 +7,9 @@ use App\Models\Estado;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
-use App\Models\Convenios;
+use App\Models\Tenant\Convenios;
 use Livewire\Attributes\Validate;
-use App\Livewire\Forms\ConveniosForm;
+use App\Livewire\Forms\Tenant\ConveniosForm;
 use App\Http\Controllers\Api\CepController;
 
 class ConvenioCreateModal extends Component

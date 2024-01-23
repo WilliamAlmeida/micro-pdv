@@ -5,7 +5,7 @@ namespace App\Livewire\Estoque;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use App\Models\EstoqueMovimentacoes;
+use App\Models\Tenant\EstoqueMovimentacoes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Request;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -163,7 +163,7 @@ final class EstoqueTable extends PowerGridComponent
         }
     }
 
-    public function actions(\App\Models\EstoqueMovimentacoes $row): array
+    public function actions(EstoqueMovimentacoes $row): array
     {
         return [
             Button::add('delete')
