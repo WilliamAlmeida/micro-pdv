@@ -34,6 +34,24 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+
+    Route::get('/minha-conta', ContaEdit::class)->name('conta.edit');
+
+    Route::get('/empresa', EmpresaEdit::class)->name('empresa.edit');
+
+    Route::prefix('tributacoes')->group(function () {
+        Route::get('/ncms', NcmIndex::class)->name('ncms.index');
+        Route::get('/cests', CestIndex::class)->name('cests.index');
+        Route::get('/cfops', CfopIndex::class)->name('cfops.index');
+    });
+    
+    Route::get('/usuarios', UsuarioIndex::class)->name('usuarios.index');
+});
+
 Route::middleware('auth')->prefix('painel')->name('tenant.')->group(function () {
     Route::get('/dashboard', function () {
         return view('tenant.dashboard');
@@ -60,24 +78,6 @@ Route::middleware('auth')->prefix('painel')->name('tenant.')->group(function () 
         Route::get('convenios', PDVConvenioIndex::class)->name('pdv.convenios');
         Route::get('fechamento', FechamentoIndex::class)->name('pdv.fechamento');
     });
-});
-
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
-
-    Route::get('/minha-conta', ContaEdit::class)->name('conta.edit');
-
-    Route::get('/empresa', EmpresaEdit::class)->name('empresa.edit');
-
-    Route::prefix('tributacoes')->group(function () {
-        Route::get('/ncms', NcmIndex::class)->name('ncms.index');
-        Route::get('/cests', CestIndex::class)->name('cests.index');
-        Route::get('/cfops', CfopIndex::class)->name('cfops.index');
-    });
-    
-    Route::get('/usuarios', UsuarioIndex::class)->name('usuarios.index');
 });
 
 require __DIR__.'/auth.php';
