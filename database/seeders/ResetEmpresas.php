@@ -32,6 +32,11 @@ class ResetEmpresas extends Seeder
         Produtos::truncate();
         Convenios::truncate();
         Files::truncate();
+
+        foreach (Tenant::get() as $tenant) {
+            $tenant->users()->sync([]);
+        }
+
         Tenant::query()->delete();
 
         User::query()->update(['empresas_id' => null]);

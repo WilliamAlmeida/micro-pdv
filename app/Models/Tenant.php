@@ -161,10 +161,10 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         // 'id',
     ];
 
-    public function getIncrementing()
-    {
-        return true;
-    }
+    // public function getIncrementing()
+    // {
+    //     return true;
+    // }
 
     // public function users()
     // {
@@ -173,7 +173,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     public function users()
     {
-        return $this->belongsToMany(User::class, UserTenants::class);
+        return $this->belongsToMany(User::class, 'user_tenant');
     }
 
     public function logo()

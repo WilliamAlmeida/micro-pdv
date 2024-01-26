@@ -26,7 +26,7 @@ class EmpresaForm extends Form
     #[Validate('required', as: 'estado')]
     public $idestado;
 
-    #[Validate('required', as: 'cidade')]
+    #[Validate(as: 'cidade')]
     public $idcidade;
 
     #[Validate('nullable|min:16|max:18')]
@@ -136,18 +136,18 @@ class EmpresaForm extends Form
 
     public function mount(Tenant|Null $empresa)
     {
+        $this->horarios = [
+            'Mon' => [],
+            'Tue' => [],
+            'Wed' => [],
+            'Thu' => [],
+            'Fri' => [],
+            'Sat' => [],
+            'Sun' => [],
+        ];
+
         if($empresa) {
             $this->fill($empresa);
-            
-            $this->horarios = [
-                'Mon' => [],
-                'Tue' => [],
-                'Wed' => [],
-                'Thu' => [],
-                'Fri' => [],
-                'Sat' => [],
-                'Sun' => [],
-            ];
 
             foreach($empresa->horarios as $key => $values) {
                 $this->horarios[$values->dia][] = ['inicio' => $values->inicio, 'fim' => $values->fim];
@@ -162,7 +162,7 @@ class EmpresaForm extends Form
         $this->end_complemento  = ucwords($values->complemento ?: null);
         $this->end_logradouro   = ucwords($values->logradouro ?: null);
         // $this->end_numero    = $values->numero ?: null;
-        // $this->end_idcidade  = $values->idcidade ?: null;
+        $this->idcidade         = $values->idcidade ?: null;
         $this->idestado         = $values->idestado ?: null;
     }
 

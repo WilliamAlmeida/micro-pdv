@@ -507,6 +507,11 @@ class CaixaIndex extends Component
 
     public function render()
     {
-        return view('livewire.tenant.pdv.caixa.caixa-index');
+        $abreviation = null;
+        foreach (explode(' ', \Str::of(tenant('nome_fantasia'))->squish()) as $value) {
+            $abreviation .= $value[0];
+        }
+
+        return view('livewire.tenant.pdv.caixa.caixa-index', ['abreviation' => $abreviation]);
     }
 }

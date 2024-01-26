@@ -19,6 +19,10 @@
                     <x-nav-link wire:navigate :href="route('admin.usuarios.index')" :active="request()->routeIs('admin.usuarios.index')">
                         {{ __('Usuários') }}
                     </x-nav-link>
+                    
+                    <x-nav-link wire:navigate :href="route('admin.empresas.index')" :active="request()->routeIs(['admin.empresas.index', 'admin.empresa.create'])">
+                        {{ __('Empresas') }}
+                    </x-nav-link>
 
                     <x-nav-dropdown :active="request()->routeIs(['admin.ncms.index', 'admin.cests.index', 'admin.cfops.index'])">
                         <x-dropdown align="left">
@@ -28,16 +32,6 @@
                             <x-dropdown.item wire:navigate :href="route('admin.cfops.index')" :active="request()->routeIs('admin.cfops.index')" label="{{ __('Cfop') }}" />
                         </x-dropdown>
                     </x-nav-dropdown>
-
-                    @if(auth()->user()->empresa)
-                        <x-nav-link wire:navigate :href="route('admin.empresa.edit')" :active="request()->routeIs('admin.empresa.edit')">
-                            {{ __('Empresa') }}
-                        </x-nav-link>
-                    @else
-                        <x-nav-link wire:navigate :href="route('admin.empresa.edit')" :active="request()->routeIs('admin.empresa.edit')">
-                            {{ __('Empresa') }}
-                        </x-nav-link>
-                    @endif
                 </div>
             </div>
 
@@ -56,15 +50,21 @@
                         <x-button label="{{ Auth::user()->name }}" dark rightIcon="dots-vertical" />
                     </x-slot>
 
+                    
+                    <x-dropdown.header label="{{ __('Settings') }}">
+                        <x-dropdown.item wire:navigate label="{{ __('Manage Account') }}" :href="route('admin.conta.edit')" />
+                    </x-dropdown.header>
+
                     @if(auth()->user()->is_admin)
-                        <x-dropdown.item label="{{ __('Artisan Panel') }}" onclick="Livewire.dispatch('openArtisanPanel');" />
+                        <x-dropdown.header label="Admin">
+                            <x-dropdown.item label="{{ __('Artisan Panel') }}" onclick="Livewire.dispatch('openArtisanPanel');" />
+                        </x-dropdown.header>
                     @endif
 
-                    <x-dropdown.item wire:navigate label="{{ __('Manage Account') }}" :href="route('admin.conta.edit')" />
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <x-dropdown.item label="{{ __('Logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" />
+                        <x-dropdown.item label="{{ __('Logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" separator />
                     </form>
                 </x-dropdown>
             </div>
@@ -98,12 +98,6 @@
                     <x-responsive-nav-link wire:navigate :href="route('admin.cests.index')" :active="request()->routeIs('admin.cests.index')" label="{{ __('Cest') }}" />
                     <x-responsive-nav-link wire:navigate :href="route('admin.cfops.index')" :active="request()->routeIs('admin.cfops.index')" label="{{ __('Cfop') }}" />
                 </x-responsive-nav-dropdown>
-            @endif
-
-            @if(auth()->user()->empresa)
-                <x-responsive-nav-link wire:navigate :href="route('admin.empresa.edit')" :active="request()->routeIs('admin.empresa.edit')" label="{{ __('Empresa') }}" />
-            @else
-                <x-responsive-nav-link wire:navigate :href="route('admin.empresa.edit')" :active="request()->routeIs('admin.empresa.edit')" label="{{ __('Empresa') }}" />
             @endif
         </div>
 

@@ -12,7 +12,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link wire:navigate :href="route('tenant.dashboard', tenant())" :active="request()->routeIs('dashboard')">
+                    <x-nav-link wire:navigate :href="route('tenant.dashboard', tenant())" :active="request()->routeIs('tenant.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     
@@ -137,12 +137,6 @@
                     <x-responsive-nav-link wire:navigate :href="route('cfops.index')" :active="request()->routeIs('cfops.index')" label="{{ __('Cfop') }}" />
                 </x-responsive-nav-dropdown> --}}
             @endif
-
-            {{-- @if(auth()->user()->empresa)
-                <x-responsive-nav-link wire:navigate :href="route('empresa.edit')" :active="request()->routeIs('empresa.edit')" label="{{ __('Empresa') }}" />
-            @else
-                <x-responsive-nav-link wire:navigate :href="route('empresa.edit')" :active="request()->routeIs('empresa.edit')" label="{{ __('Empresa') }}" />
-            @endif --}}
         </div>
 
         <!-- Responsive Settings Options -->

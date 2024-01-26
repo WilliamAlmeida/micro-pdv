@@ -14,11 +14,16 @@
             </div>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-col gap-3">
-                    <span class="text-lg font-bold">{{ __("Empresas") }}</span>
+                <div class="p-6 text-gray-900 dark:text-gray-100 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <span class="text-lg font-bold col-span-full">{{ __("Empresas") }}</span>
 
                     @foreach(auth()->user()->empresa as $empresa)
-                        <a class="hover:text-indigo-500 transition-colors" href="{{ route('tenant.dashboard', $empresa) }}">{{ $empresa->nome_fantasia }}</a>
+                    <x-card class="rounded-t-md rounded-b-md border-2 border-indigo-500 hover:bg-gray-400/10 dark:bg-none hover:dark:bg-white/5 transition-all" shadow="none">
+                        <span class="text-lg uppercase text-indigo-500">{{ $empresa->nome_fantasia }}</span>
+                        <div class="flex justify-end items-center">
+                            <x-button icon="login" label="Acessar" primary href="{{ route('tenant.dashboard', $empresa) }}" class="hover:-translate-y-1 transition-transform" />
+                        </div>
+                    </x-card>
                     @endforeach
                 </div>
             </div>

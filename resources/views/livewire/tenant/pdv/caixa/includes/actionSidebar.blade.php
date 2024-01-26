@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-2 p-2 h-full">
-    <div class="text-center font-bold dark:text-white">Ações</div>
+    <div class="text-center font-bold dark:text-white select-none">Ações</div>
     
     <div class="flex flex-wrap justify-center sm:justify-normal sm:flex-nowrap sm:flex-col gap-y-2 gap-x-1 flex-grow">
         @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 0))

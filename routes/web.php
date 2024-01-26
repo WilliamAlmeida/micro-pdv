@@ -1,9 +1,10 @@
 <?php
 
 use App\Livewire\Conta\ContaEdit;
-use App\Livewire\Empresa\EmpresaEdit;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Tributacoes\Ncms\NcmIndex;
+use App\Livewire\Admin\Empresas\EmpresaCreate;
+use App\Livewire\Admin\Empresas\EmpresaIndex;
 use App\Livewire\Admin\Usuarios\UsuarioIndex;
 use App\Livewire\Tributacoes\Cests\CestIndex;
 use App\Livewire\Tributacoes\Cfops\CfopIndex;
@@ -30,7 +31,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     Route::get('/minha-conta', ContaEdit::class)->name('conta.edit');
 
-    Route::get('/empresa', EmpresaEdit::class)->name('empresa.edit');
+    Route::get('/empresas', EmpresaIndex::class)->name('empresas.index');
+    Route::get('/empresa/create', EmpresaCreate::class)->name('empresa.create');
 
     Route::prefix('tributacoes')->group(function () {
         Route::get('/ncms', NcmIndex::class)->name('ncms.index');
