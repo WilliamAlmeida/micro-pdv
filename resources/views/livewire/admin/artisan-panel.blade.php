@@ -1,4 +1,3 @@
-@if(auth()->user()->is_admin)
 <div>
     <x-modal wire:model.defer="artisanPanelModal" align="end"
     >
@@ -46,4 +45,3 @@
         </x-card>
     </x-modal>
 </div>
-@endif
