@@ -10,15 +10,15 @@ class ClienteController extends Controller
 {
     public function index(Request $request)
     {
+        $clientes = Clientes::orderBy('nome_fantasia');
+
         if($request->filled('search')) {
-            $clientes = Clientes::orderBy('nome_fantasia')
-            ->where('nome_fantasia', 'like', $request->search.'%')
-            ->limit(50)->get();
-        }else{
-            $clientes = Clientes::orderBy('nome_fantasia')->limit(50)->get();
+            $clientes->where('nome_fantasia', 'like', $request->search.'%');
         }
 
-        return $clientes;
+        if($request->filled('empresa')) $clientes->withTenant(1, $request->get('empresa'));
+
+        return $clientes->limit(50)->get();
     }
 
     public function show(string $id)

@@ -38,11 +38,11 @@ class FechamentoIndex extends Component
         $this->caixa_show();
 
         if(!$this->caixa) {
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if($this->caixa->status) {
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if($this->caixa->validDataAbertura()) {
@@ -216,7 +216,7 @@ class FechamentoIndex extends Component
         $this->caixa_show();
 
         if(!$this->caixa) {
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if($this->caixa->venda) {
@@ -225,7 +225,7 @@ class FechamentoIndex extends Component
                 'description' => 'Você esta com uma venda em andamento.',
                 'icon'        => 'warning'
             ]);
-            // return $this->redirect(route('tenant.pdv.index'), true);
+            // return $this->redirect(route('tenant.pdv.index', tenant()), true);
             return;
         }
 
@@ -257,7 +257,7 @@ class FechamentoIndex extends Component
 
             DB::commit();
 
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
 
         } catch (\Throwable $th) {
             //throw $th;

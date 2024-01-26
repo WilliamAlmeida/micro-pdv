@@ -38,7 +38,7 @@ class AlterarItemModal extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if(!$this->caixa->venda) {
@@ -47,7 +47,7 @@ class AlterarItemModal extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         $item = $this->caixa->venda->itens()->whereId($id)->first();
@@ -79,7 +79,7 @@ class AlterarItemModal extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if(!$this->caixa->venda) {
@@ -88,7 +88,7 @@ class AlterarItemModal extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         $item       = $this->produto_selecionado;

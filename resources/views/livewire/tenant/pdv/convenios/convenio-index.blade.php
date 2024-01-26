@@ -1,7 +1,7 @@
 <div>
     <div class="flex flex-col sm:flex-row h-screen" id="pdv">
         <div class="flex-none sm:w-1/6 bg-gray-300 dark:bg-gray-800 overflow-y-auto soft-scrollbar">
-            @include('livewire.pdv.convenios.includes.actionSidebar')
+            @include('livewire.tenant.pdv.convenios.includes.actionSidebar')
         </div>
 
         <div class="flex flex-col flex-grow overflow-y-auto soft-scrollbar">
@@ -23,28 +23,28 @@
                 }
             }">
                 <div class="flex-none bg-black text-white">
-                    @includeWhen($vendas_status == 0, 'livewire.pdv.convenios.includes.opened.infoSaleGrid')
-                    @includeWhen($vendas_status == 1 || $vendas_status == 3, 'livewire.pdv.convenios.includes.payed.infoSaleGrid')
-                    @includeWhen($vendas_status == 2, 'livewire.pdv.convenios.includes.returned.infoSaleGrid')
+                    @includeWhen($vendas_status == 0, 'livewire.tenant.pdv.convenios.includes.opened.infoSaleGrid')
+                    @includeWhen($vendas_status == 1 || $vendas_status == 3, 'livewire.tenant.pdv.convenios.includes.payed.infoSaleGrid')
+                    @includeWhen($vendas_status == 2, 'livewire.tenant.pdv.convenios.includes.returned.infoSaleGrid')
                 </div>
 
                 <div class="flex-grow overflow-y-auto soft-scrollbar">
-                    @includeWhen($vendas_status == 0, 'livewire.pdv.convenios.includes.opened.gridProductTable')
-                    @includeWhen($vendas_status == 1, 'livewire.pdv.convenios.includes.payed.gridProductTable')
-                    @includeWhen($vendas_status == 2, 'livewire.pdv.convenios.includes.returned.gridProductTable')
-                    @includeWhen($vendas_status == 3, 'livewire.pdv.convenios.includes.payed.gridReceivementTable')
+                    @includeWhen($vendas_status == 0, 'livewire.tenant.pdv.convenios.includes.opened.gridProductTable')
+                    @includeWhen($vendas_status == 1, 'livewire.tenant.pdv.convenios.includes.payed.gridProductTable')
+                    @includeWhen($vendas_status == 2, 'livewire.tenant.pdv.convenios.includes.returned.gridProductTable')
+                    @includeWhen($vendas_status == 3, 'livewire.tenant.pdv.convenios.includes.payed.gridReceivementTable')
                 </div>
 
                 <div class="flex-none self-stretch bg-gray-300 dark:bg-gray-800">
-                    @includeWhen($vendas_status == 0, 'livewire.pdv.convenios.includes.opened.infoRecordGrid')
+                    @includeWhen($vendas_status == 0, 'livewire.tenant.pdv.convenios.includes.opened.infoRecordGrid')
                 </div>
             </div>
         </div>
     </div>
 
     @if($vendas_status == 0)
-        @include('livewire.pdv.convenios.includes.opened.returnProductModal')
-        @include('livewire.pdv.convenios.includes.opened.divideProductModal')
-        @include('livewire.pdv.convenios.includes.opened.receivementModal')
+        @include('livewire.tenant.pdv.convenios.includes.opened.returnProductModal')
+        @include('livewire.tenant.pdv.convenios.includes.opened.divideProductModal')
+        @include('livewire.tenant.pdv.convenios.includes.opened.receivementModal')
     @endif
 </div>

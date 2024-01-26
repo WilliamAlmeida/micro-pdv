@@ -3,7 +3,7 @@
 namespace App\Livewire\Forms;
 
 use Livewire\Form;
-use App\Models\Empresas;
+use App\Models\Tenant;
 use Livewire\Attributes\Validate;
 
 class EmpresaForm extends Form
@@ -134,7 +134,7 @@ class EmpresaForm extends Form
     public $horarios = [];
     protected $horarios_model = ['inicio' => null, 'fim' => null];
 
-    public function mount(Empresas|Null $empresa)
+    public function mount(Tenant|Null $empresa)
     {
         if($empresa) {
             $this->fill($empresa);

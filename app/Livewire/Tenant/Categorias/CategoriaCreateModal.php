@@ -14,7 +14,7 @@ class CategoriaCreateModal extends Component
 
     public $categoriaCreateModal = false;
  
-    #[Validate('required|min:3|unique:categorias,titulo', as:'título')]
+    #[Validate('required|min:3', as:'título')]
     public $titulo;
 
     #[Validate('min:0')]
@@ -34,6 +34,10 @@ class CategoriaCreateModal extends Component
     {
         $validated = $this->validate();
 
+        $this->validate([
+            'titulo' => tenant()->unique('categorias')
+        ]);
+
         if($params == null) {
             $this->dialog()->confirm([
                 'title'       => 'Você tem certeza?',
@@ -46,7 +50,7 @@ class CategoriaCreateModal extends Component
         }
 
         $validated['slug'] = Str::slug($this->titulo);
-        $validated['empresas_id'] = auth()->user()->empresas_id;
+        // $validated['empresas_id'] = auth()->user()->empresas_id;
 
         try {
             $categoria = Categorias::create($validated);
@@ -62,7 +66,7 @@ class CategoriaCreateModal extends Component
             $this->dispatch('pg:eventRefresh-default');
 
         } catch (\Throwable $th) {
-            // throw $th;
+            throw $th;
     
             $this->notification([
                 'title'       => 'Falha no cadastro!',

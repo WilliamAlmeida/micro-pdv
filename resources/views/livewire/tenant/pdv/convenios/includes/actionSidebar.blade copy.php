@@ -9,9 +9,9 @@
 
         <div class="inline-block sm:hidden float-right">
             @if($convenio_selecionado)
-                <x-button href="{{ route('pdv.convenios') }}" label="Voltar" wire:navigate primary sm class="w-full" />
+                <x-button href="{{ route('tenant.pdv.convenios', tenant()) }}" label="Voltar" wire:navigate primary sm class="w-full" />
             @else
-                <x-button href="{{ route('pdv.index') }}" label="Voltar para Caixa" wire:navigate negative sm class="w-full" />
+                <x-button href="{{ route('tenant.pdv.index', tenant()) }}" label="Voltar para Caixa" wire:navigate negative sm class="w-full" />
             @endif
         </div>
     </div>
@@ -22,9 +22,9 @@
 
     <div class="sm:mt-auto hidden sm:flex p-2">
         @if($convenio_selecionado)
-            <x-button href="{{ route('pdv.convenios') }}" label="Voltar" wire:navigate primary class="w-full" />
+            <x-button href="{{ route('tenant.pdv.convenios', tenant()) }}" label="Voltar" wire:navigate primary class="w-full" />
         @else
-            <x-button href="{{ route('pdv.index') }}" label="Voltar para Caixa" wire:navigate negative class="w-full" />
+            <x-button href="{{ route('tenant.pdv.index', tenant()) }}" label="Voltar para Caixa" wire:navigate negative class="w-full" />
         @endif
 
         {{-- <div class="flex gap-x-3 self-center">

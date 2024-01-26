@@ -48,7 +48,7 @@ class EntradaModal extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         DB::beginTransaction();

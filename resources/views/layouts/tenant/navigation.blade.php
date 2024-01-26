@@ -5,19 +5,19 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('tenant.dashboard') }}">
+                    <a href="{{ route('tenant.dashboard', tenant()) }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link wire:navigate :href="route('tenant.dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link wire:navigate :href="route('tenant.dashboard', tenant())" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     
                     @if(auth()->user()->empresa)
-                    <x-nav-link wire:navigate :href="route('tenant.pdv.index')" :active="request()->routeIs('pdv.index')">
+                    <x-nav-link wire:navigate :href="route('tenant.pdv.index', tenant())" :active="request()->routeIs('pdv.index')">
                         {{ __('PDV') }}
                     </x-nav-link>
                     {{-- <x-nav-link wire:navigate :href="route('tenant.usuarios.index')" :active="request()->routeIs('usuarios.index')">
@@ -27,18 +27,18 @@
                     <x-nav-dropdown :active="request()->routeIs(['tenant.categorias.index', 'tenant.produtos.index', 'tenant.fornecedores.index', 'tenant.convenios.index'])">
                         <x-dropdown align="left">
                             <x-slot name="trigger">Cadastros</x-slot>
-                            <x-dropdown.item wire:navigate :href="route('tenant.categorias.index')" :active="request()->routeIs('tenant.categorias.index')" label="{{ __('Categorias') }}" />
-                            <x-dropdown.item wire:navigate :href="route('tenant.produtos.index')" :active="request()->routeIs('tenant.produtos.index')" label="{{ __('Produtos') }}" />
-                            <x-dropdown.item wire:navigate :href="route('tenant.fornecedores.index')" :active="request()->routeIs('tenant.fornecedores.index')" label="{{ __('Fornecedores') }}" />
-                            <x-dropdown.item wire:navigate :href="route('tenant.convenios.index')" :active="request()->routeIs('tenant.convenios.index')" label="{{ __('Convênios') }}" />
-                            <x-dropdown.item wire:navigate :href="route('tenant.clientes.index')" :active="request()->routeIs('tenant.clientes.index')" label="{{ __('Clientes') }}" />
+                            <x-dropdown.item wire:navigate :href="route('tenant.categorias.index', tenant())" :active="request()->routeIs('tenant.categorias.index')" label="{{ __('Categorias') }}" />
+                            <x-dropdown.item wire:navigate :href="route('tenant.produtos.index', tenant())" :active="request()->routeIs('tenant.produtos.index')" label="{{ __('Produtos') }}" />
+                            <x-dropdown.item wire:navigate :href="route('tenant.fornecedores.index', tenant())" :active="request()->routeIs('tenant.fornecedores.index')" label="{{ __('Fornecedores') }}" />
+                            <x-dropdown.item wire:navigate :href="route('tenant.convenios.index', tenant())" :active="request()->routeIs('tenant.convenios.index')" label="{{ __('Convênios') }}" />
+                            <x-dropdown.item wire:navigate :href="route('tenant.clientes.index', tenant())" :active="request()->routeIs('tenant.clientes.index')" label="{{ __('Clientes') }}" />
                         </x-dropdown>
                     </x-nav-dropdown>
 
                     <x-nav-dropdown :active="request()->routeIs(['tenant.estoque.index'])">
                         <x-dropdown align="left">
                             <x-slot name="trigger">Estoque</x-slot>
-                            <x-dropdown.item wire:navigate :href="route('tenant.estoque.index')" :active="request()->routeIs('tenant.estoque.index')" label="{{ __('Movimentações') }}" />
+                            <x-dropdown.item wire:navigate :href="route('tenant.estoque.index', tenant())" :active="request()->routeIs('tenant.estoque.index')" label="{{ __('Movimentações') }}" />
                         </x-dropdown>
                     </x-nav-dropdown>
 
@@ -83,7 +83,7 @@
                         <x-dropdown.item label="{{ __('Artisan Panel') }}" onclick="Livewire.dispatch('openArtisanPanel');" />
                     @endif
 
-                    <x-dropdown.item wire:navigate label="{{ __('Manage Account') }}" :href="route('tenant.conta.edit')" />
+                    <x-dropdown.item wire:navigate label="{{ __('Manage Account') }}" :href="route('tenant.conta.edit', tenant())" />
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -107,25 +107,25 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('tenant.dashboard')" :active="request()->routeIs('tenant.dashboard')" label="{{ __('Dashboard') }}" />
+            <x-responsive-nav-link :href="route('tenant.dashboard', tenant())" :active="request()->routeIs('tenant.dashboard')" label="{{ __('Dashboard') }}" />
 
             @if(auth()->user()->empresa)
-                <x-responsive-nav-link wire:navigate :href="route('tenant.pdv.index')" :active="request()->routeIs('tenant.pdv.index')" label="{{ __('PDV') }}" />
-                <x-responsive-nav-link wire:navigate :href="route('tenant.usuarios.index')" :active="request()->routeIs('tenant.usuarios.index')" label="{{ __('Usuários') }}" />
+                <x-responsive-nav-link wire:navigate :href="route('tenant.pdv.index', tenant())" :active="request()->routeIs('tenant.pdv.index')" label="{{ __('PDV') }}" />
+                <x-responsive-nav-link wire:navigate :href="route('tenant.usuarios.index', tenant())" :active="request()->routeIs('tenant.usuarios.index')" label="{{ __('Usuários') }}" />
 
                 <x-responsive-nav-dropdown
                     label="{{ __('Cadastros') }}"
                     toggleIcon
                     :active="request()->routeIs(['tenant.categorias.index', 'tenant.produtos.index', 'tenant.fornecedores.index', 'tenant.convenios.index'])"
                     >
-                    <x-responsive-nav-link wire:navigate :href="route('tenant.categorias.index')" :active="request()->routeIs('tenant.categorias.index')" label="{{ __('Categorias') }}" />
-                    <x-responsive-nav-link wire:navigate :href="route('tenant.produtos.index')" :active="request()->routeIs('tenant.produtos.index')" label="{{ __('Produtos') }}" />
-                    <x-responsive-nav-link wire:navigate :href="route('tenant.fornecedores.index')" :active="request()->routeIs('tenant.fornecedores.index')" label="{{ __('Fornecedores') }}" />
-                    <x-responsive-nav-link wire:navigate :href="route('tenant.convenios.index')" :active="request()->routeIs('tenant.convenios.index')" label="{{ __('Convênios') }}" />
-                    <x-responsive-nav-link wire:navigate :href="route('tenant.clientes.index')" :active="request()->routeIs('tenant.clientes.index')" label="{{ __('Clientes') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('tenant.categorias.index', tenant())" :active="request()->routeIs('tenant.categorias.index')" label="{{ __('Categorias') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('tenant.produtos.index', tenant())" :active="request()->routeIs('tenant.produtos.index')" label="{{ __('Produtos') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('tenant.fornecedores.index', tenant())" :active="request()->routeIs('tenant.fornecedores.index')" label="{{ __('Fornecedores') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('tenant.convenios.index', tenant())" :active="request()->routeIs('tenant.convenios.index')" label="{{ __('Convênios') }}" />
+                    <x-responsive-nav-link wire:navigate :href="route('tenant.clientes.index', tenant())" :active="request()->routeIs('tenant.clientes.index')" label="{{ __('Clientes') }}" />
                 </x-responsive-nav-dropdown>
 
-                <x-responsive-nav-link wire:navigate :href="route('tenant.estoque.index')" :active="request()->routeIs('tenant.estoque.index')" label="{{ __('Movimentações') }}" />
+                <x-responsive-nav-link wire:navigate :href="route('tenant.estoque.index', tenant())" :active="request()->routeIs('tenant.estoque.index')" label="{{ __('Movimentações') }}" />
 
                 {{-- <x-responsive-nav-dropdown
                     label="{{ __('Tributações') }}"
@@ -153,7 +153,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('tenant.conta.edit')">
+                <x-responsive-nav-link :href="route('tenant.conta.edit', tenant())">
                     {{ __('Manage Account') }}
                 </x-responsive-nav-link>
 

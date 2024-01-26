@@ -43,7 +43,7 @@ final class FornecedorTable extends PowerGridComponent
     
     public function datasource(): Builder
     {
-        return Fornecedores::query()->withTenant()->with('pais', 'estado', 'cidade')
+        return Fornecedores::query()->with('pais', 'estado', 'cidade')
         ->select('fornecedores.*')
         ->selectRaw('CONCAT(cnpj, cpf) as cnpj_cpf');
     }

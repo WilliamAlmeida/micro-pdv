@@ -9,6 +9,7 @@ use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
+use Illuminate\Support\Facades\DB;
 use App\Livewire\Forms\EmpresaForm;
 use App\Http\Controllers\Api\CepController;
 
@@ -42,7 +43,7 @@ class EmpresaEdit extends Component
         $this->array_tipos_empresas = Empresas::$tipos_empresas;
         $this->array_estados = Estado::select('id','uf')->get()->toArray();
 
-        $this->empresa = auth()->user()->empresa ?? null;
+        $this->empresa = auth()->user()->empresa->first() ?? null;
         $this->form->mount($this->empresa);
     }
 
@@ -117,12 +118,14 @@ class EmpresaEdit extends Component
             return;
         }
 
+        DB::beginTransaction();
+
         try {
             if(!$this->empresa) {
                 $this->empresa = new Empresas($this->form->all());
                 $this->empresa->save();
 
-                auth()->user()->update(['empresas_id' => $this->empresa->id]);
+                $this->empresa->users()->attach(auth()->user());
             }else{
                 $this->empresa->update($this->form->all());
                 $this->empresa->horarios()->delete();
@@ -138,7 +141,12 @@ class EmpresaEdit extends Component
             ]);
 
             $this->cancel();
+
+            DB::commit();
+
         } catch (\Throwable $th) {
+            DB::rollBack();
+
             // throw $th;
     
             $this->notification([

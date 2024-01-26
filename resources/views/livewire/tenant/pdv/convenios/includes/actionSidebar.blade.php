@@ -30,7 +30,7 @@
             label="Cliente"
             wire:model.defer="cliente_id"
             placeholder="Pesquise pelo nome"
-            :async-data="route('api.clientes')"
+            :async-data="route('api.clientes', ['empresa' => tenant() ?? null])"
             option-label="nome_fantasia"
             option-value="id"
             x-on:selected="$wire.pesquisar_cliente()"
@@ -43,15 +43,15 @@
             <x-button primary label="Filtrar" wire:click="filtrar_itens" />
         @else
             <x-button secondary label="Filtrar" disabled />
-            <x-button href="{{ route('pdv.index') }}" label="Voltar para Caixa" wire:navigate negative class="sm:hidden" />
+            <x-button href="{{ route('tenant.pdv.index', tenant()) }}" label="Voltar para Caixa" wire:navigate negative class="sm:hidden" />
         @endif
     </div>
 
     <div class="sm:mt-auto hidden sm:flex sm:flex-col gap-2 pb-2 sm:pb-0">
         @if($cliente_selecionado)
-            <x-button href="{{ route('pdv.convenios') }}" label="Voltar" wire:navigate primary class="w-full" />
+            <x-button href="{{ route('tenant.pdv.convenios', tenant()) }}" label="Voltar" wire:navigate primary class="w-full" />
         @else
-            <x-button href="{{ route('pdv.index') }}" label="Voltar para Caixa" wire:navigate negative class="w-full" />
+            <x-button href="{{ route('tenant.pdv.index', tenant()) }}" label="Voltar para Caixa" wire:navigate negative class="w-full" />
         @endif
 
         <div class="flex gap-x-3 self-center">

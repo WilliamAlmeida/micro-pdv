@@ -1,7 +1,7 @@
 <div class="grid grid-cols-2 bg-gray-300 dark:bg-gray-800">
     <div class="font-bold py-4 px-2 my-auto">
         <div class="flex">
-            <img src="https://ibox.delivery/uploads/adm/empresas/111/empresa-logo-111iZJw.png" class="h-[80px] w-[80px] mr-2 hidden sm:flex" />
+            <img src="https://ibox.delivery/uploads/adm/empresas/111/empresa-logo-111iZJw.png2" class="h-[80px] w-[80px] mr-2 hidden sm:flex text-center text-white" alt="{{ tenant('id') }}" />
             <div class="self-center dark:text-white">
                 Cód. Caixa: {{ str_pad($caixa->id, 4, "0", STR_PAD_LEFT) }}
                 <br/>

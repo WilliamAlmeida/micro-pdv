@@ -71,7 +71,7 @@ class PesquisarItemModal extends Component
         $this->produtos_encontrados = $produtos;
         
         if($produtos_count == 1) {
-            $this->selecionar_produto($produtos[0]['id'], new Produtos($produtos[0]));
+            $this->dispatch('selecionar_produto', [$produtos[0]['id']]);
         }else{
             $this->js('$openModal("searchProductModal")');
         }

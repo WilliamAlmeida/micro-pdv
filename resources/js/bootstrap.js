@@ -30,3 +30,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+
+/**
+ * Set X-Tenant request header for tenant domains.
+ */
+const tenantTag = document.head.querySelector('meta[name="tenant"]');
+if (tenantTag) {
+    import('../plugins/set-tenant-header').then(module => module.default(tenantTag.content))
+}

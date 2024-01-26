@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-5omoJWky.css",
+    "file": "assets/app-743EUufd.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -8,8 +8,16 @@
     "css": [
       "assets/app-tY8lvnP6.css"
     ],
-    "file": "assets/app-B3n2dxyl.js",
+    "dynamicImports": [
+      "resources/plugins/set-tenant-header.js"
+    ],
+    "file": "assets/app-fepp33hm.js",
     "isEntry": true,
     "src": "resources/js/app.js"
+  },
+  "resources/plugins/set-tenant-header.js": {
+    "file": "assets/set-tenant-header-7VERMRJJ.js",
+    "isDynamicEntry": true,
+    "src": "resources/plugins/set-tenant-header.js"
   }
 }

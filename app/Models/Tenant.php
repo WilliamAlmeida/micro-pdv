@@ -9,11 +9,11 @@ use Stancl\Tenancy\Database\Concerns\HasDatabase;
 use Stancl\Tenancy\Database\Models\Tenant as BaseTenant;
 use Stancl\Tenancy\Database\Concerns\HasScopedValidationRules;
 
-class Empresas extends BaseTenant implements TenantWithDatabase
+class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains, HasScopedValidationRules;
 
-    protected $table = 'empresas';
+    // protected $table = 'empresas';
     protected $primaryKey = 'id';
     // public $timestamps = false;
 
@@ -213,7 +213,7 @@ class Empresas extends BaseTenant implements TenantWithDatabase
     
     public function getTipoEmpresa(): array
     {
-        $index = collect(Empresas::$tipos_empresas)->firstWhere('id', $this->id_tipo_empresa);
+        $index = collect(self::$tipos_empresas)->firstWhere('id', $this->id_tipo_empresa);
         return ($index) ? $index : [];
     }
 

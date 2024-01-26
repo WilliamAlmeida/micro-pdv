@@ -46,6 +46,6 @@ class Horarios extends Model
 
     public function empresas()
     {
-        return $this->hasOne('App\Models\Empresas','id','empresas_id');
+        return $this->hasOne('App\Models\Tenant','id','empresas_id');
     }
 }

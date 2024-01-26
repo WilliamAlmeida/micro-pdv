@@ -39,11 +39,11 @@ class VendaIndex extends Component
         $this->caixa_show();
 
         if(!$this->caixa) {
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if(!$this->caixa->vendas->count()) {
-            return $this->redirect(route('tenant.pdv.index'), true);
+            return $this->redirect(route('tenant.pdv.index', tenant()), true);
         }
 
         if(is_numeric($this->c)) {
@@ -91,7 +91,7 @@ class VendaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         $venda = $this->venda_selecionada;
@@ -102,7 +102,7 @@ class VendaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.pdv.vendas'), true);
+            return $this->redirect(route('tenant.pdv.vendas', tenant()), true);
         }
 
         if($params == null) {
@@ -202,7 +202,7 @@ class VendaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         $venda = $this->venda_selecionada;
@@ -213,7 +213,7 @@ class VendaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.pdv.vendas'), true);
+            return $this->redirect(route('tenant.pdv.vendas', tenant()), true);
         }
 
         if($params == null) {

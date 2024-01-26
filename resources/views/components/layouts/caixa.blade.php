@@ -9,6 +9,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        @if(tenant())
+            <meta name="tenant" content="{{ tenant('id') }}">
+        @endif
 
         <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
 
@@ -18,7 +21,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <script src="{{ asset('build/assets/plugins/cleave.min.js?id=1') }}" data-navigate-track></script>
+        <script src="{{ global_asset('build/assets/plugins/cleave.min.js?id=1') }}" data-navigate-track></script>
     </head>
     <body class="font-sans antialiased scrollbar">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">

@@ -42,7 +42,7 @@ final class EstoqueTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return EstoqueMovimentacoes::query()
-        ->whereHas('produtos.empresas', fn($q) => $q->whereId(auth()->user()->empresas_id))
+        ->whereHas('produtos.empresas', fn($q) => $q->whereId(tenant('id')))
         ->with('produtos')
         ->leftJoin('produtos','produtos.id','estoque_movimentacoes.produtos_id')
         ->select('estoque_movimentacoes.*', 'produtos.titulo as produtos_titulo')
@@ -59,7 +59,7 @@ final class EstoqueTable extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('produtos_titulo', function (EstoqueMovimentacoes $model) {
-                return '<a wire:navigate href="'. route('tenant.produtos.index', ['search' => e($model->produtos_titulo)]) . '">'. e($model->produtos_titulo) .'</a>'; 
+                return '<a wire:navigate href="'. route('tenant.produtos.index', [tenant(), 'search' => e($model->produtos_titulo)]) . '">'. e($model->produtos_titulo) .'</a>'; 
             })
             ->addColumn('tipo')
             ->addColumn('quantidade')

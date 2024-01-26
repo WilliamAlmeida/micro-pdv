@@ -59,7 +59,7 @@ class Estado extends Model
 
     public function empresas()
     {
-      return $this->hasMany('App\Models\Empresas', 'idestado', 'id');
+      return $this->hasMany('App\Models\Tenant', 'idestado', 'id');
     }
 
     public function user()

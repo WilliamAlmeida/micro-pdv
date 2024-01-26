@@ -42,7 +42,7 @@ final class ConvenioTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Convenios::query()->withTenant()->with('pais', 'estado', 'cidade')
+        return Convenios::query()->with('pais', 'estado', 'cidade')
         ->select('convenios.*')->withCount('clientes')
         ->selectRaw('CONCAT(cnpj, cpf) as cnpj_cpf');
     }

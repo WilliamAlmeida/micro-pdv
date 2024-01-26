@@ -64,11 +64,11 @@ class ConvenioIndex extends Component
         $this->caixa_show();
 
         if(!$this->caixa) {
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if(!$this->caixa->convenios->count()) {
-            return $this->redirect(route('tenant.pdv.index'), true);
+            return $this->redirect(route('tenant.pdv.index', tenant()), true);
         }
 
         // $this->vendas_ate = now()->addDay()->format('d-m-Y');
@@ -180,7 +180,7 @@ class ConvenioIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if(!$this->cliente_selecionado) {
@@ -189,7 +189,7 @@ class ConvenioIndex extends Component
                 'description' => 'Cliente não selecionado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('pdv.convenios'), true);
+            return $this->redirect(route('tenant.pdv.convenios', tenant()), true);
         }
 
         if(!$this->produto_selecionado) {
@@ -198,7 +198,7 @@ class ConvenioIndex extends Component
                 'description' => 'Item não selecionado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('pdv.convenios'), true);
+            return $this->redirect(route('tenant.pdv.convenios', tenant()), true);
         }
 
         $this->devolucaoForm->validate();
@@ -293,7 +293,7 @@ class ConvenioIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if(!$this->cliente_selecionado) {
@@ -302,7 +302,7 @@ class ConvenioIndex extends Component
                 'description' => 'Cliente não selecionado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('pdv.convenios'), true);
+            return $this->redirect(route('tenant.pdv.convenios', tenant()), true);
         }
 
         if(!$this->produto_selecionado) {
@@ -311,7 +311,7 @@ class ConvenioIndex extends Component
                 'description' => 'Item não selecionado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('pdv.convenios'), true);
+            return $this->redirect(route('tenant.pdv.convenios', tenant()), true);
         }
 
         $this->fracionamentoForm->validate();
@@ -414,7 +414,7 @@ class ConvenioIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if(!$this->cliente_selecionado) {
@@ -423,7 +423,7 @@ class ConvenioIndex extends Component
                 'description' => 'Cliente não selecionado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('pdv.convenios'), true);
+            return $this->redirect(route('tenant.pdv.convenios', tenant()), true);
         }
 
         if(empty($this->itens_selecionados)) return;

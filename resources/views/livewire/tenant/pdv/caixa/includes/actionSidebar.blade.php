@@ -11,7 +11,7 @@
         <x-button negative label="Sangria" wire:click="$dispatch('realizar_sangria')" />
         <x-button positive label="Entrada" wire:click="$dispatch('realizar_entrada')" />
         @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1))
-            <x-button sky label="Registros" href="{{ route('tenant.pdv.vendas') }}" wire:navigate />
+            <x-button sky label="Registros" href="{{ route('tenant.pdv.vendas', tenant()) }}" wire:navigate />
         @else
             <x-button secondary label="Registros" disabled />
         @endif
@@ -19,11 +19,11 @@
             count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1) ||
             $caixa->convenios_recebimentos->count() || $caixa->entradas->count() || $caixa->sangrias->count()
         )
-            <x-button purple label="Fechar Caixa" href="{{ route('tenant.pdv.fechamento') }}" wire:navigate />
+            <x-button purple label="Fechar Caixa" href="{{ route('tenant.pdv.fechamento', tenant()) }}" wire:navigate />
         @else
             <x-button secondary label="Fechar Caixa" disabled />
         @endif
-        <x-button pink label="Convênios" href="{{ route('tenant.pdv.convenios') }}" wire:navigate />
+        <x-button pink label="Convênios" href="{{ route('tenant.pdv.convenios', tenant()) }}" wire:navigate />
         @if(count($caixa->vendas) && $caixa->vendas->firstWhere('status', 1))
             <x-button rose label="Reimpressão" wire:click="imprimir_ultima_venda" />
         @else

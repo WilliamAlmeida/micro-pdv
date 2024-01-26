@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users_has_empresas', function (Blueprint $table) {
-            $table->foreignId('users_id');
-            $table->foreignId('empresas_id');
+        Schema::create('user_empresa', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id');
+            $table->string('empresa_id', 191);
             $table->timestamps();
 
-            $table->primary(['users_id', 'empresas_id'], 'user_empresa');
+            $table->index('user_id');
+            $table->index('empresa_id');
+            $table->unique(['user_id', 'empresa_id']);
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users_has_empresas');
+        Schema::dropIfExists('user_empresa');
     }
 };

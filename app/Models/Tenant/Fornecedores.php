@@ -2,16 +2,16 @@
 
 namespace App\Models\Tenant;
 
-use App\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class Fornecedores extends Model
 {
     protected $table = 'fornecedores';
     protected $primaryKey = 'id';
     // public $timestamps = false;
-    use SoftDeletes, HasTenant;
+    use SoftDeletes, BelongsToTenant;
 
     /*Add your validation rules here*/
     public static $rules = array(
@@ -108,7 +108,7 @@ class Fornecedores extends Model
 
     public function empresas()
     {
-        return $this->hasOne('App\Models\Empresas', 'id', 'empresas_id');
+        return $this->hasOne('App\Models\Tenant', 'id', 'empresas_id');
     }
 
     public function pais()

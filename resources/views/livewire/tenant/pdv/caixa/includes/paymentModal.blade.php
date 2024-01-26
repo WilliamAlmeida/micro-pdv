@@ -60,7 +60,7 @@
         label="Cliente"
         wire:model.defer="pagamentoForm.cliente_id"
         placeholder="Pesquise pelo nome"
-        :async-data="route('api.clientes')"
+        :async-data="route('api.clientes', ['empresa' => tenant() ?? null])"
         option-label="nome_fantasia"
         option-value="id"
         x-on:selected="$wire.pesquisar_cliente()"

@@ -39,8 +39,12 @@ class CategoriaEditModal extends Component
         $validated = $this->validate();
 
         $this->validate([
-            "titulo" => "unique:categorias,titulo,{$this->categoria->id}",
+            'titulo' => tenant()->unique('categorias')
         ]);
+
+        // $this->validate([
+        //     "titulo" => "unique:categorias,titulo,{$this->categoria->id}",
+        // ]);
 
         $validated['slug'] = Str::slug($this->titulo);
 

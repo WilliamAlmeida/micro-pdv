@@ -45,7 +45,7 @@ final class ProdutoTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Produtos::query()->withTenant()
+        return Produtos::query()
         ->leftJoin('produtos_has_categorias','produtos_has_categorias.produtos_id','produtos.id')
         ->leftJoin('categorias','categorias.id','produtos_has_categorias.categorias_id')
         ->select('produtos.*', 'categorias.id as categoria_id', 'categorias.titulo as categoria_titulo')
@@ -230,7 +230,7 @@ final class ProdutoTable extends PowerGridComponent
     {
         return [
             Filter::select('categoria_titulo', 'categorias.id')
-                ->dataSource(Categorias::withTenant()->get())
+                ->dataSource(Categorias::get())
                 ->optionValue('id')
                 ->optionLabel('titulo'),
             Filter::inputText('titulo')->operators(['contains']),

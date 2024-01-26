@@ -72,7 +72,7 @@ class CaixaIndex extends Component
                 ) {
                     $this->caixa->update(['created_at' => now()]);
                 }else{
-                    return $this->redirect(route('pdv.fechamento'));
+                    return $this->redirect(route('tenant.pdv.fechamento', tenant()));
                 }
             }
         }
@@ -95,7 +95,7 @@ class CaixaIndex extends Component
             return;
         }
         
-        $this->redirect(route('tenant.dashboard'), true);
+        $this->redirect(route('tenant.dashboard', tenant()), true);
     }
 
     public function escape_pesquisar_produto()
@@ -123,7 +123,7 @@ class CaixaIndex extends Component
         if($produto != null) {
             $this->produto_selecionado = $produto;
         }else{
-            $this->produto_selecionado = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual')->find($produto_id);
+            $this->produto_selecionado = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual')->first($produto_id);
         }
 
         $this->pesquisa_preco = $this->produto_selecionado->preco ?? 0;
@@ -242,7 +242,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if(!$caixa->venda) {
@@ -251,7 +251,7 @@ class CaixaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         $item = $caixa->venda->itens()->whereId($item_id)->first();
@@ -353,7 +353,7 @@ class CaixaIndex extends Component
                 'description' => 'Caixa não encontrado.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         if(!$caixa->venda) {
@@ -362,7 +362,7 @@ class CaixaIndex extends Component
                 'description' => 'Venda não encontrada.',
                 'icon'        => 'error'
             ]);
-            return $this->redirect(route('tenant.dashboard'), true);
+            return $this->redirect(route('tenant.dashboard', tenant()), true);
         }
 
         $caixa->venda->pagamentos()->delete();
