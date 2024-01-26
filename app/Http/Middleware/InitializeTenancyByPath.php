@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\Empresas;
+use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Stancl\Tenancy\Resolvers\PathTenantResolver;
 use Stancl\Tenancy\Exceptions\RouteIsMissingTenantParameterException;
@@ -27,7 +27,7 @@ class InitializeTenancyByPath extends BaseMiddleware
         // simply injected into some route controller action.
         if ($route->parameterNames()[0] === PathTenantResolver::$tenantParameterName) {
             $id = $route->parameter(PathTenantResolver::$tenantParameterName);
-            $tenant = Empresas::find($id);
+            $tenant = Tenant::find($id);
             $route->forgetParameter(PathTenantResolver::$tenantParameterName);
 
             if($tenant) {

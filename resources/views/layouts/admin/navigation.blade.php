@@ -16,7 +16,6 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     
-                    @if(auth()->user()->empresa)
                     <x-nav-link wire:navigate :href="route('admin.usuarios.index')" :active="request()->routeIs('admin.usuarios.index')">
                         {{ __('Usuários') }}
                     </x-nav-link>
@@ -29,7 +28,6 @@
                             <x-dropdown.item wire:navigate :href="route('admin.cfops.index')" :active="request()->routeIs('admin.cfops.index')" label="{{ __('Cfop') }}" />
                         </x-dropdown>
                     </x-nav-dropdown>
-                    @endif
 
                     @if(auth()->user()->empresa)
                         <x-nav-link wire:navigate :href="route('admin.empresa.edit')" :active="request()->routeIs('admin.empresa.edit')">

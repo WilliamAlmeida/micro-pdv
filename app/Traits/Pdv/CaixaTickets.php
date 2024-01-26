@@ -2,7 +2,7 @@
 
 namespace App\Traits\Pdv;
 
-use App\Models\Empresas;
+use App\Models\Tenant;
 use App\Models\Tenant\Caixa;
 use App\Models\Tenant\Impressoes;
 use App\Models\Tenant\VendasHead;
@@ -23,7 +23,7 @@ trait CaixaTickets
                 $venda->impressoes()->delete();
             }
     
-            $empresa = Empresas::with('logo')->first();
+            $empresa = Tenant::with('logo')->first();
     
             $config_print = (object)[];
             $config_print->text_transform = 'uppercase';
@@ -87,7 +87,7 @@ trait CaixaTickets
                 $dados->impressoes()->delete();
             }
     
-            $empresa = Empresas::with('logo')->first();
+            $empresa = Tenant::with('logo')->first();
     
             $config_print = (object)[];
             $config_print->text_transform = 'uppercase';
@@ -128,7 +128,7 @@ trait CaixaTickets
                 $dados->impressoes()->delete();
             }
     
-            $empresa = Empresas::with('logo')->first();
+            $empresa = Tenant::with('logo')->first();
     
             $config_print = (object)[];
             $config_print->text_transform = 'uppercase';

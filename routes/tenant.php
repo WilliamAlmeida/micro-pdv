@@ -3,22 +3,19 @@
 declare(strict_types=1);
 
 use App\Livewire\Conta\ContaEdit;
-use App\Livewire\Empresa\EmpresaEdit;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Tenant\Empresa\EmpresaEdit;
 use App\Livewire\Tenant\Estoque\EstoqueIndex;
 use App\Livewire\Tenant\Pdv\Caixa\CaixaIndex;
 use App\Livewire\Tenant\Clientes\ClienteIndex;
 use App\Livewire\Tenant\Pdv\Vendas\VendaIndex;
 use App\Livewire\Tenant\Produtos\ProdutoIndex;
 use App\Livewire\Tenant\Usuarios\UsuarioIndex;
-use Livewire\Controllers\HttpConnectionHandler;
 use App\Http\Middleware\InitializeTenancyByPath;
 use App\Livewire\Tenant\Convenios\ConvenioIndex;
 use App\Livewire\Tenant\Categorias\CategoriaIndex;
 use App\Livewire\Tenant\Fornecedores\FornecedorIndex;
 use App\Livewire\Tenant\Pdv\Fechamento\FechamentoIndex;
-use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
-use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Livewire\Tenant\Pdv\Convenios\ConvenioIndex as PDVConvenioIndex;
 
 /*

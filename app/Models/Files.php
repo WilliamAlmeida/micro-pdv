@@ -50,12 +50,12 @@ class Files extends Model
 
     public function logo()
     {
-        return $this->hasOne('App\Models\Base\Empresas', 'file_logo', 'id');
+        return $this->hasOne('App\Models\Base\Tenant', 'file_logo', 'id');
     }
 
     public function background()
     {
-        return $this->hasOne('App\Models\Base\Empresas', 'file_background', 'id');
+        return $this->hasOne('App\Models\Base\Tenant', 'file_background', 'id');
     }
 
     public function grupo()

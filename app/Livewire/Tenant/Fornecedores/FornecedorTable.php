@@ -4,7 +4,6 @@ namespace App\Livewire\Tenant\Fornecedores;
 
 use App\Models\Cidade;
 use App\Models\Estado;
-use App\Models\Empresas;
 use WireUi\Traits\Actions;
 use App\Models\Tenant\Fornecedores;
 use Illuminate\Support\Carbon;

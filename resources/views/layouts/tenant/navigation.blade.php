@@ -52,15 +52,9 @@
                     </x-nav-dropdown> --}}
                     @endif
 
-                    {{-- @if(auth()->user()->empresa)
-                        <x-nav-link wire:navigate :href="route('empresa.edit')" :active="request()->routeIs('empresa.edit')">
-                            {{ __('Empresa') }}
-                        </x-nav-link>
-                    @else
-                        <x-nav-link wire:navigate :href="route('empresa.edit')" :active="request()->routeIs('empresa.edit')">
-                            {{ __('Empresa') }}
-                        </x-nav-link>
-                    @endif --}}
+                    <x-nav-link wire:navigate :href="route('tenant.empresa.edit', tenant())" :active="request()->routeIs('tenant.empresa.edit')">
+                        {{ __('Empresa') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -79,15 +73,21 @@
                         <x-button label="{{ Auth::user()->name }}" dark rightIcon="dots-vertical" />
                     </x-slot>
 
+                    <x-dropdown.header label="{{ __('Settings') }}">
+                        <x-dropdown.item wire:navigate label="{{ __('Manage Account') }}" :href="route('tenant.conta.edit', tenant())" />
+                    </x-dropdown.header>
+
                     @if(auth()->user()->is_admin)
-                        <x-dropdown.item label="{{ __('Artisan Panel') }}" onclick="Livewire.dispatch('openArtisanPanel');" />
+                        <x-dropdown.header label="Admin">
+                            <x-dropdown.item label="{{ __('Artisan Panel') }}" onclick="Livewire.dispatch('openArtisanPanel');" />
+                            <x-dropdown.item wire:navigate label="{{ __('Dashboard') }}" :href="route('admin.dashboard')" />
+                        </x-dropdown.header>
                     @endif
 
-                    <x-dropdown.item wire:navigate label="{{ __('Manage Account') }}" :href="route('tenant.conta.edit', tenant())" />
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <x-dropdown.item label="{{ __('Logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" />
+                        <x-dropdown.item label="{{ __('Logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" separator />
                     </form>
                 </x-dropdown>
             </div>

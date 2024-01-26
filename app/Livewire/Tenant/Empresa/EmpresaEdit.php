@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Livewire\Empresa;
+namespace App\Livewire\Tenant\Empresa;
 
 use App\Models\Estado;
-use App\Models\Tenant;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
@@ -12,8 +11,9 @@ use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\DB;
 use App\Livewire\Forms\EmpresaForm;
 use App\Http\Controllers\Api\CepController;
+use App\Models\Tenant;
 
-#[Layout('components.layouts.admin')]
+#[Layout('components.layouts.tenant')]
 class EmpresaEdit extends Component
 {
     use Actions;
@@ -43,7 +43,7 @@ class EmpresaEdit extends Component
         $this->array_tipos_empresas = Tenant::$tipos_empresas;
         $this->array_estados = Estado::select('id','uf')->get()->toArray();
 
-        $this->empresa = auth()->user()->empresa->first() ?? null;
+        $this->empresa = tenant();
         $this->form->mount($this->empresa);
     }
 
@@ -121,15 +121,8 @@ class EmpresaEdit extends Component
         DB::beginTransaction();
 
         try {
-            if(!$this->empresa) {
-                $this->empresa = new Tenant($this->form->all());
-                $this->empresa->save();
-
-                $this->empresa->users()->attach(auth()->user());
-            }else{
-                $this->empresa->update($this->form->all());
-                $this->empresa->horarios()->delete();
-            }
+            $this->empresa->update($this->form->all());
+            $this->empresa->horarios()->delete();
 
             $horarios = $this->form->getHours();
             if($horarios) $this->empresa->horarios()->createMany($horarios);
@@ -165,6 +158,6 @@ class EmpresaEdit extends Component
 
     public function render()
     {
-        return view('livewire.empresa.empresa-edit');
+        return view('livewire.tenant.empresa.empresa-edit');
     }
 }

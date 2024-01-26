@@ -2,13 +2,13 @@
 
 namespace App\Traits;
 
-use App\Models\Empresas;
+use App\Models\Tenant;
 
 trait HasTenant
 {
     protected $_tenant_colmun = 'empresas_id';
 
-    public function scopeWithTenant($query, int $sameTenant = 1, int|Empresas $empresa = null)
+    public function scopeWithTenant($query, int $sameTenant = 1, int|Tenant $empresa = null)
     {
         $empresa = is_null($empresa) ? auth()->user()->empresas_id : (is_int($empresa) ? $empresa : $empresa->id);
 
