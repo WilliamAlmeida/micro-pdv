@@ -15,10 +15,12 @@ use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use WireUi\Traits\Actions;
 
 final class UsuarioTable extends PowerGridComponent
 {
     // use WithExport;
+    use Actions;
 
     public function setUp(): array
     {
@@ -39,7 +41,7 @@ final class UsuarioTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return User::query()->withTenant();
+        return User::query();
     }
 
     public function relationSearch(): array
@@ -52,9 +54,6 @@ final class UsuarioTable extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('name')
-            ->addColumn('is_admin', function (User $user) {
-                return $user->getTypeUser();
-            })
 
            /** Example of custom column using a closure **/
             ->addColumn('name_lower', fn (User $model) => strtolower(e($model->name)))
@@ -68,9 +67,6 @@ final class UsuarioTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
             
-            Column::make('Tipo', 'is_admin')
-            ->sortable(),
-
             Column::make('Nome', 'name')
                 ->sortable()
                 ->searchable(),
@@ -98,23 +94,39 @@ final class UsuarioTable extends PowerGridComponent
             // ->dataSource(User::listTypeUser())
             // ->optionValue('type')
             // ->optionLabel('label'),
-
-            /* Mais rapido */
-            Filter::boolean('is_admin')
-            ->label('Admin', 'Usuário'),
-            // ->builder(function (Builder $query, string $value) {
-            //     return $query->where('is_admin', $value === 'true' ? 1 : 0);
-            // }),
         ];
     }
 
-    // #[\Livewire\Attributes\On('edit')]
-    // public function edit($rowId): void
-    // {
-    //     $this->js('$openModal("userEditModal")');
-    // }
+    #[\Livewire\Attributes\On('unlink')]
+    public function unlink($rowId, $params=null): void
+    {
+        if($params == null) {
+            $this->dialog()->confirm([
+                'title'       => 'Você tem certeza?',
+                'description' => 'Desvincular este usuário da sua Empresa?<br/>Para que ele volta a trabalhar com você, precisará enviar um convite.',
+                'acceptLabel' => 'Sim, desvincule',
+                'method'      => 'unlink',
+                'params'      => [$rowId, 'Confirm'],
+            ]);
+            return;
+        }
 
-    public function actions(\App\Models\User $row): array
+        $usuario = User::with('tenants')->find($rowId);
+
+        $linked = $usuario->tenants->firstWhere('id', tenant('id'));
+
+        if(!$linked) return;
+
+        $usuario->tenants()->detach(tenant());
+
+        $this->notification([
+            'title'       => 'Usuário desvinculado!',
+            'description' => 'Usuário foi desvinculado com sucesso.',
+            'icon'        => 'success'
+        ]);
+    }
+
+    public function actions(User $row): array
     {
         return [
             // Button::add('edit')
@@ -122,13 +134,13 @@ final class UsuarioTable extends PowerGridComponent
             //     ->id()
             //     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
             //     ->dispatch('edit', ['rowId' => $row->id]),
-            Button::add('edit')
-                ->slot('Editar')
-                ->bladeComponent('button', ['icon' => 'pencil'])
+            Button::add('unlink')
+                ->slot('Desvincular')
+                ->bladeComponent('button', ['icon' => 'trash'])
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->id()
-                ->can(auth()->user()->is_admin)
-                ->dispatch('edit', ['rowId' => $row->id]),
+                ->can(auth()->user()->is_admin && auth()->id() != $row->id)
+                ->dispatch('unlink', ['rowId' => $row->id]),
         ];
     }
 

@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioCreateModal extends Component
 {
@@ -50,8 +51,12 @@ class UsuarioCreateModal extends Component
             return;
         }
 
+        DB::beginTransaction();
+
         try {
             $user = User::create($validated);
+
+            tenant()->users()->attach($user);
 
             $this->reset('usuarioCreateModal');
     
@@ -63,7 +68,12 @@ class UsuarioCreateModal extends Component
 
             $this->dispatch('pg:eventRefresh-default');
 
+            DB::commit();
+            // DB::rollBack();
+
         } catch (\Throwable $th) {
+            DB::rollBack();
+
             // throw $th;
     
             $this->notification([
@@ -76,6 +86,6 @@ class UsuarioCreateModal extends Component
 
     public function render()
     {
-        return view('livewire.usuarios.usuario-create-modal');
+        return view('livewire.tenant.usuarios.usuario-create-modal');
     }
 }

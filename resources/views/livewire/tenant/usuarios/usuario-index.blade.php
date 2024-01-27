@@ -7,8 +7,9 @@
     
     <div class="pt-6 pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-end">
+            <div class="flex justify-end gap-x-3">
                 <x-button white class="mb-3" label="Novo Usuário" wire:click="$dispatch('create')" />
+                <x-button white class="mb-3" label="Convidar Usuário" wire:click="$dispatch('invite')" />
             </div>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -20,5 +21,6 @@
     </div>
 
     <livewire:tenant.usuarios.usuario-create-modal />
-    <livewire:tenant.usuarios.usuario-edit-modal />
+    <livewire:tenant.usuarios.usuario-invite-modal />
+    {{-- <livewire:tenant.usuarios.usuario-edit-modal /> --}}
 </div>
