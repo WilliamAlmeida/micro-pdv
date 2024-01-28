@@ -126,6 +126,8 @@ class ContaEdit extends Component
 
     public function render()
     {
-        return view('livewire.conta.conta-edit');
+        $layout = tenant() ? 'components.layouts.tenant' : 'components.layouts.admin';
+
+        return view('livewire.conta.conta-edit')->layout($layout);
     }
 }

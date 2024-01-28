@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,10 +15,10 @@ class AppServiceProvider extends ServiceProvider
     {
         //
 
-        // if ($this->app->environment('local')) {
-        //     $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
-        //     $this->app->register(TelescopeServiceProvider::class);
-        // }
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -26,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+
+        if ($this->app->environment('local')) {
+            Mail::alwaysTo('williamconceicaoalmeida@outlook.com');
+        }
 
         Blade::directive('money', function ($amount, $decimals = 2) {
             return "<?php echo number_format($amount, $decimals, ',', '.'); ?>";

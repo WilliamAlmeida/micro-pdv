@@ -34,7 +34,12 @@
      
         <x-slot name="footer">
             <div class="flex justify-between gap-x-4">
-                <x-button flat negative label="Deletar" wire:click="delete" />
+                @if(!$user?->trashed())
+                    <x-button flat negative label="Desativar" wire:click="delete" />
+                @else
+                    <x-button flat positive label="Restaurar" wire:click="restore" />
+                    {{-- <x-button flat negative label="Deletar" wire:click="delete" /> --}}
+                @endif
      
                 <div class="flex">
                     <x-button flat label="Cancelar" x-on:click="close" />

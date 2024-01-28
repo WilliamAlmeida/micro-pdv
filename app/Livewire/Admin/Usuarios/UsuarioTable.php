@@ -15,14 +15,17 @@ use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use WireUi\Traits\Actions;
 
 final class UsuarioTable extends PowerGridComponent
 {
     // use WithExport;
+    use Actions;
 
     public function setUp(): array
     {
         // $this->showCheckBox();
+        $this->softDeletes('withTrashed');
 
         // $this->persist(['columns', 'filters']); 
 
@@ -30,7 +33,7 @@ final class UsuarioTable extends PowerGridComponent
             // Exportable::make('export')
             //     ->striped()
             //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showToggleColumns(), // ->showSearchInput()
+            Header::make()->showToggleColumns()->showSoftDeletes(), // ->showSearchInput()
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -79,6 +82,9 @@ final class UsuarioTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
+            Column::make('Desativado?', 'is_active', 'deleted_at')
+                ->sortable('deleted_at'),
+
             Column::make('Registrado em', 'created_at_formatted', 'created_at')
                 ->sortable(),
 
@@ -108,11 +114,51 @@ final class UsuarioTable extends PowerGridComponent
         ];
     }
 
-    // #[\Livewire\Attributes\On('edit')]
-    // public function edit($rowId): void
-    // {
-    //     $this->js('$openModal("userEditModal")');
-    // }
+    #[\Livewire\Attributes\On('restore')]
+    public function restore($rowId, $params=null): void
+    {
+        $usuario = User::withTrashed()->findOrFail($rowId);
+
+        if($params == null) {
+            $this->dialog()->confirm([
+                'icon'        => 'trash',
+                'title'       => 'Você tem certeza?',
+                'description' => 'Restaurar este usuário?',
+                'acceptLabel' => 'Sim, restaure',
+                'method'      => 'restore',
+                'params'      => [$rowId, 'Restored'],
+            ]);
+            return;
+        }
+
+        try {
+            if(!$usuario->trashed()) {
+                $this->notification([
+                    'title'       => 'Falha ao restaurar!',
+                    'description' => 'Este Usuário já esta ativo.',
+                    'icon'        => 'error'
+                ]);
+            }else{
+                $usuario->restore();
+
+                $this->notification([
+                    'title'       => 'Usuário restaurado!',
+                    'description' => 'Usuário foi restaurado com sucesso',
+                    'icon'        => 'success'
+                ]);
+            }
+
+            $this->dispatch('pg:eventRefresh-default');
+        } catch (\Throwable $th) {
+            //throw $th;
+    
+            $this->notification([
+                'title'       => 'Falha ao restaurar!',
+                'description' => 'Não foi possivel restaura o Usuário.',
+                'icon'        => 'error'
+            ]);
+        }
+    }
 
     public function actions(\App\Models\User $row): array
     {
@@ -129,6 +175,13 @@ final class UsuarioTable extends PowerGridComponent
                 ->id()
                 ->can(auth()->user()->is_admin)
                 ->dispatch('edit', ['rowId' => $row->id]),
+            Button::add('restore')
+                ->slot('Editar')
+                ->bladeComponent('button', ['icon' => 'refresh'])
+                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->id()
+                ->dispatch('restore', ['rowId' => $row->id])
+                ->can($row->trashed()),
         ];
     }
 

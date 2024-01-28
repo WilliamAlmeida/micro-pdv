@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvitationController;
 use App\Livewire\Conta\ContaEdit;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Tributacoes\Ncms\NcmIndex;
@@ -23,6 +24,8 @@ use App\Livewire\Tributacoes\Cfops\CfopIndex;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/accept-invitation-tenant', [InvitationController::class, 'acceptInvitationTenantUser'])->name('aceitando.convite.empresa');
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {

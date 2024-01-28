@@ -7,7 +7,7 @@
                     <p class="text-lg text-center text-white">Artisan Panel</p>
 
                     <label class="block text-sm font-medium text-white" for="artisan_command">Command</label>
-                    <div x-data="{open: false, command: @entangle('command'), suggestions: ['list', 'migrate']}"  @click.away="open = false">
+                    <div x-data="{open: false, command: @entangle('command'), suggestions: @entangle('suggestions')}"  @click.away="open = false">
                         <input
                         x-model="command"
                         x-on:focus="open = true"

@@ -15,14 +15,11 @@
                     <x-nav-link wire:navigate :href="route('tenant.dashboard', tenant())" :active="request()->routeIs('tenant.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    
+
                     @if(auth()->user()->empresa)
                     <x-nav-link wire:navigate :href="route('tenant.pdv.index', tenant())" :active="request()->routeIs('pdv.index')">
                         {{ __('PDV') }}
                     </x-nav-link>
-                    {{-- <x-nav-link wire:navigate :href="route('tenant.usuarios.index')" :active="request()->routeIs('usuarios.index')">
-                        {{ __('Usuários') }}
-                    </x-nav-link> --}}
 
                     <x-nav-dropdown :active="request()->routeIs(['tenant.categorias.index', 'tenant.produtos.index', 'tenant.fornecedores.index', 'tenant.convenios.index'])">
                         <x-dropdown align="left">
@@ -42,14 +39,9 @@
                         </x-dropdown>
                     </x-nav-dropdown>
 
-                    {{-- <x-nav-dropdown :active="request()->routeIs(['ncms.index', 'cests.index', 'cfops.index'])">
-                        <x-dropdown align="left">
-                            <x-slot name="trigger">Tributações</x-slot>
-                            <x-dropdown.item wire:navigate :href="route('ncms.index')" :active="request()->routeIs('ncms.index')" label="{{ __('Ncm') }}" />
-                            <x-dropdown.item wire:navigate :href="route('cests.index')" :active="request()->routeIs('cests.index')" label="{{ __('Cest') }}" />
-                            <x-dropdown.item wire:navigate :href="route('cfops.index')" :active="request()->routeIs('cfops.index')" label="{{ __('Cfop') }}" />
-                        </x-dropdown>
-                    </x-nav-dropdown> --}}
+                    <x-nav-link wire:navigate :href="route('tenant.usuarios.index', tenant())" :active="request()->routeIs('tenant.usuarios.index')">
+                        {{ __('Usuários') }}
+                    </x-nav-link>
                     @endif
 
                     <x-nav-link wire:navigate :href="route('tenant.empresa.edit', tenant())" :active="request()->routeIs('tenant.empresa.edit')">
@@ -75,12 +67,12 @@
 
                     <x-dropdown.header label="{{ __('Settings') }}">
                         <x-dropdown.item wire:navigate label="{{ __('Manage Account') }}" :href="route('tenant.conta.edit', tenant())" />
+                        <x-dropdown.item wire:navigate label="{{ __('Dashboard') }}" :href="route('admin.dashboard')" />
                     </x-dropdown.header>
 
-                    @if(auth()->user()->is_admin)
+                    @if(auth()->user()->isAdmin())
                         <x-dropdown.header label="Admin">
                             <x-dropdown.item label="{{ __('Artisan Panel') }}" onclick="Livewire.dispatch('openArtisanPanel');" />
-                            <x-dropdown.item wire:navigate label="{{ __('Dashboard') }}" :href="route('admin.dashboard')" />
                         </x-dropdown.header>
                     @endif
 

@@ -7,6 +7,8 @@ use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\SendTenantInviteUserJob;
+use App\Mail\TenantInviteUserMail;
 
 class UsuarioInviteModal extends Component
 {
@@ -55,7 +57,7 @@ class UsuarioInviteModal extends Component
         DB::beginTransaction();
 
         try {
-            tenant()->users()->attach($user);
+            SendTenantInviteUserJob::dispatch($user)->onQueue('default');
 
             $this->reset('usuarioInviteModal');
     
@@ -67,8 +69,7 @@ class UsuarioInviteModal extends Component
 
             $this->dispatch('pg:eventRefresh-default');
 
-            // DB::commit();
-            DB::rollBack();
+            DB::commit();
 
         } catch (\Throwable $th) {
             DB::rollBack();

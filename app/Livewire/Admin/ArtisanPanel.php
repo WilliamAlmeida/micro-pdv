@@ -22,6 +22,8 @@ class ArtisanPanel extends Component
     #[Locked]
     public $output;
 
+    public $suggestions = ['list', 'migrate', 'queue:work --once'];
+
     #[On('openArtisanPanel')]
     public function openArtisanPanel()
     {

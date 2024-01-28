@@ -16,14 +16,19 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     
+                    @if(auth()->user()->isAdmin())
                     <x-nav-link wire:navigate :href="route('admin.usuarios.index')" :active="request()->routeIs('admin.usuarios.index')">
                         {{ __('Usuários') }}
                     </x-nav-link>
-                    
+                    @endif
+
+                    @if(auth()->user()->isEmpresa() || auth()->user()->isAdmin())
                     <x-nav-link wire:navigate :href="route('admin.empresas.index')" :active="request()->routeIs(['admin.empresas.index', 'admin.empresa.create'])">
                         {{ __('Empresas') }}
                     </x-nav-link>
+                    @endif
 
+                    @if(auth()->user()->isAdmin())
                     <x-nav-dropdown :active="request()->routeIs(['admin.ncms.index', 'admin.cests.index', 'admin.cfops.index'])">
                         <x-dropdown align="left">
                             <x-slot name="trigger">Tributações</x-slot>
@@ -32,6 +37,7 @@
                             <x-dropdown.item wire:navigate :href="route('admin.cfops.index')" :active="request()->routeIs('admin.cfops.index')" label="{{ __('Cfop') }}" />
                         </x-dropdown>
                     </x-nav-dropdown>
+                    @endif
                 </div>
             </div>
 
@@ -50,12 +56,11 @@
                         <x-button label="{{ Auth::user()->name }}" dark rightIcon="dots-vertical" />
                     </x-slot>
 
-                    
                     <x-dropdown.header label="{{ __('Settings') }}">
                         <x-dropdown.item wire:navigate label="{{ __('Manage Account') }}" :href="route('admin.conta.edit')" />
                     </x-dropdown.header>
 
-                    @if(auth()->user()->is_admin)
+                    @if(auth()->user()->isAdmin())
                         <x-dropdown.header label="Admin">
                             <x-dropdown.item label="{{ __('Artisan Panel') }}" onclick="Livewire.dispatch('openArtisanPanel');" />
                         </x-dropdown.header>

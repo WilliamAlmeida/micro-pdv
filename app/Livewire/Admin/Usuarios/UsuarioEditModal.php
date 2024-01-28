@@ -35,7 +35,7 @@ class UsuarioEditModal extends Component
     {
         $this->resetValidation();
 
-        $this->user = User::find($rowId);
+        $this->user = User::withTrashed()->find($rowId);
 
         $this->fill($this->user);
 
