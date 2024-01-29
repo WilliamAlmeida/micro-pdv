@@ -33,7 +33,7 @@ final class UsuarioTable extends PowerGridComponent
             // Exportable::make('export')
             //     ->striped()
             //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showToggleColumns()->showSoftDeletes(), // ->showSearchInput()
+            Header::make()->showToggleColumns()->showSoftDeletes(), // ->includeViewOnTop('components.datatable.admin.usuarios-header-top')->showSearchInput()
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -63,7 +63,8 @@ final class UsuarioTable extends PowerGridComponent
             ->addColumn('name_lower', fn (User $model) => strtolower(e($model->name)))
 
             ->addColumn('email')
-            ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
+            ->addColumn('deleted_at_formatted', fn (User $model) => Carbon::parse($model->deleted_at)->format('d/m/Y H:i:s'));
     }
 
     public function columns(): array
@@ -82,8 +83,8 @@ final class UsuarioTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Desativado?', 'is_active', 'deleted_at')
-                ->sortable('deleted_at'),
+            Column::make('Desativado?', 'deleted_at_formatted', 'deleted_at')
+                ->sortable(),
 
             Column::make('Registrado em', 'created_at_formatted', 'created_at')
                 ->sortable(),
@@ -185,15 +186,60 @@ final class UsuarioTable extends PowerGridComponent
         ];
     }
 
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
+    // public function header(): array
+    // {
+    //     // Selecionados (<span x-text="window.pgBulkActions.count(\''.$this->tableName.'\')"></span>)
+    //     return [
+    //         Button::add('bulk-restore')
+    //             ->slot(__('Restaurar'))
+    //             ->bladeComponent('button', ['icon' => 'refresh', 'label' => __('Restaurar')])
+    //             ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700
+    //             dark:ring-offset-pg-primary-800 dark:text-pg-primary-400 dark:bg-pg-primary-700')
+    //             ->dispatch('bulkToggleDeleteEvent', [true]),
+    //         Button::add('bulk-delete')
+    //             ->slot(__('Desativar'))
+    //             ->bladeComponent('button', ['icon' => 'x', 'label' => __('Desativar')])
+    //             ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700
+    //             dark:ring-offset-pg-primary-800 dark:text-pg-primary-400 dark:bg-pg-primary-700')
+    //             ->dispatch('bulkToggleDeleteEvent', [false])
+    //     ];
+    // }
+
+    // protected function getListeners()
+    // {
+    //     return array_merge(parent::getListeners(), ['eventX','eventY','bulkToggleDeleteEvent']);
+    // }
+
+    // public function bulkToggleDeleteEvent($action=null): void
+    // {
+    //     if(count($this->checkboxValues) == 0) return;
+
+    //     if($action === true) {
+    //         User::whereIn('id', $this->checkboxValues)->whereNot('id', auth()->id())->restore();
+
+    //         $this->notification([
+    //             'title' => 'Usuários restaurados!',
+    //             'description' => 'Usuários foram ativados.',
+    //             'icon' => 'success',
+    //         ]);
+    //     }else if($action === false) {
+    //         User::whereIn('id', $this->checkboxValues)->whereNot('id', auth()->id())->delete();
+
+    //         $this->notification([
+    //             'title' => 'Usuários desativados!',
+    //             'description' => 'Usuários desativados.',
+    //             'icon' => 'success',
+    //         ]);
+    //     }
+    // }
+
+    // public function actionRules($row): array
+    // {
+    //    return [
+    //         // Hide button edit for ID 1
+    //         Rule::button('edit')
+    //             ->when(fn($row) => $row->id === 1)
+    //             ->hide(),
+    //     ];
+    // }
 }
