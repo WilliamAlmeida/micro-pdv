@@ -37,7 +37,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'is_admin',
         'type',
-        'empresas_id',
     ];
 
     /**
@@ -96,7 +95,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function empresa()
     {
-        // return $this->hasOne('App\Models\Tenant', 'id', 'empresas_id');
         return $this->tenants();
     }
 

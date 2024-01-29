@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cidade extends Model
 {
-	protected $table = 'cidade';
+	protected $table = 'cidades';
 	protected $primaryKey = 'id';
 	public $timestamps = false;
 

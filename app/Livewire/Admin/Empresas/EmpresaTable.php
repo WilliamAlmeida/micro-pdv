@@ -15,10 +15,12 @@ use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use WireUi\Traits\Actions;
 
 final class EmpresaTable extends PowerGridComponent
 {
     // use WithExport;
+    use Actions;
 
     public function setUp(): array
     {
@@ -103,11 +105,50 @@ final class EmpresaTable extends PowerGridComponent
         ];
     }
 
-    // #[\Livewire\Attributes\On('edit')]
-    // public function edit($rowId): void
-    // {
-    //     $this->js('$openModal("userEditModal")');
-    // }
+    #[\Livewire\Attributes\On('delete')]
+    public function delete($rowId, $params=null): void
+    {
+        if($params == null) {
+            $this->dialog()->confirm([
+                'icon'        => 'trash',
+                'title'       => 'Você tem certeza?',
+                'description' => 'Deletar esta empresa?<br/>Uma vez deletada, todos os dados seram apagados.',
+                'acceptLabel' => 'Sim, delete',
+                'method'      => 'delete',
+                'params'      => [$rowId, 'Deleted'],
+            ]);
+            return;
+        }
+
+        try {
+            $tenant = Tenant::findOrFail($rowId);
+
+            tenancy()->initialize($tenant);
+
+            $tenant->users()->sync([]);
+            $tenant->produtos()->delete();
+            $tenant->categorias()->delete();
+            $tenant->horarios()->delete();
+
+            tenancy()->end();
+            
+            $this->notification([
+                'title'       => 'Empresa deletada!',
+                'description' => 'Empresa foi deletada com sucesso',
+                'icon'        => 'success'
+            ]);
+
+            $this->dispatch('pg:eventRefresh-default');
+        } catch (\Throwable $th) {
+            // throw $th;
+    
+            $this->notification([
+                'title'       => 'Falha ao deletar!',
+                'description' => 'Não foi possivel deletar a Empresa.',
+                'icon'        => 'error'
+            ]);
+        }
+    }
 
     public function actions(Tenant $row): array
     {
@@ -119,11 +160,18 @@ final class EmpresaTable extends PowerGridComponent
             //     ->dispatch('edit', ['rowId' => $row->id]),
             Button::add('edit')
                 ->slot('Editar')
-                ->bladeComponent('button', ['icon' => 'pencil'])
+                ->bladeComponent('button', ['icon' => 'login'])
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->id()
-                ->can(auth()->user()->is_admin)
+                ->can(auth()->user()->isAdmin())
                 ->route('tenant.dashboard', [$row->id]),
+            Button::add('delete')
+                ->slot('Deletar')
+                ->bladeComponent('button', ['icon' => 'trash'])
+                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->id()
+                ->can(auth()->user()->isAdmin())
+                ->dispatch('delete', [$row->id]),
         ];
     }
 
