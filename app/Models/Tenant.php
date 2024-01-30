@@ -161,10 +161,10 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         // 'id',
     ];
 
-    // public function getIncrementing()
-    // {
-    //     return true;
-    // }
+    public function getIncrementing()
+    {
+        return true;
+    }
 
     // public function users()
     // {
