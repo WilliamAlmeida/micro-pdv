@@ -123,7 +123,7 @@ class CaixaIndex extends Component
         if($produto != null) {
             $this->produto_selecionado = $produto;
         }else{
-            $this->produto_selecionado = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual')->first($produto_id);
+            $this->produto_selecionado = Produtos::select('id','titulo','preco_varejo as preco', 'estoque_atual')->whereId($produto_id)->first();
         }
 
         $this->pesquisa_preco = $this->produto_selecionado->preco ?? 0;
