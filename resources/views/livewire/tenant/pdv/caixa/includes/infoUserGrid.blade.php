@@ -1,7 +1,7 @@
 <div class="grid grid-cols-2 bg-gray-300 dark:bg-gray-800 select-none">
     <div class="font-bold py-4 px-2 my-auto">
         <div class="flex">
-            <div class="h-[80px] w-[80px] mr-2 hidden sm:flex justify-center items-center uppercase text-6xl text-black/25">
+            <div class="h-[80px] w-[80px] mr-2 hidden sm:flex justify-center items-center uppercase text-3xl text-black/25">
                 {{ $abreviation ?: '?' }}
             </div>
             <div class="self-center dark:text-white">
