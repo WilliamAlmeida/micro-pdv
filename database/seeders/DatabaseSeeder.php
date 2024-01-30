@@ -26,6 +26,10 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadosSeeder::class);
         $this->call(CidadesSeeder::class);
 
+        $this->call(NcmsSeeder::class);
+        $this->call(CfopsSeeder::class);
+        $this->call(CestsSeeder::class);
+
         // $this->call(ResetDadosCaixa::class);
         // $this->call(ResetEmpresas::class);
     }
