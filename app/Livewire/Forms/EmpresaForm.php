@@ -164,6 +164,7 @@ class EmpresaForm extends Form
         // $this->end_numero    = $values->numero ?: null;
         $this->idcidade         = $values->idcidade ?: null;
         $this->idestado         = $values->idestado ?: null;
+        $this->idpais           = $values->idpais ?: 0;
     }
 
     public function add_hours($day_of_week)
