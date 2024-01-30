@@ -139,7 +139,7 @@ final class UsuarioTable extends PowerGridComponent
                 ->bladeComponent('button', ['icon' => 'trash'])
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->id()
-                ->can(auth()->user()->is_admin && auth()->id() != $row->id)
+                ->can((auth()->user()->isAdmin() || auth()->user()->isEmpresa()) && auth()->id() != $row->id)
                 ->dispatch('unlink', ['rowId' => $row->id]),
         ];
     }
