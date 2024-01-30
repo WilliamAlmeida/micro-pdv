@@ -12,7 +12,7 @@
             ]"
             option-label="name"
             option-value="id"
-            wire:model="tipo"
+            wire:model="type"
             />
      
             <div class="col-span-1 sm:col-span-2">

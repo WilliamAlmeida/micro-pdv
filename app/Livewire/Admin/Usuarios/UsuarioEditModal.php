@@ -27,8 +27,8 @@ class UsuarioEditModal extends Component
     #[Validate('nullable|min:4|same:password')]
     public $password_confirmation;
 
-    #[Validate('min:0|max:1|numeric')]
-    public $tipo;
+    #[Validate('min:0|max:2|numeric')]
+    public $type;
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
@@ -39,8 +39,6 @@ class UsuarioEditModal extends Component
 
         $this->fill($this->user);
 
-        $this->tipo = $this->user->is_admin;
-
         $this->js('$openModal("usuarioEditModal")');
     }
 
@@ -48,12 +46,16 @@ class UsuarioEditModal extends Component
     {
         $this->validate();
 
-        $validated = $this->validate([
+        $this->validate([
             "name" => "unique:users,name,{$this->user->id}",
             "email" => "unique:users,email,{$this->user->id}",
         ]);
 
-        $validated['is_admin'] = $this->tipo;
+        if(empty($this->password)) {
+            $validated = $this->only('name', 'email', 'type');
+        }else{
+            $validated = $this->only('name', 'email', 'type', 'password');
+        }
 
         if($params == null) {
             $this->dialog()->confirm([
@@ -79,7 +81,7 @@ class UsuarioEditModal extends Component
 
             $this->dispatch('pg:eventRefresh-default');
         } catch (\Throwable $th) {
-            // throw $th;
+            throw $th;
     
             $this->notification([
                 'title'       => 'Falha na atualização!',
