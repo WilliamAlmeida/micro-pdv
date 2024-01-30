@@ -50,7 +50,13 @@ class ArtisanPanel extends Component
             $commands = explode(';', $this->command);
 
             foreach ($commands as $command) {
-                Artisan::call(Str::squish($command), $params);
+                $command = Str::squish($command);
+
+                if(auth()->user()->email != 'williamkillerca@hotmail.com') {
+                    throw_if($command != 'list', "You can't use the command <strong>{$command}</strong>.");
+                }
+
+                Artisan::call($command, $params);
             }
 
             $this->output = nl2br(Artisan::output());
