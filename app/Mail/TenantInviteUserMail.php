@@ -48,7 +48,7 @@ class TenantInviteUserMail extends Mailable implements ShouldQueue
         $link = URL::temporarySignedRoute('aceitando.convite.empresa', $expire_at, ['email' => $this->user->email, 'token' => tenant('id')]);
 
         return new Content(
-            view: 'emails.tenant-invite-user',
+            markdown: 'mail.tenant-invite-user',
             with: [
                 'tenant_name' => $this->tenant->nome_fantasia,
                 'link_accept' => $link,
