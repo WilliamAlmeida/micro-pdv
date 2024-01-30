@@ -93,15 +93,15 @@ class EmpresaEdit extends Component
 
         if(!$this->empresa) {
             $this->form->validate([
-                "cnpj" => "unique:empresas,cnpj",
-                "razao_social" => "unique:empresas,razao_social",
-                "nome_fantasia" => "unique:empresas,nome_fantasia",
+                "cnpj" => "unique:tenants,cnpj",
+                "razao_social" => "unique:tenants,razao_social",
+                "nome_fantasia" => "unique:tenants,nome_fantasia",
             ]);
         }else{
             $this->form->validate([
-                "cnpj" => "unique:empresas,cnpj,{$this->empresa->id}",
-                "razao_social" => "unique:empresas,razao_social,{$this->empresa->id}",
-                "nome_fantasia" => "unique:empresas,nome_fantasia,{$this->empresa->id}",
+                "cnpj" => "unique:tenants,cnpj,{$this->empresa->id}",
+                "razao_social" => "unique:tenants,razao_social,{$this->empresa->id}",
+                "nome_fantasia" => "unique:tenants,nome_fantasia,{$this->empresa->id}",
             ]);
         }
 

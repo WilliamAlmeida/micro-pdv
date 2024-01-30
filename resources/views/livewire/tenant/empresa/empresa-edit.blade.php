@@ -17,12 +17,14 @@
                                 <li class="me-2" role="presentation">
                                     <button class="inline-block p-4 border-b-2 rounded-t-lg" id="dados-tab" @click="activeTab = 'dados'" :aria-selected="activeTab === 'dados' ? 'true' : 'false'" :class="{ 'border-blue-500 dark:border-blue-700': activeTab === 'dados' }"><x-icon name="identification" class="w-5 h-5 inline-block" /> Dados</button>
                                 </li>
+                                @if(app()->environment('local'))
                                 <li class="me-2" role="presentation">
                                     <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="horarios-tab" @click="activeTab = 'horarios'" :aria-selected="activeTab === 'horarios' ? 'true' : 'false'" :class="{ 'border-blue-500 dark:border-blue-700': activeTab === 'horarios' }"><x-icon name="clock" class="w-5 h-5 inline-block" /> Horários</button>
                                 </li>
                                 <li class="me-2" role="presentation">
                                     <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="seo-tab" @click="activeTab = 'seo'" :aria-selected="activeTab === 'seo' ? 'true' : 'false'" :class="{ 'border-blue-500 dark:border-blue-700': activeTab === 'seo' }"><x-icon name="search" class="w-5 h-5 inline-block" /> SEO</button>
                                 </li>
+                                @endif
                             </ul>
                         </div>
                         @endif
