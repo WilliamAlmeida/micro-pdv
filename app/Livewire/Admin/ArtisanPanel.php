@@ -3,11 +3,12 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use App\Traits\HelperActions;
 use Livewire\Attributes\Locked;
-use Illuminate\Support\Facades\Artisan;
 use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Artisan;
 
 class ArtisanPanel extends Component
 {
@@ -46,7 +47,11 @@ class ArtisanPanel extends Component
         try {
             throw_unless(auth()->user()->isAdmin(), 'Only admin can use commands.');
 
-            Artisan::call($this->command, $params);
+            $commands = explode(';', $this->command);
+
+            foreach ($commands as $command) {
+                Artisan::call(Str::squish($command), $params);
+            }
 
             $this->output = nl2br(Artisan::output());
         } catch (\Throwable $th) {
