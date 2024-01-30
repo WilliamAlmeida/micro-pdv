@@ -32,11 +32,13 @@ class CnpjController extends Controller
 
         $retorno->idestado = null;
         $retorno->idcidade = null;
+        $retorno->idpais   = null;
 
         if(isset($retorno->uf)) {
             $estado = Estado::whereUf($retorno->uf)->first();
             if($estado) {
                 $retorno->idestado      = $estado->id;
+                $retorno->idpais        = $estado->pais_id;
                 unset($estado);
             }
         }

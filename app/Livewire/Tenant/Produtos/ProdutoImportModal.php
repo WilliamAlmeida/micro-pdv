@@ -70,7 +70,7 @@ class ProdutoImportModal extends Component
 
             $deleted_at = date('Y-m-d h:i:s');
 
-            $categorias = Categorias::select('id', 'titulo', 'slug', 'empresas_id')->whereEmpresasId(auth()->user()->empresas_id)->orderBy('titulo')->get()->toArray();
+            $categorias = Categorias::select('id', 'titulo', 'slug', 'tenant_id')->orderBy('titulo')->get()->toArray();
 
             foreach ($categorias as $key => $value) {
                 $categorias[$value['titulo']] = $value;

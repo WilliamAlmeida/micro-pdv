@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
@@ -11,7 +12,7 @@ use Stancl\Tenancy\Database\Concerns\HasScopedValidationRules;
 
 class Tenant extends BaseTenant implements TenantWithDatabase
 {
-    use HasDatabase, HasDomains, HasScopedValidationRules;
+    use HasDatabase, HasDomains, HasScopedValidationRules, HasFactory;
 
     // protected $table = 'empresas';
     protected $primaryKey = 'id';
