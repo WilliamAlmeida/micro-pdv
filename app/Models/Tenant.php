@@ -168,7 +168,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     // public function users()
     // {
-    //     return $this->belongsTo('App\User', 'empresas_id', 'id');
+    //     return $this->belongsTo('App\User', 'tenant_id', 'id');
     // }
 
     public function users()
@@ -198,17 +198,17 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     public function categorias()
     {
-        return $this->hasMany('App\Models\Tenant\Categorias','empresas_id','id');
+        return $this->hasMany('App\Models\Tenant\Categorias','tenant_id','id');
     }
 
     public function produtos()
     {
-        return $this->hasMany('App\Models\Tenant\Produtos','empresas_id','id');
+        return $this->hasMany('App\Models\Tenant\Produtos','tenant_id','id');
     }
 
     public function horarios()
     {
-        return $this->hasMany('App\Models\Horarios','empresas_id','id');
+        return $this->hasMany('App\Models\Horarios','tenant_id','id');
     }
     
     public function getTipoEmpresa(): array
