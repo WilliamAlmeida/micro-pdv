@@ -3,6 +3,7 @@
 namespace App\Models\Tenant;
 
 use Illuminate\Database\Eloquent\Model;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class Caixa extends Model
 {
@@ -10,8 +11,11 @@ class Caixa extends Model
 	protected $primaryKey = 'id';
 	public $timestamps = false;
 
+    use BelongsToTenant;
+
 	/*Add your validation rules here*/
 	public static $rules = array(
+		'tenant_id' => array('required','min:0'),
 		'user_id' => array('required','min:0'),
         'status' => array('min:0'),
         'valor_inicial' => array('min:0'),
@@ -20,6 +24,7 @@ class Caixa extends Model
 	);
 
 	public static $rules_u = array(
+        'tenant_id' => array('required','min:0'),
 		'user_id' => array('required','min:0'),
         'status' => array('min:0'),
         'valor_inicial' => array('min:0'),
@@ -33,7 +38,7 @@ class Caixa extends Model
      * @var array
      */
     protected $fillable = [
-    	'user_id', 'status', 'valor_inicial', 'sangria_total', 'entrada_total', 'created_at'
+    	'tenant_id', 'user_id', 'status', 'valor_inicial', 'sangria_total', 'entrada_total', 'created_at'
     ];
 
     /**
