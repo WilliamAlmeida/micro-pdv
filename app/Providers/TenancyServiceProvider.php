@@ -107,7 +107,7 @@ class TenancyServiceProvider extends ServiceProvider
 
         $this->makeTenancyMiddlewareHighestPriority();
 
-        BelongsToTenant::$tenantIdColumn = 'empresas_id';
+        // BelongsToTenant::$tenantIdColumn = 'empresas_id';
 
         Livewire::setUpdateRoute(function ($handle) {
             return Route::post('/livewire/update', $handle)

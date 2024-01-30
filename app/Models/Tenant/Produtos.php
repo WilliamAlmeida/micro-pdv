@@ -16,7 +16,7 @@ class Produtos extends Model
 
     /*Add your validation rules here*/
     public static $rules = array(
-        'empresas_id' => array('required','min:1'),
+        'tenant_id' => array('required','min:1'),
         'titulo' => array('required','min:0'),
         'slug' => array('min:0'),
         'descricao' => array('min:0'),
@@ -47,7 +47,7 @@ class Produtos extends Model
     );
 
     public static $rules_u = array(
-        'empresas_id' => array('required','min:1'),
+        'tenant_id' => array('required','min:1'),
         'titulo' => array('required','min:0'),
         'slug' => array('min:0'),
         'descricao' => array('min:0'),
@@ -83,7 +83,7 @@ class Produtos extends Model
      * @var array
      */
     protected $fillable = [
-        'empresas_id', 'titulo', 'slug', 'descricao', 'codigo_barras_1', 'codigo_barras_2', 'codigo_barras_3', 'preco_varejo', 'preco_atacado', 'valor_garcom', 'preco_promocao', 'promocao_inicio', 'promocao_fim', 'trib_icms', 'trib_csosn', 'trib_cst', 'trib_origem_produto', 'trib_cfop_de', 'trib_cfop_fe', 'trib_ncm', 'trib_cest', 'estoque_atual', 'unidade_medida', 'codigo_externo', 'destaque', 'deleted_at', 'views', 'somente_mesa', 'ordem'
+        'tenant_id', 'titulo', 'slug', 'descricao', 'codigo_barras_1', 'codigo_barras_2', 'codigo_barras_3', 'preco_varejo', 'preco_atacado', 'valor_garcom', 'preco_promocao', 'promocao_inicio', 'promocao_fim', 'trib_icms', 'trib_csosn', 'trib_cst', 'trib_origem_produto', 'trib_cfop_de', 'trib_cfop_fe', 'trib_ncm', 'trib_cest', 'estoque_atual', 'unidade_medida', 'codigo_externo', 'destaque', 'deleted_at', 'views', 'somente_mesa', 'ordem'
     ];
 
     protected $casts = [
@@ -106,7 +106,7 @@ class Produtos extends Model
 
     public function empresas()
     {
-        return $this->hasOne('App\Models\Tenant','id','empresas_id');
+        return $this->hasOne('App\Models\Tenant','id','tenant_id');
     }
 
     public function categorias()

@@ -15,7 +15,7 @@ class Categorias extends Model
 
     /*Add your validation rules here*/
     public static $rules = array(
-        'empresas_id' => array('required','min:1'),
+        'tenant_id' => array('required','min:1'),
         'titulo' => array('required','min:1','max:100'),
         'slug' => array('min:0','max:150'),
         'ordem' => array('min:0'),
@@ -24,7 +24,7 @@ class Categorias extends Model
     );
 
     public static $rules_u = array(
-        'empresas_id' => array('required','min:1'),
+        'tenant_id' => array('required','min:1'),
         'titulo' => array('required','min:1','max:100'),
         'slug' => array('min:0','max:150'),
         'ordem' => array('min:0'),
@@ -38,7 +38,7 @@ class Categorias extends Model
      * @var array
      */
     protected $fillable = [
-        'empresas_id', 'titulo', 'slug', 'ordem', 'file_imagem', 'codigo_barras_1', 'deleted_at'
+        'tenant_id', 'titulo', 'slug', 'ordem', 'file_imagem', 'codigo_barras_1', 'deleted_at'
     ];
 
     /**
@@ -52,13 +52,13 @@ class Categorias extends Model
 
     const CATEGORIAS = [
         [
-            'empresas_id' => null, 'titulo' => 'Geral', 'slug' => 'geral', 'ordem' => 1, 'codigo_barras_1' => null, 'file_imagem' => null
+            'tenant_id' => null, 'titulo' => 'Geral', 'slug' => 'geral', 'ordem' => 1, 'codigo_barras_1' => null, 'file_imagem' => null
         ]
     ];
 
     public function empresas()
     {
-        return $this->hasOne('App\Models\Tenant','id','empresas_id');
+        return $this->hasOne('App\Models\Tenant','id','tenant_id');
     }
 
     public function produtos()
