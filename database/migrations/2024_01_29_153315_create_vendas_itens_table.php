@@ -26,9 +26,9 @@ return new class extends Migration
             // $table->unique(['id', 'caixa_id', 'produtos_id', 'vendas_head_id']);
 
             // Chave estrangeira
-            $table->foreign('caixa_id')->references('id')->on('caixa')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('vendas_head_id')->references('id')->on('vendas_head')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('produtos_id')->references('id')->on('produtos')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('caixa_id')->references('id')->on('caixa')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('vendas_head_id')->references('id')->on('vendas_head')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('produtos_id')->references('id')->on('produtos')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 

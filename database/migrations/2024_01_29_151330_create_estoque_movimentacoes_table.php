@@ -25,8 +25,8 @@ return new class extends Migration
             // $table->primary(['id', 'produtos_id']);
 
             // Chave estrangeira
-            $table->foreign('produtos_id')->references('id')->on('produtos')->onDelete('cascade');
-            $table->foreign('fornecedores_id')->references('id')->on('fornecedores')->onDelete('set null');
+            $table->foreign('produtos_id')->references('id')->on('produtos')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('fornecedores_id')->references('id')->on('fornecedores')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 

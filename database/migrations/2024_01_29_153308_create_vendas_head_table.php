@@ -23,7 +23,7 @@ return new class extends Migration
             // $table->unique(['id', 'caixa_id']);
 
             // Chave estrangeira
-            $table->foreign('caixa_id')->references('id')->on('caixa')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('caixa_id')->references('id')->on('caixa')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

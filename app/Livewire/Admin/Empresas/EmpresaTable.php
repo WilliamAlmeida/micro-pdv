@@ -126,12 +126,15 @@ final class EmpresaTable extends PowerGridComponent
             tenancy()->initialize($tenant);
 
             $tenant->users()->sync([]);
+            $tenant->horarios()->delete();
+            $tenant->caixas()->delete();
             $tenant->produtos()->delete();
             $tenant->categorias()->delete();
-            $tenant->horarios()->delete();
 
             tenancy()->end();
-            
+
+            $tenant->delete();
+
             $this->notification([
                 'title'       => 'Empresa deletada!',
                 'description' => 'Empresa foi deletada com sucesso',
@@ -140,7 +143,7 @@ final class EmpresaTable extends PowerGridComponent
 
             $this->dispatch('pg:eventRefresh-default');
         } catch (\Throwable $th) {
-            // throw $th;
+            throw $th;
     
             $this->notification([
                 'title'       => 'Falha ao deletar!',

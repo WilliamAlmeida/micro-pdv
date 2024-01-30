@@ -39,7 +39,7 @@ return new class extends Migration
             // $table->primary(['id', 'tenant_id']);
 
             // Chave estrangeira
-            $table->foreign('tenant_id')->references('id')->on('tenants');
+            $table->foreign('tenant_id')->references('id')->on('tenants')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

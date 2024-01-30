@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tenant_id');
-            $table->foreignId('id_convenio');
+            $table->foreignId('id_convenio')->nullable();
             $table->string('nome_fantasia', 255);
             $table->string('slug', 255)->nullable();
             $table->string('razao_social', 255)->nullable();
@@ -39,8 +39,8 @@ return new class extends Migration
             // $table->primary(['id', 'id_convenio', 'tenant_id']);
 
             // Chave estrangeira
-            $table->foreign('tenant_id')->references('id')->on('tenants');
-            $table->foreign('id_convenio')->references('id')->on('convenios');
+            $table->foreign('tenant_id')->references('id')->on('tenants')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('id_convenio')->references('id')->on('convenios')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 

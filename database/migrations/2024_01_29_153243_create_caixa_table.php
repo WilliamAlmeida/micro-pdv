@@ -24,8 +24,8 @@ return new class extends Migration
             // $table->unique(['id', 'user_id']);
 
             // Chave estrangeira
-            $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('tenant_id')->references('id')->on('tenants')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 

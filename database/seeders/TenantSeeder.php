@@ -16,7 +16,7 @@ class TenantSeeder extends Seeder
     {
         $user = User::first();
 
-        $tenants = Tenant::factory()->create();
+        $tenants = Tenant::factory(1)->create();
 
         if($user) {
             foreach($tenants as $tenant) {

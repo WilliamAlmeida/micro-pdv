@@ -20,8 +20,8 @@ return new class extends Migration
             $table->primary(['produtos_id', 'categorias_id']);
 
             // Chaves estrangeiras
-            $table->foreign('produtos_id')->references('id')->on('produtos')->onDelete('cascade');
-            $table->foreign('categorias_id')->references('id')->on('categorias')->onDelete('cascade');
+            $table->foreign('produtos_id')->references('id')->on('produtos')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('categorias_id')->references('id')->on('categorias')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 
