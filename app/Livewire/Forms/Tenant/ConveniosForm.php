@@ -73,8 +73,9 @@ class ConveniosForm extends Form
         $this->end_complemento  = ucwords($values->complemento ?: null);
         $this->end_logradouro   = ucwords($values->logradouro ?: null);
         // $this->end_numero    = $values->numero ?: null;
-        // $this->end_idcidade  = $values->idcidade ?: null;
+        $this->idcidade         = $values->idcidade ?: null;
         $this->idestado         = $values->idestado ?: null;
+        $this->idpais           = $values->idpais ?: null;
     }
     
     public function validateCpfCnpj()

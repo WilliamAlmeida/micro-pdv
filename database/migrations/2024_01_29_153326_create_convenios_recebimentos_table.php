@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('convenios_recebimentos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('convenios_head_id');
+            // $table->unsignedBigInteger('convenios_head_id');
             $table->unsignedBigInteger('caixa_id');
             $table->decimal('desconto', 12, 2)->default('0.00')->nullable();
             $table->decimal('troco', 12, 2)->default('0.00')->nullable();

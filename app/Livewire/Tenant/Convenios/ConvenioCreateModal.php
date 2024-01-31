@@ -73,6 +73,7 @@ class ConvenioCreateModal extends Component
             "nome_fantasia" => "unique:convenios,nome_fantasia",
         ]);
 
+        if(is_null($this->form->idpais)) $this->form->idpais = 1;
         $validated = $this->form->validate();
 
         if($params == null) {

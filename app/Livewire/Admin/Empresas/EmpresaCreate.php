@@ -108,6 +108,8 @@ class EmpresaCreate extends Component
         DB::beginTransaction();
 
         try {
+            if(is_null($this->form->idpais)) $this->form->idpais = 1;
+
             $empresa = Tenant::create($this->form->all());
 
             $empresa->users()->attach(auth()->user());

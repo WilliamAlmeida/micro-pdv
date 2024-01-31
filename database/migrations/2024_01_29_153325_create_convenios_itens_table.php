@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('desconto', 12, 2)->default('0.00');
             $table->decimal('valor_total', 12, 2)->default('0.00');
             $table->integer('status')->nullable()->default('0');
-            $table->unsignedBigInteger('convenios_recebimentos_id');
+            $table->unsignedBigInteger('convenios_recebimentos_id')->nullable();
             $table->timestamps();
 
             // $table->foreign('convenios_head_id')->references('id')->on('convenios_head')
