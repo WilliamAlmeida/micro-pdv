@@ -6,7 +6,7 @@ use App\Models\Tenant;
 
 trait HasTenant
 {
-    protected $_tenant_colmun = 'empresas_id';
+    protected $_tenant_colmun = 'tenant_id';
 
     public function scopeWithTenant($query, int $sameTenant = 1, int|Tenant $empresa = null)
     {
