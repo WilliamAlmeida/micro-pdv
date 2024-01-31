@@ -3,6 +3,7 @@
 namespace App\Models\Tenant;
 
 use App\Traits\HasTenant;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
@@ -12,7 +13,7 @@ class Clientes extends Model
     protected $table = 'clientes';
     protected $primaryKey = 'id';
     // public $timestamps = false;
-    use SoftDeletes, BelongsToTenant, HasTenant;
+    use SoftDeletes, BelongsToTenant, HasTenant, HasFactory;
 
     /*Add your validation rules here*/
     public static $rules = array(

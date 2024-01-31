@@ -2,6 +2,7 @@
 
 namespace App\Models\Tenant;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
@@ -11,7 +12,7 @@ class Convenios extends Model
     protected $table = 'convenios';
     protected $primaryKey = 'id';
     // public $timestamps = false;
-    use SoftDeletes, BelongsToTenant;
+    use SoftDeletes, BelongsToTenant, HasFactory;
 
     /*Add your validation rules here*/
     public static $rules = array(
