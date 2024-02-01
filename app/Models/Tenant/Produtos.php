@@ -6,13 +6,14 @@ use App\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+use Stancl\Tenancy\Database\Concerns\HasScopedValidationRules;
 
 class Produtos extends Model
 {
     protected $table = 'produtos';
     protected $primaryKey = 'id';
     // public $timestamps = false;
-    use SoftDeletes, BelongsToTenant, HasTenant;
+    use SoftDeletes, BelongsToTenant, HasTenant, HasScopedValidationRules;
 
     /*Add your validation rules here*/
     public static $rules = array(

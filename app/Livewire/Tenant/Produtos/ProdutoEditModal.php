@@ -40,7 +40,7 @@ class ProdutoEditModal extends Component
     public function save($params=null)
     {
         $this->form->validate([
-            "titulo" => "unique:produtos,titulo,{$this->produto->id}",
+            'titulo' => tenant()->unique('produtos')->ignore($this->produto)
         ]);
 
         $validated = $this->form->validate();

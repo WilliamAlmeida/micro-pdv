@@ -67,13 +67,14 @@ class ConvenioCreateModal extends Component
         if($this->form->validateCpfCnpj() && intval($this->form->cpf)) return;
 
         $this->form->validate([
-            "cnpj" => "nullable|unique:convenios,cnpj",
-            "cpf" => "nullable|unique:convenios,cpf",
-            "razao_social" => "unique:convenios,razao_social",
-            "nome_fantasia" => "unique:convenios,nome_fantasia",
+            'cnpj' => ['nullable', tenant()->unique('convenios')],
+            'cpf' => ['nullable', tenant()->unique('convenios')],
+            'razao_social' => tenant()->unique('convenios'),
+            'nome_fantasia' => tenant()->unique('convenios'),
         ]);
 
         if(is_null($this->form->idpais)) $this->form->idpais = 1;
+
         $validated = $this->form->validate();
 
         if($params == null) {
@@ -90,7 +91,6 @@ class ConvenioCreateModal extends Component
         $validated['slug'] = Str::slug($this->form->nome_fantasia);
         $validated['end_uf'] = Estado::find($this->form->idestado)?->id;
         $validated['idcidade'] = Cidade::whereEstadoId($this->form->idestado)->whereNome($this->form->end_cidade)->first()?->id;
-        $validated['empresas_id'] = auth()->user()->empresas_id;
 
         try {
             $convenio = Convenios::create($validated);

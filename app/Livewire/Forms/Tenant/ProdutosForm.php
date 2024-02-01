@@ -75,7 +75,7 @@ class ProdutosForm extends Form
     // public $trib_cest;
     
     #[Validate('min:0')]
-    public $estoque_atual;
+    public $estoque_atual = 0;
     
     // #[Validate('min:0')]
     // public $unidade_medida;
@@ -84,7 +84,7 @@ class ProdutosForm extends Form
     // public $codigo_externo;
     
     #[Validate('min:0|max:1')]
-    public $destaque;
+    public $destaque = 0;
     
     // #[Validate('min:0')]
     // public $views;

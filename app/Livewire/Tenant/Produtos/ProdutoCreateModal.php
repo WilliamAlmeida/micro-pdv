@@ -35,7 +35,7 @@ class ProdutoCreateModal extends Component
     public function save($params=null)
     {
         $this->form->validate([
-            "titulo" => "required|unique:produtos,titulo",
+            'titulo' => tenant()->unique('produtos')
         ]);
 
         $validated = $this->form->validate();

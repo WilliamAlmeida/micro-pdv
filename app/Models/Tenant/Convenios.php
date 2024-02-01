@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+use Stancl\Tenancy\Database\Concerns\HasScopedValidationRules;
 
 class Convenios extends Model
 {
     protected $table = 'convenios';
     protected $primaryKey = 'id';
     // public $timestamps = false;
-    use SoftDeletes, BelongsToTenant, HasFactory;
+    use SoftDeletes, BelongsToTenant, HasFactory, HasScopedValidationRules;
 
     /*Add your validation rules here*/
     public static $rules = array(

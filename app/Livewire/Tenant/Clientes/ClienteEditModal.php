@@ -75,11 +75,13 @@ class ClienteEditModal extends Component
         if($this->form->validateCpfCnpj()) return;
 
         $this->form->validate([
-            "cnpj" => "nullable|unique:clientes,cnpj,{$this->cliente->id}",
-            "cpf" => "nullable|unique:clientes,cpf,{$this->cliente->id}",
-            "razao_social" => "unique:clientes,razao_social,{$this->cliente->id}",
-            "nome_fantasia" => "unique:clientes,nome_fantasia,{$this->cliente->id}",
+            'cnpj' => ['nullable', tenant()->unique('clientes')->ignore($this->cliente)],
+            'cpf' => ['nullable', tenant()->unique('clientes')->ignore($this->cliente)],
+            'razao_social' => tenant()->unique('clientes')->ignore($this->cliente),
+            'nome_fantasia' => tenant()->unique('clientes')->ignore($this->cliente),
         ]);
+
+        if(is_null($this->form->idpais)) $this->form->idpais = 1;
 
         $validated = $this->form->validate();
 

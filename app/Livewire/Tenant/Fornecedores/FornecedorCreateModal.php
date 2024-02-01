@@ -69,11 +69,13 @@ class FornecedorCreateModal extends Component
         if($this->form->validateCpfCnpj()) return;
 
         $this->form->validate([
-            "cnpj" => "nullable|unique:fornecedores,cnpj",
-            "cpf" => "nullable|unique:fornecedores,cpf",
-            "razao_social" => "unique:fornecedores,razao_social",
-            "nome_fantasia" => "unique:fornecedores,nome_fantasia",
+            'cnpj' => ['nullable', tenant()->unique('fornecedores')],
+            'cpf' => ['nullable', tenant()->unique('fornecedores')],
+            'razao_social' => tenant()->unique('fornecedores'),
+            'nome_fantasia' => tenant()->unique('fornecedores'),
         ]);
+
+        if(is_null($this->form->idpais)) $this->form->idpais = 1;
         
         $validated = $this->form->validate();
 
@@ -91,7 +93,6 @@ class FornecedorCreateModal extends Component
         $validated['slug'] = Str::slug($this->form->nome_fantasia);
         $validated['end_uf'] = Estado::find($this->form->idestado)?->id;
         $validated['idcidade'] = Cidade::whereEstadoId($this->form->idestado)->whereNome($this->form->end_cidade)->first()?->id;
-        $validated['empresas_id'] = auth()->user()->empresas_id;
 
         try {
             $fornecedor = Fornecedores::create($validated);

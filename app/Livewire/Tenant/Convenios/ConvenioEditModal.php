@@ -71,11 +71,13 @@ class ConvenioEditModal extends Component
         if($this->form->validateCpfCnpj()) return;
 
         $this->form->validate([
-            "cnpj" => "nullable|unique:convenios,cnpj,{$this->convenio->id}",
-            "cpf" => "nullable|unique:convenios,cpf,{$this->convenio->id}",
-            "razao_social" => "unique:convenios,razao_social,{$this->convenio->id}",
-            "nome_fantasia" => "unique:convenios,nome_fantasia,{$this->convenio->id}",
+            'cnpj' => ['nullable', tenant()->unique('convenios')->ignore($this->convenio)],
+            'cpf' => ['nullable', tenant()->unique('convenios')->ignore($this->convenio)],
+            'razao_social' => tenant()->unique('convenios')->ignore($this->convenio),
+            'nome_fantasia' => tenant()->unique('convenios')->ignore($this->convenio),
         ]);
+
+        if(is_null($this->form->idpais)) $this->form->idpais = 1;
 
         $validated = $this->form->validate();
 

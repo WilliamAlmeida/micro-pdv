@@ -39,7 +39,7 @@ class CategoriaEditModal extends Component
         $validated = $this->validate();
 
         $this->validate([
-            'titulo' => tenant()->unique('categorias')
+            'titulo' => tenant()->unique('categorias')->ignore($this->categoria)
         ]);
 
         // $this->validate([

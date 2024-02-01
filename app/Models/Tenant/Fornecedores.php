@@ -5,13 +5,14 @@ namespace App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+use Stancl\Tenancy\Database\Concerns\HasScopedValidationRules;
 
 class Fornecedores extends Model
 {
     protected $table = 'fornecedores';
     protected $primaryKey = 'id';
     // public $timestamps = false;
-    use SoftDeletes, BelongsToTenant;
+    use SoftDeletes, BelongsToTenant, HasScopedValidationRules;
 
     /*Add your validation rules here*/
     public static $rules = array(
