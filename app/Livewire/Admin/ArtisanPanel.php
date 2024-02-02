@@ -59,7 +59,12 @@ class ArtisanPanel extends Component
                 Artisan::call($command, $params);
             }
 
-            $this->output = nl2br(Artisan::output());
+            $output = Artisan::output();
+            if(!empty($output)) {
+                $this->output = nl2br($output);
+            }else{
+                $this->output = 'The command executed with success.';
+            }
         } catch (\Throwable $th) {
             //throw $th;
 
