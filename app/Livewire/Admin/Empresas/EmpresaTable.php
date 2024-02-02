@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Empresas;
 
 use App\Models\Tenant;
+use App\Traits\HelperActions;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -21,6 +22,7 @@ final class EmpresaTable extends PowerGridComponent
 {
     // use WithExport;
     use Actions;
+    use HelperActions;
 
     public function setUp(): array
     {
@@ -117,26 +119,13 @@ final class EmpresaTable extends PowerGridComponent
                 'method'      => 'delete',
                 'params'      => [$rowId, 'Deleted'],
             ]);
+            
+            $this->set_focus(['button' => 'cancel']);
             return;
         }
 
         try {
             $tenant = Tenant::findOrFail($rowId);
-
-            tenancy()->initialize($tenant);
-
-            $tenant->users()->sync([]);
-            $tenant->horarios()->delete();
-            $tenant->caixas()->delete();
-            $tenant->produtos()->delete();
-            $tenant->categorias()->delete();
-            $tenant->clientes()->delete();
-            $tenant->convenios()->delete();
-            $tenant->fornecedores()->delete();
-
-            tenancy()->end();
-
-            sleep(0.25);
 
             $tenant->delete();
 

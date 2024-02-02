@@ -16,6 +16,7 @@ use Illuminate\Support\ServiceProvider;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use App\Http\Middleware\InitializeTenancyByRequestData;
 use App\Jobs\CreateDefaultValuesTenant;
+use App\Jobs\DeleteValuesTenant;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -45,7 +46,14 @@ class TenancyServiceProvider extends ServiceProvider
             Events\TenantSaved::class => [],
             Events\UpdatingTenant::class => [],
             Events\TenantUpdated::class => [],
-            Events\DeletingTenant::class => [],
+            Events\DeletingTenant::class => [
+                JobPipeline::make([
+                    DeleteValuesTenant::class,
+
+                ])->send(function (Events\DeletingTenant $event) {
+                    return $event->tenant;
+                })->shouldBeQueued(false), // `false` by default, but you probably want to make this `true` for production.
+            ],
             Events\TenantDeleted::class => [
                 JobPipeline::make([
                     // Jobs\DeleteDatabase::class,

@@ -38,7 +38,7 @@
                 {{-- <x-slot name="footer"> --}}
                     <div class="flex justify-end gap-4 mt-3">
                         <x-button flat label="Close" x-on:click="close" />
-                        <x-button primary label="Run" wire:click="runCommand" type="submit" spinner="runCommand" loading-delay="long" />
+                        <x-button primary label="Run" type="submit" spinner="runCommand" loading-delay="long" wire:loading.attr='disabled' />
                     </div>
                 {{-- </x-slot> --}}
             </form>
