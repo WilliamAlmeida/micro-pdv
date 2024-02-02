@@ -101,17 +101,10 @@ final class UsuarioTable extends PowerGridComponent
             Filter::datetimepicker('created_at'),
 
             /* Mais lento */
-            // Filter::select('is_admin')
-            // ->dataSource(User::listTypeUser())
-            // ->optionValue('type')
-            // ->optionLabel('label'),
-
-            /* Mais rapido */
-            Filter::boolean('type')
-            ->label('Empresa', 'Usuário'),
-            // ->builder(function (Builder $query, string $value) {
-            //     return $query->where('is_admin', $value === 'true' ? 1 : 0);
-            // }),
+            Filter::select('type')
+            ->dataSource(User::$list_type_user)
+            ->optionValue('type')
+            ->optionLabel('label'),
         ];
     }
 
@@ -174,10 +167,10 @@ final class UsuarioTable extends PowerGridComponent
                 ->bladeComponent('button', ['icon' => 'pencil'])
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->id()
-                ->can(auth()->user()->is_admin)
+                ->can(auth()->user()->isAdmin())
                 ->dispatch('edit', ['rowId' => $row->id]),
             Button::add('restore')
-                ->slot('Editar')
+                ->slot('Restaurar')
                 ->bladeComponent('button', ['icon' => 'refresh'])
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->id()

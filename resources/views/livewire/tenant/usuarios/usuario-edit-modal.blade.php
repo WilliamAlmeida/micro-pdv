@@ -3,17 +3,6 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <x-input label="Nome" placeholder="Nome" wire:model="name" id="edit_name" />
 
-            <x-native-select
-            label="Selecione um Tipo"
-            :options="[
-            ['name' => 'Usuário',  'id' => 0],
-            ['name' => 'Admin', 'id' => 1],
-            ]"
-            option-label="name"
-            option-value="id"
-            wire:model="tipo"
-            />
-     
             <div class="col-span-1 sm:col-span-2">
                 <x-input label="E-mail" placeholder="example@mail.com" wire:model.live.debouce.200ms="email" id="edit_email" />
             </div>

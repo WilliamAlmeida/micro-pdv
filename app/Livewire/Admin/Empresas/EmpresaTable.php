@@ -102,7 +102,7 @@ final class EmpresaTable extends PowerGridComponent
             // Filter::boolean('type')
             // ->label('Empresa', 'Usuário'),
             // ->builder(function (Builder $query, string $value) {
-            //     return $query->where('is_admin', $value === 'true' ? 1 : 0);
+            //     return $query->where('type', $value === 'true' ? 1 : 0);
             // }),
         ];
     }

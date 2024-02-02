@@ -90,7 +90,7 @@ final class UsuarioTable extends PowerGridComponent
             Filter::datetimepicker('created_at'),
 
             /* Mais lento */
-            // Filter::select('is_admin')
+            // Filter::select('type')
             // ->dataSource(User::listTypeUser())
             // ->optionValue('type')
             // ->optionLabel('label'),

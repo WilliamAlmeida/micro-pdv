@@ -27,9 +27,6 @@ class UsuarioEditModal extends Component
     #[Validate('nullable|min:4|same:password')]
     public $password_confirmation;
 
-    #[Validate('min:0|max:1|numeric')]
-    public $tipo;
-
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
@@ -38,8 +35,6 @@ class UsuarioEditModal extends Component
         $this->user = User::find($rowId);
 
         $this->fill($this->user);
-
-        $this->tipo = $this->user->is_admin;
 
         $this->js('$openModal("usuarioEditModal")');
     }
@@ -52,8 +47,6 @@ class UsuarioEditModal extends Component
             "name" => "unique:users,name,{$this->user->id}",
             "email" => "unique:users,email,{$this->user->id}",
         ]);
-
-        $validated['is_admin'] = $this->tipo;
 
         if($params == null) {
             $this->dialog()->confirm([
