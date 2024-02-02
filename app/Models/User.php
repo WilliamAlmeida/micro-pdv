@@ -3,18 +3,16 @@
 namespace App\Models;
 
 use Laravel\Sanctum\HasApiTokens;
-use App\Traits\HasTenant;
 use App\Traits\BelongsToManyTenant;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-    // use HasTenant;
 
     use BelongsToManyTenant;
 

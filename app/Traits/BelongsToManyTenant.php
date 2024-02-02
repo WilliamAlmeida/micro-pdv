@@ -39,7 +39,9 @@ trait BelongsToManyTenant
 
     public static function bootBelongsToManyTenant()
     {
-        static::addGlobalScope(new TenantScope);
+        if(!auth()->check() || !auth()->user()->isAdmin()) {
+            static::addGlobalScope(new TenantScope);
+        }
 
         // static::creating(function ($model) {
             // if (! $model->getAttribute(BelongsToManyTenant::$tenantIdColumn) && ! $model->relationLoaded('tenant')) {

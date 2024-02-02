@@ -9,14 +9,14 @@ use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Events;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
+use App\Jobs\DeleteValuesTenant;
 use Stancl\JobPipeline\JobPipeline;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use App\Jobs\CreateDefaultValuesTenant;
 use Illuminate\Support\ServiceProvider;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use App\Http\Middleware\InitializeTenancyByRequestData;
-use App\Jobs\CreateDefaultValuesTenant;
-use App\Jobs\DeleteValuesTenant;
 
 class TenancyServiceProvider extends ServiceProvider
 {

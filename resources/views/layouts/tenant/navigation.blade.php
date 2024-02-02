@@ -16,7 +16,6 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @if(auth()->user()->empresa)
                     <x-nav-link wire:navigate :href="route('tenant.pdv.index', tenant())" :active="request()->routeIs('pdv.index')">
                         {{ __('PDV') }}
                     </x-nav-link>
@@ -42,7 +41,6 @@
                     <x-nav-link wire:navigate :href="route('tenant.usuarios.index', tenant())" :active="request()->routeIs('tenant.usuarios.index')">
                         {{ __('Usuários') }}
                     </x-nav-link>
-                    @endif
 
                     <x-nav-link wire:navigate :href="route('tenant.empresa.edit', tenant())" :active="request()->routeIs('tenant.empresa.edit')">
                         {{ __('Empresa') }}
@@ -62,7 +60,7 @@
 
                 <x-dropdown>
                     <x-slot name="trigger">
-                        <x-button label="{{ Auth::user()->name }}" dark rightIcon="dots-vertical" />
+                        <x-button label="{{ Auth::user()->name ?? '?' }}" dark rightIcon="dots-vertical" />
                     </x-slot>
 
                     <x-dropdown.header label="{{ __('Settings') }}">
@@ -70,7 +68,7 @@
                         <x-dropdown.item wire:navigate label="{{ __('Dashboard') }}" :href="route('admin.dashboard')" />
                     </x-dropdown.header>
 
-                    @if(auth()->user()->isAdmin())
+                    @if(auth()->check() && auth()->user()->isAdmin())
                         <x-dropdown.header label="Admin">
                             <x-dropdown.item label="{{ __('Artisan Panel') }}" onclick="Livewire.dispatch('openArtisanPanel');" />
                         </x-dropdown.header>
@@ -101,7 +99,6 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('tenant.dashboard', tenant())" :active="request()->routeIs('tenant.dashboard')" label="{{ __('Dashboard') }}" />
 
-            @if(auth()->user()->empresa)
                 <x-responsive-nav-link wire:navigate :href="route('tenant.pdv.index', tenant())" :active="request()->routeIs('tenant.pdv.index')" label="{{ __('PDV') }}" />
                 <x-responsive-nav-link wire:navigate :href="route('tenant.usuarios.index', tenant())" :active="request()->routeIs('tenant.usuarios.index')" label="{{ __('Usuários') }}" />
 
@@ -128,14 +125,13 @@
                     <x-responsive-nav-link wire:navigate :href="route('cests.index')" :active="request()->routeIs('cests.index')" label="{{ __('Cest') }}" />
                     <x-responsive-nav-link wire:navigate :href="route('cfops.index')" :active="request()->routeIs('cfops.index')" label="{{ __('Cfop') }}" />
                 </x-responsive-nav-dropdown> --}}
-            @endif
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name ?? '?' }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email ?? '?' }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
