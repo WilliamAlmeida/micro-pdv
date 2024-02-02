@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CfopsSeeder::class);
         $this->call(CestsSeeder::class);
 
-        // $this->call(TenantSeeder::class);
+        $this->call(TenantSeeder::class);
 
         // $this->call(ConveniosSeeder::class);
         // $this->call(ClientesSeeder::class);

@@ -130,8 +130,13 @@ final class EmpresaTable extends PowerGridComponent
             $tenant->caixas()->delete();
             $tenant->produtos()->delete();
             $tenant->categorias()->delete();
+            $tenant->clientes()->delete();
+            $tenant->convenios()->delete();
+            $tenant->fornecedores()->delete();
 
             tenancy()->end();
+
+            sleep(0.25);
 
             $tenant->delete();
 

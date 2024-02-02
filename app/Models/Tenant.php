@@ -212,6 +212,11 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         return $this->hasMany('App\Models\Horarios','tenant_id','id');
     }
 
+    public function fornecedores()
+    {
+        return $this->hasMany('App\Models\Tenant\Fornecedores','tenant_id','id');
+    }
+
     public function convenios()
     {
         return $this->hasMany('App\Models\Tenant\Convenios','tenant_id','id');

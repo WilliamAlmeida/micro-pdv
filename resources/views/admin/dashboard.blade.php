@@ -35,7 +35,7 @@
 
                                     <div class="flex flex-col justify-around items-center gap-y-4">
                                         <span class="select-none">Cadastre sua primeira Empresa e<br/>desfrute desse incrivel PDV!</span>
-                                        <x-button label="Registrar Empresa" primary href="{{ route('admin.empresa.create') }}" class="hover:-translate-y-2 transition-transform" />
+                                        <x-button label="Registrar Empresa" primary href="{{ route('admin.empresa.create') }}" wire:navigate class="hover:-translate-y-2 transition-transform" />
                                     </div>
                                 </div>
                             </div>
