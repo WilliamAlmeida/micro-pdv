@@ -6,14 +6,18 @@
     x-bind:class="{'dark': theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)}"
 >
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Conheça o Wil PDV, a solução em nuvem para restaurantes, mercados, lojas de roupas, petshops, lanchonetes, sorveterias e outros segmentos. Simplifique sua gestão de vendas e estoque com nosso sistema PDV intuitivo e eficiente.">
+        <meta name="keywords" content="wil pdv, micro pdv na nuvem, restaurantes, mercado, loja de roupa, petshop, lanchonetes, sorveterias, sistema pdv, gestão de vendas, nuvem para empresas, software de ponto de venda, gerenciamento de estoque, controle de vendas, software para comércio">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         @if(tenant())
             <meta name="tenant" content="{{ tenant('id') }}">
         @endif
 
-        <title>{{ tenant('nome_fantasia') }} - {{ config('app.name', 'Laravel') }}</title>
+        <title>{{ tenant('nome_fantasia') }} ML</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -21,7 +25,6 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @livewireStyles
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -41,6 +44,9 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <x-notifications />
+        <x-dialog />
 
         <livewire:admin.artisan-panel />
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\ManifestController;
 use App\Livewire\Conta\ContaEdit;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Tributacoes\Ncms\NcmIndex;
@@ -26,6 +27,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/accept-invitation-tenant', [InvitationController::class, 'acceptInvitationTenantUser'])->name('aceitando.convite.empresa');
+Route::get('/manifest.json', [ManifestController::class, 'manifest'])->name('manifest.json');
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
@@ -44,6 +46,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     });
     
     Route::get('/usuarios', UsuarioIndex::class)->name('usuarios.index');
+
+    Route::get('/manifest/generate', [ManifestController::class, 'generate'])->name('manifest.generate');
 });
 
 require __DIR__.'/auth.php';

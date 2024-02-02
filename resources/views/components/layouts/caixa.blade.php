@@ -13,7 +13,7 @@
             <meta name="tenant" content="{{ tenant('id') }}">
         @endif
 
-        <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
+        <title>{{ tenant('nome_fantasia') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
