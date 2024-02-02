@@ -40,7 +40,15 @@
                                     <div class="col-span-1 sm:col-span-2">
                                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <x-inputs.maskable label="CPF" mask="###.###.###-##" placeholder="Informe o CPF" wire:model="form.cpf" emitFormatted="true" />
-                                            <x-inputs.maskable label="CNPJ" mask="##.###.###/####-##" placeholder="Informe o CNPJ" wire:model.live.debounce.500ms="form.cnpj" emitFormatted="true" />
+
+                                            <x-inputs.maskable label="CNPJ" mask="##.###.###/####-##" placeholder="Informe o CNPJ" wire:model.blur="form.cnpj" emitFormatted="true"
+                                                wire:keydown.enter="pesquisar_cnpj" wire:loading.attr="disabled">
+                                                <x-slot name="append">
+                                                    <div class="absolute inset-y-0 right-0 flex items-center p-0.5">
+                                                        <x-button class="h-full rounded-r-md" icon="search" primary flat squared wire:loading.attr="disabled" wire:click="pesquisar_cnpj" />
+                                                    </div>
+                                                </x-slot>
+                                            </x-inputs.maskable>
                                         </div>
                                     </div>
 
@@ -49,10 +57,10 @@
 
                                     <div class="col-span-1 sm:col-span-2">
                                         <div class="grid grid-cols-3 sm:grid-cols-3 gap-4">
-                                            <x-input label="CEP" placeholder="00.000-000" wire:model="form.end_cep" emitFormatted="true">
+                                            <x-input label="CEP" placeholder="00.000-000" wire:model="form.end_cep" emitFormatted="true" wire:keydown.enter="pesquisar_cep" wire:loading.attr="disabled">
                                                 <x-slot name="append">
                                                     <div class="absolute inset-y-0 right-0 flex items-center p-0.5">
-                                                        <x-button class="h-full rounded-r-md" icon="search" primary flat squared wire:click="pesquisar_cep" />
+                                                        <x-button class="h-full rounded-r-md" icon="search" primary flat squared wire:loading.attr="disabled" wire:click="pesquisar_cep" />
                                                     </div>
                                                 </x-slot>
                                             </x-input>

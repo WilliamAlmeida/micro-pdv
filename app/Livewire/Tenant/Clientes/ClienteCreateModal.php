@@ -5,17 +5,19 @@ namespace App\Livewire\Tenant\Clientes;
 use App\Models\Cidade;
 use App\Models\Estado;
 use Livewire\Component;
-use App\Models\Tenant\Clientes;
-use App\Models\Tenant\Convenios;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Validate;
-use App\Livewire\Forms\Tenant\ClientesForm;
+use App\Traits\HelperActions;
+use App\Models\Tenant\Clientes;
+use App\Models\Tenant\Convenios;
 use App\Http\Controllers\Api\CepController;
+use App\Livewire\Forms\Tenant\ClientesForm;
+use App\Http\Controllers\Api\CnpjController;
 
 class ClienteCreateModal extends Component
 {
     use Actions;
+    use HelperActions;
 
     public ClientesForm $form;
 
@@ -33,18 +35,23 @@ class ClienteCreateModal extends Component
     {
         $cep = preg_replace( '/[^0-9]/', '', $this->form->end_cep);
 
-        if(empty($cep)) return;
-
-        if(strlen($cep) != 8) {
-            $this->dialog()->error(
-                $title = 'Error!!!',
-                $description = 'CEP invalido!'
-            );
+        if(empty($cep)) {
+            $this->set_focus(['query' => '[name="form.end_cep"]']);
             return;
         }
 
         $helper = new CepController;
         $response = json_decode($helper->show($cep));
+
+        if($response->status == 'ERROR') {
+            $this->set_focus(['query' => '[name="form.end_cep"]']);
+
+            $this->dialog()->error(
+                $title = 'Error!!!',
+                $description = $response->message
+            );
+            return;
+        }
 
         $this->form->fillCep($response);
 
@@ -52,6 +59,42 @@ class ClienteCreateModal extends Component
             $title = 'Cep Encontrado',
             $description = "Busca pelo CEP {$this->form->end_cep} foi finalizada!"
         );
+
+        $this->set_focus(['query' => '[name="form.end_numero"]']);
+        $this->form->resetValidation();
+    }
+
+    public function pesquisar_cnpj()
+    {
+        $cnpj = preg_replace( '/[^0-9]/', '', $this->form->cnpj);
+
+        if(empty($cnpj)) {
+            $this->set_focus(['query' => '[name="form.cnpj"]']);
+            return;
+        }
+
+        $helper = new CnpjController;
+        $response = json_decode($helper->show($cnpj));
+
+        if($response->status == 'ERROR') {
+            $this->set_focus(['query' => '[name="form.cnpj"]']);
+
+            $this->dialog()->error(
+                $title = 'Error!!!',
+                $description = $response->message
+            );
+            return;
+        }
+
+        $this->form->fillCnpj($response);
+
+        $this->notification()->success(
+            $title = 'CNPJ Encontrado',
+            $description = "Busca pelo CNPJ {$this->form->cnpj} foi finalizada!"
+        );
+
+        $this->set_focus(['query' => '[name="form.end_cep"]']);
+        $this->form->resetValidation();
     }
 
     #[\Livewire\Attributes\On('create')]

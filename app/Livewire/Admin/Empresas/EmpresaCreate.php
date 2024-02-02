@@ -12,11 +12,14 @@ use Livewire\Attributes\Locked;
 use Illuminate\Support\Facades\DB;
 use App\Livewire\Forms\EmpresaForm;
 use App\Http\Controllers\Api\CepController;
+use App\Http\Controllers\Api\CnpjController;
+use App\Traits\HelperActions;
 
 #[Layout('components.layouts.admin')]
 class EmpresaCreate extends Component
 {
     use Actions;
+    use HelperActions;
 
     public EmpresaForm $form;
 
@@ -44,25 +47,33 @@ class EmpresaCreate extends Component
 
     public function updated($name, $value) 
     {
-        if($name == 'form.nome_fantasia') $this->form->slug = Str::slug($value);
+        if($name == 'form.nome_fantasia') {
+            $this->form->slug = Str::slug($value);
+            if(empty($this->form->razao_social)) $this->form->razao_social = Str::upper($value);
+        }
     }
 
     public function pesquisar_cep()
     {
         $cep = preg_replace( '/[^0-9]/', '', $this->form->end_cep);
 
-        if(empty($cep)) return;
-
-        if(strlen($cep) != 8) {
-            $this->dialog()->error(
-                $title = 'Error!!!',
-                $description = 'CEP invalido!'
-            );
+        if(empty($cep)) {
+            $this->set_focus(['query' => '[name="form.end_cep"]']);
             return;
         }
 
         $helper = new CepController;
         $response = json_decode($helper->show($cep));
+
+        if($response->status == 'ERROR') {
+            $this->set_focus(['query' => '[name="form.end_cep"]']);
+
+            $this->dialog()->error(
+                $title = 'Error!!!',
+                $description = $response->message
+            );
+            return;
+        }
 
         $this->form->fillCep($response);
 
@@ -70,6 +81,42 @@ class EmpresaCreate extends Component
             $title = 'Cep Encontrado',
             $description = "Busca pelo CEP {$this->form->end_cep} foi finalizada!"
         );
+
+        $this->set_focus(['query' => '[name="form.end_numero"]']);
+        $this->form->resetValidation();
+    }
+
+    public function pesquisar_cnpj()
+    {
+        $cnpj = preg_replace( '/[^0-9]/', '', $this->form->cnpj);
+
+        if(empty($cnpj)) {
+            $this->set_focus(['query' => '[name="form.cnpj"]']);
+            return;
+        }
+
+        $helper = new CnpjController;
+        $response = json_decode($helper->show($cnpj));
+
+        if($response->status == 'ERROR') {
+            $this->set_focus(['query' => '[name="form.cnpj"]']);
+
+            $this->dialog()->error(
+                $title = 'Error!!!',
+                $description = $response->message
+            );
+            return;
+        }
+
+        $this->form->fillCnpj($response);
+
+        $this->notification()->success(
+            $title = 'CNPJ Encontrado',
+            $description = "Busca pelo CNPJ {$this->form->cnpj} foi finalizada!"
+        );
+
+        $this->set_focus(['query' => '[name="form.end_cep"]']);
+        $this->form->resetValidation();
     }
 
     public function add_hours($day_of_week)

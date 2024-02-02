@@ -3,8 +3,9 @@
 namespace App\Livewire\Forms\Tenant;
 
 use Livewire\Form;
-use App\Models\Tenant\Fornecedores;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
+use App\Models\Tenant\Fornecedores;
 
 class FornecedoresForm extends Form
 {
@@ -71,14 +72,24 @@ class FornecedoresForm extends Form
 
     public function fillCep($values)
     {
-        $this->end_bairro       = ucwords($values->bairro ?: null);
-        $this->end_cidade       = ucwords($values->localidade ?: null);
-        $this->end_complemento  = ucwords($values->complemento ?: null);
-        $this->end_logradouro   = ucwords($values->logradouro ?: null);
-        // $this->end_numero    = $values->numero ?: null;
+        $this->end_bairro       = Str::title($values->bairro ?: null);
+        $this->end_cidade       = Str::title($values->localidade ?: null);
+        $this->end_complemento  = Str::title($values->complemento ?: null);
+        $this->end_logradouro   = Str::title($values->logradouro ?: null);
+        $this->end_numero       = $values->numero ?: null;
         $this->idcidade         = $values->idcidade ?: null;
         $this->idestado         = $values->idestado ?: null;
         $this->idpais           = $values->idpais ?: null;
+    }
+
+    public function fillCnpj($values)
+    {
+        $this->nome_fantasia = $values->nome_fantasia;
+        $this->razao_social = $values->razao_social;
+        $this->slug = Str::slug($values->nome_fantasia);
+
+        $this->end_cep = $values->cep ?: null;
+        $this->fillCep($values);
     }
     
     public function validateCpfCnpj()

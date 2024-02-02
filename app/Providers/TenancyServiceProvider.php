@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use App\Http\Middleware\InitializeTenancyByRequestData;
+use App\Jobs\CreateDefaultValuesTenant;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,7 @@ class TenancyServiceProvider extends ServiceProvider
                     // Jobs\CreateDatabase::class,
                     // Jobs\MigrateDatabase::class,
                     // Jobs\SeedDatabase::class,
+                    CreateDefaultValuesTenant::class,
 
                     // Your own jobs to prepare the tenant.
                     // Provision API keys, create S3 buckets, anything you want!

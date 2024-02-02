@@ -33,6 +33,7 @@ class InitializeTenancyByPath extends BaseMiddleware
             if($tenant) {
                 tenancy()->initialize($tenant);
             }else{
+                return redirect()->route('admin.dashboard');
                 throw new TenantCouldNotBeIdentifiedByPathException($id);
             }
         } else {
