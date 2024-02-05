@@ -136,5 +136,5 @@
         @livewireScripts
     </body>
 
-    <script src="{{ asset('service-worker-install.js') }}" data-navigate-track></script>
+    {{-- <script src="{{ asset('service-worker-install.js') }}" data-navigate-track></script> --}}
 </html>
