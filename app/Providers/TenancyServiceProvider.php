@@ -17,6 +17,7 @@ use App\Jobs\CreateDefaultValuesTenant;
 use Illuminate\Support\ServiceProvider;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use App\Http\Middleware\InitializeTenancyByRequestData;
+use App\Listeners as MyListeners;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -80,13 +81,16 @@ class TenancyServiceProvider extends ServiceProvider
             Events\DatabaseDeleted::class => [],
 
             // Tenancy events
-            Events\InitializingTenancy::class => [],
+            Events\InitializingTenancy::class => [
+                MyListeners\SetPermissionsTeamIdOnTenancy::class,
+            ],
             Events\TenancyInitialized::class => [
                 Listeners\BootstrapTenancy::class,
             ],
 
             Events\EndingTenancy::class => [],
             Events\TenancyEnded::class => [
+                MyListeners\SetPermissionsTeamIdOnTenancy::class,
                 Listeners\RevertToCentralContext::class,
             ],
 

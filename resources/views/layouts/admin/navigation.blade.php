@@ -22,6 +22,16 @@
                     </x-nav-link>
                     @endif
 
+                    @if(auth()->user()->isAdmin())
+                    <x-nav-dropdown :active="request()->routeIs(['admin.funcoes.index', 'admin.permissoes.index'])">
+                        <x-dropdown align="left">
+                            <x-slot name="trigger">Funções e Permissões</x-slot>
+                            <x-dropdown.item wire:navigate :href="route('admin.funcoes.index')" :active="request()->routeIs('admin.funcoes.index')" label="{{ __('Funções') }}" />
+                            {{-- <x-dropdown.item wire:navigate :href="route('admin.permissoes.index')" :active="request()->routeIs('admin.permissoes.index')" label="{{ __('Permissões') }}" /> --}}
+                        </x-dropdown>
+                    </x-nav-dropdown>
+                    @endif
+
                     @if(auth()->user()->isEmpresa() || auth()->user()->isAdmin())
                     <x-nav-link wire:navigate :href="route('admin.empresas.index')" :active="request()->routeIs(['admin.empresas.index', 'admin.empresa.create'])">
                         {{ __('Empresas') }}

@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+        
+        // Request::macro('routeStarts', function($value) {
+        //     return \Str::startsWith(request()->route()->getName(), $value);
+        // });
     }
 
     /**

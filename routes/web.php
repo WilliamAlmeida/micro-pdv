@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Tributacoes\Ncms\NcmIndex;
 use App\Livewire\Admin\Empresas\EmpresaCreate;
 use App\Livewire\Admin\Empresas\EmpresaIndex;
+use App\Livewire\Admin\Roles\RoleIndex;
 use App\Livewire\Admin\Usuarios\UsuarioIndex;
 use App\Livewire\Tributacoes\Cests\CestIndex;
 use App\Livewire\Tributacoes\Cfops\CfopIndex;
@@ -44,6 +45,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::get('/cests', CestIndex::class)->name('cests.index');
         Route::get('/cfops', CfopIndex::class)->name('cfops.index');
     });
+
+    Route::get('/funcoes', RoleIndex::class)->name('funcoes.index');
+    // Route::get('/funcoes/permissoes', CfopIndex::class)->name('permissoes.index');
     
     Route::get('/usuarios', UsuarioIndex::class)->name('usuarios.index');
 
