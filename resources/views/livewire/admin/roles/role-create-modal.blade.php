@@ -7,12 +7,10 @@
                 let tabs = $el.querySelectorAll('#default-tab-content [role=tabpanel]');
                 let tab;
                 tabs.forEach((e) => {
-                    console.log(e);
-                    return window.getComputedStyle(e).display !== 'none';
+                    if(window.getComputedStyle(e).display !== 'none') tab = e.id;
                 });
-                console.log(tab);
 
-                $el.querySelectorAll('#default-tab-content [type=checkbox]').forEach((e) => {
+                $el.querySelectorAll('#default-tab-content #'+tab+' [type=checkbox]').forEach((e) => {
                     if(window.getComputedStyle(e.closest('li')).display !== 'none') {
                         e.checked = action;
                         let index = this.selecteds.indexOf(parseInt(e.id));
@@ -22,7 +20,7 @@
             },
         }">
             <div class="col-span-full">
-                <x-input label="Função" placeholder="Digite o nome da Função" wire:model.blur="name" />
+                <x-input label="Função" placeholder="Digite o nome da Função" wire:model="name" id="role_create" />
             </div>
 
             <div class="col-span-full flex justify-between gap-x-3">

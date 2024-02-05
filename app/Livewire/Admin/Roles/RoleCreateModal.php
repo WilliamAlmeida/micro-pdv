@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Roles;
 
+use App\Traits\HelperActions;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use WireUi\Traits\Actions;
@@ -12,6 +13,7 @@ use Spatie\Permission\Models\Role;
 class RoleCreateModal extends Component
 {
     use Actions;
+    use HelperActions;
 
     public $roleCreateModal = false;
  
@@ -25,6 +27,22 @@ class RoleCreateModal extends Component
     public Role $role;
 
     public $selected = [];
+
+    public $permissions = [];
+
+    public function mount()
+    {
+        $this->permissions = $this->getPermissions();
+    }
+
+    public function placeholder()
+    {
+        return <<<'HTML'
+        <div>
+            <!-- Loading spinner... -->
+        </div>
+        HTML;
+    }
 
     #[\Livewire\Attributes\On('create')]
     public function create(int $role_id=null): void
@@ -43,6 +61,8 @@ class RoleCreateModal extends Component
             $this->role->permissions = $permissions;
             unset($permissions);
         }
+
+        $this->set_focus('role_create');
 
         $this->js('$openModal("roleCreateModal")');
     }
@@ -78,7 +98,7 @@ class RoleCreateModal extends Component
             $this->dispatch('pg:eventRefresh-default');
 
         } catch (\Throwable $th) {
-            throw $th;
+            // throw $th;
     
             $this->notification([
                 'title'       => 'Falha no cadastro!',
@@ -88,9 +108,9 @@ class RoleCreateModal extends Component
         }
     }
 
-    public function render()
+    private function getPermissions()
     {
-        $permissions = cache()->remember('list.permissions', 60 * 2, function() {
+        return cache()->remember('list.permissions', 60 * 2, function() {
             $permissions = Permission::orderBy('name')->get(['id', 'name']);
 
             $permissions = $permissions->mapToGroups(function($item, $key) {
@@ -107,7 +127,10 @@ class RoleCreateModal extends Component
 
             return $permissions->toArray();
         });
+    }
 
-        return view('livewire.admin.roles.role-create-modal', ['permissions' => $permissions]);
+    public function render()
+    {
+        return view('livewire.admin.roles.role-create-modal');
     }
 }

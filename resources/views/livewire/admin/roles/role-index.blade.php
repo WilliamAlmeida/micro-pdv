@@ -4,7 +4,9 @@
             {{ __('Funções') }}
         </h2>
     </x-slot>
-    
+
+    <livewire:admin.roles.role-create-modal lazy />
+
     <div class="pt-6 pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-end" wire:loading.remove wire:target="create">
@@ -19,6 +21,5 @@
         </div>
     </div>
 
-    <livewire:admin.roles.role-create-modal />
     {{-- <livewire:admin.roles.role-edit-modal /> --}}
 </div>

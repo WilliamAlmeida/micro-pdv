@@ -27,7 +27,7 @@
                         <x-dropdown align="left">
                             <x-slot name="trigger">Funções e Permissões</x-slot>
                             <x-dropdown.item wire:navigate :href="route('admin.funcoes.index')" :active="request()->routeIs('admin.funcoes.index')" label="{{ __('Funções') }}" />
-                            {{-- <x-dropdown.item wire:navigate :href="route('admin.permissoes.index')" :active="request()->routeIs('admin.permissoes.index')" label="{{ __('Permissões') }}" /> --}}
+                            <x-dropdown.item wire:navigate :href="route('admin.permissoes.index')" :active="request()->routeIs('admin.permissoes.index')" label="{{ __('Permissões') }}" />
                         </x-dropdown>
                     </x-nav-dropdown>
                     @endif
