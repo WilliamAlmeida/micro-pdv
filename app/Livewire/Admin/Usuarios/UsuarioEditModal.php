@@ -128,6 +128,51 @@ class UsuarioEditModal extends Component
         }
     }
 
+    public function restore($params=null)
+    {
+        if($params == null) {
+            $this->dialog()->confirm([
+                'icon'        => 'trash',
+                'title'       => 'Você tem certeza?',
+                'description' => 'Restaurar este usuário?',
+                'acceptLabel' => 'Sim, restaure',
+                'method'      => 'restore',
+                'params'      => 'Restored',
+            ]);
+            return;
+        }
+
+        try {
+            if(!$this->user->trashed()) {
+                $this->notification([
+                    'title'       => 'Falha ao restaurar!',
+                    'description' => 'Este Usuário já esta ativado.',
+                    'icon'        => 'error'
+                ]);
+            }else{
+                $this->user->restore();
+
+                $this->notification([
+                    'title'       => 'Usuário restaurado!',
+                    'description' => 'Usuário foi restaurado com sucesso',
+                    'icon'        => 'success'
+                ]);
+            }
+
+            $this->reset('usuarioEditModal');
+
+            $this->dispatch('pg:eventRefresh-default');
+        } catch (\Throwable $th) {
+            //throw $th;
+    
+            $this->notification([
+                'title'       => 'Falha ao restaurar!',
+                'description' => 'Não foi possivel restaura o Usuário.',
+                'icon'        => 'error'
+            ]);
+        }
+    }
+
     public function render()
     {
         return view('livewire.admin.usuarios.usuario-edit-modal');

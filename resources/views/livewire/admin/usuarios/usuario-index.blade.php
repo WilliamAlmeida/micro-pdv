@@ -21,4 +21,5 @@
 
     <livewire:admin.usuarios.usuario-create-modal />
     <livewire:admin.usuarios.usuario-edit-modal />
+    <livewire:admin.usuarios.usuario-permissions-modal />
 </div>
