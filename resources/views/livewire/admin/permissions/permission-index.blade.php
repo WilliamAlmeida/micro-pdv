@@ -20,8 +20,7 @@
     </div>
 
     <livewire:admin.permissions.permission-create-modal />
-
-    {{-- <livewire:admin.permissions.permission-edit-modal /> --}}
+    <livewire:admin.permissions.permission-edit-modal />
 
     {{-- <x-modal.card title="Opções em Massa" wire:model.defer="simpleModal" align="center">
         <div class="grid grid-cols-1 gap-4">

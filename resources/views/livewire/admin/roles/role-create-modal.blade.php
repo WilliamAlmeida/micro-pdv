@@ -13,8 +13,8 @@
                 $el.querySelectorAll('#default-tab-content #'+tab+' [type=checkbox]').forEach((e) => {
                     if(window.getComputedStyle(e.closest('li')).display !== 'none') {
                         e.checked = action;
-                        let index = this.selecteds.indexOf(parseInt(e.id));
-                        if(action) { if(index === -1) this.selecteds.push(parseInt(e.id)) }else{ if(index !== -1) this.selecteds.splice(index, 1) }
+                        let index = this.selecteds.indexOf(parseInt(e.name));
+                        if(action) { if(index === -1) this.selecteds.push(parseInt(e.name)) }else{ if(index !== -1) this.selecteds.splice(index, 1) }
                     }
                 });
             },
@@ -62,8 +62,8 @@
                                                 $el.querySelectorAll('[type=checkbox]').forEach((e) => {
                                                     if(window.getComputedStyle(e.closest('li')).display !== 'none') {
                                                         e.checked = action;
-                                                        let index = selecteds.indexOf(parseInt(e.id));
-                                                        if(action) { if(index === -1) selecteds.push(parseInt(e.id)) }else{ if(index !== -1) selecteds.splice(index, 1) }
+                                                        let index = selecteds.indexOf(parseInt(e.name));
+                                                        if(action) { if(index === -1) selecteds.push(parseInt(e.name)) }else{ if(index !== -1) selecteds.splice(index, 1) }
                                                     }
                                                 });
                                             },
@@ -104,8 +104,8 @@
                                             toggleSelectAll (action) {
                                                 $el.querySelectorAll('[type=checkbox]').forEach((e) => {
                                                     e.checked = action;
-                                                    let index = selecteds.indexOf(parseInt(e.id));
-                                                    if(action) { if(index === -1) selecteds.push(parseInt(e.id)) }else{ if(index !== -1) selecteds.splice(index, 1) }
+                                                    let index = selecteds.indexOf(parseInt(e.name));
+                                                    if(action) { if(index === -1) selecteds.push(parseInt(e.name)) }else{ if(index !== -1) selecteds.splice(index, 1) }
                                                 });
                                             },
                                             toggleSelect (option) {

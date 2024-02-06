@@ -1,6 +1,6 @@
 <div>
     <x-modal.card title="Edição do Usuário" blur wire:model.defer="usuarioEditModal">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" x-data="{password: @entangle('password')}">
             <x-input label="Nome" placeholder="Nome" wire:model="name" id="edit_name" />
 
             <x-native-select
@@ -18,11 +18,12 @@
             <div class="col-span-1 sm:col-span-2">
                 <x-input label="E-mail" placeholder="example@mail.com" wire:model.live.debouce.200ms="email" id="edit_email" />
             </div>
-     
+
             <x-inputs.password type="password" label="Senha" placeholder="Senha" wire:model.blur="password" id="edit_password" />
-            @if($password)
+            
+            <div x-show="password">
                 <x-inputs.password label="Confirmação da Senha" placeholder="Senha" wire:model.blur="password_confirmation" id="edit_password_confirmation" />
-            @endif
+            </div>
      
             {{-- <div class="col-span-1 sm:col-span-2 cursor-pointer bg-gray-100 rounded-xl shadow-md h-72 flex items-center justify-center">
                 <div class="flex flex-col items-center justify-center">

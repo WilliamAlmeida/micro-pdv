@@ -1,16 +1,17 @@
 <div>
     <x-modal.card title="Criação de Usuário" blur wire:model.defer="usuarioCreateModal">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" x-data="{password: @entangle('password')}">
             <x-input label="Nome" placeholder="Nome" wire:model.live="name" />
      
             <div class="col-span-1 sm:col-span-2">
                 <x-input label="E-mail" placeholder="example@mail.com" wire:model.live="email" />
             </div>
      
-            <x-inputs.password type="password" label="Senha" placeholder="Senha" wire:model.blur="password" />
-            @if($password)
-                <x-inputs.password label="Confirmação da Senha" placeholder="Senha" wire:model.blur="password_confirmation" />
-            @endif
+            <x-inputs.password type="password" label="Senha" placeholder="Senha" wire:model.blur="password" id="password" />
+            
+            <div x-show="password">
+                <x-inputs.password label="Confirmação da Senha" placeholder="Senha" wire:model.blur="password_confirmation" id="password_confirmation" />
+            </div>
         </div>
      
         <x-slot name="footer">

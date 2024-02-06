@@ -1,6 +1,6 @@
 <div>
     <x-modal.card title="Permissões do Usuário" blur wire:model.defer="usuarioPermissionModal"
-    x-on:open="$dispatch('loadf'); console.log(0)"
+    x-on:open="$dispatch('loadf')"
     >
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="flex flex-col gap-1">
@@ -29,8 +29,8 @@
                         $el.querySelectorAll('[type=checkbox]').forEach((e) => {
                             if(window.getComputedStyle(e.closest('li')).display !== 'none') {
                                 e.checked = action;
-                                let index = this.selecteds.indexOf(parseInt(e.id));
-                                if(action) { if(index === -1) this.selecteds.push(parseInt(e.id)) }else{ if(index !== -1) this.selecteds.splice(index, 1) }
+                                let index = this.selecteds.indexOf(parseInt(e.name));
+                                if(action) { if(index === -1) this.selecteds.push(parseInt(e.name)) }else{ if(index !== -1) this.selecteds.splice(index, 1) }
                             }
                         });
                     },
@@ -44,11 +44,7 @@
 
                         $el.querySelectorAll('[type=checkbox]').forEach((e) => {
                             if(window.getComputedStyle(e.closest('li')).display !== 'none') {
-                                let value = parseInt(e.id);
-                                if(values.includes(value)) {
-                                    e.checked = true;
-                                    this.toggleSelect(value);
-                                }
+                                if(values.includes(parseInt(e.name))) { e.checked = true; this.toggleSelect(parseInt(e.name)) }
                             }
                         });
                     }
