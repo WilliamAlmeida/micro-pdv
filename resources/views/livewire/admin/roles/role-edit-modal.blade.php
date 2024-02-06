@@ -1,5 +1,5 @@
 <div>
-    <x-modal.card title="Criação de Funções" blur wire:model.defer="roleCreateModal" max-width="3xl"
+    <x-modal.card title="Edição de Funções" blur wire:model.defer="roleEditModal" max-width="3xl"
     x-on:open="$dispatch('loadf')">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" x-data="{
             filtro: '',
@@ -21,7 +21,7 @@
             },
         }">
             <div class="col-span-full">
-                <x-input label="Função" placeholder="Digite o nome da Função" wire:model="name" id="role_create" />
+                <x-input label="Função" placeholder="Digite o nome da Função" wire:model="name" id="role_edit" />
             </div>
 
             <div class="col-span-full flex justify-between gap-x-3">

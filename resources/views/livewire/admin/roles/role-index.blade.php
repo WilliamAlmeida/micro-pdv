@@ -6,6 +6,7 @@
     </x-slot>
 
     <livewire:admin.roles.role-create-modal lazy />
+    <livewire:admin.roles.role-edit-modal lazy />
 
     <div class="pt-6 pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -20,6 +21,4 @@
             </div>
         </div>
     </div>
-
-    {{-- <livewire:admin.roles.role-edit-modal /> --}}
 </div>
