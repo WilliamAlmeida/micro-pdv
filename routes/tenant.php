@@ -17,6 +17,7 @@ use App\Livewire\Tenant\Categorias\CategoriaIndex;
 use App\Livewire\Tenant\Fornecedores\FornecedorIndex;
 use App\Livewire\Tenant\Pdv\Fechamento\FechamentoIndex;
 use App\Livewire\Tenant\Pdv\Convenios\ConvenioIndex as PDVConvenioIndex;
+use App\Livewire\Tenant\Relatorios\CaixaOperando\CaixaOperandoIndex;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,10 @@ Route::middleware([
     Route::get('/fornecedores', FornecedorIndex::class)->name('fornecedores.index');
     Route::get('/convenios', ConvenioIndex::class)->name('convenios.index');
     Route::get('/clientes', ClienteIndex::class)->name('clientes.index');
+
+    Route::prefix('relatorios')->group(function () {
+        Route::get('/caixa_operando', CaixaOperandoIndex::class)->name('relatorios.caixa_operando.index');
+    });
     
     Route::prefix('pdv')->group(function () {
         Route::get('/', CaixaIndex::class)->name('pdv.index');

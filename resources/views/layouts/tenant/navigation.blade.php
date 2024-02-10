@@ -31,6 +31,15 @@
                         </x-dropdown>
                     </x-nav-dropdown>
 
+                    <x-nav-dropdown :active="request()->routeIs(['tenant.relatorios.caixa_operando.index'])">
+                        <x-dropdown align="left">
+                            <x-slot name="trigger">Relatórios</x-slot>
+                            <x-dropdown.item wire:navigate :href="route('tenant.relatorios.caixa_operando.index', tenant())" :active="request()->routeIs('tenant.relatorios.caixa_operando.index')" label="{{ __('Caixa Operando') }}" />
+                            {{-- <x-dropdown.item wire:navigate :href="route('tenant.categorias.index', tenant())" :active="request()->routeIs('tenant.categorias.index')" label="{{ __('Total Vendido dos Caixas') }}" /> --}}
+                            {{-- <x-dropdown.item wire:navigate :href="route('tenant.categorias.index', tenant())" :active="request()->routeIs('tenant.categorias.index')" label="{{ __('Produtos Vendidos dos Caixas') }}" /> --}}
+                        </x-dropdown>
+                    </x-nav-dropdown>
+
                     <x-nav-dropdown :active="request()->routeIs(['tenant.estoque.index'])">
                         <x-dropdown align="left">
                             <x-slot name="trigger">Estoque</x-slot>
