@@ -28,11 +28,7 @@ class PesquisarItemModal extends Component
 
             if(is_numeric($pesquisa)) {
                 $produtos->where(function($query) use ($pesquisa) {
-                    return $query
-                        ->where('codigo_barras_1', $pesquisa)
-                        ->orWhere('codigo_barras_2', $pesquisa)
-                        ->orWhere('codigo_barras_3', $pesquisa)
-                        ->orWhere('id', $pesquisa);
+                    return $query->whereAny(['codigo_barras_1', 'codigo_barras_2', 'codigo_barras_3', 'id'], '=', $pesquisa);
                 });
             }else{
                 $produtos->where('titulo', 'like', '%'.$pesquisa.'%');
