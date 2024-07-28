@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/telescope": "^4.17",
         "laravel/tinker": "^2.8",
+        "leventcz/laravel-top": "^1.1",
         "livewire/livewire": "^3.2",
         "phpoffice/phpspreadsheet": "^1.29",
         "power-components/livewire-powergrid": "^5.1",
